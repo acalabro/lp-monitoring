@@ -1,35 +1,69 @@
-Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: Connection Parameters
-------------------------------------------------------------------------------------------------------
-Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: java.naming.factory.initial org.apache.activemq.jndi.ActiveMQInitialContextFactory
-Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: java.naming.provider.url tcp://atlantis.isti.cnr.it:61616
-Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: java.naming.security.principal system
-Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: java.naming.security.credentials manager
-Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: connectionFactoryNames TopicCF
-Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: topic.serviceTopic jms.serviceTopic
-Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: topic.probeTopic jms.probeTopic
-------------------------------------------------------------------------------------------------------
-Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: Setting up TopicConnectionFactory		[ OK ]
-------------------------------------------------------------------------------------------------------
-Tue Jun 16 22:44:13 CEST 2015 - ComplexEventProcessorImpl: Creating connection object log4j:WARN No appenders could be found for logger (org.apache.activemq.transport.WireFormatNegotiator).
-log4j:WARN Please initialize the log4j system properly.
-log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
-		[ OK ]
-Tue Jun 16 22:44:13 CEST 2015 - ComplexEventProcessorImpl: Creating public session object 	[ OK ]
-Tue Jun 16 22:44:14 CEST 2015 - ComplexEventProcessorImpl: Creating subscribe object 		[ OK ]
-Tue Jun 16 22:44:14 CEST 2015 - ComplexEventProcessorImpl: Setting up reading topic 		[ OK ]
-Tue Jun 16 22:44:14 CEST 2015 - ComplexEventProcessorImpl: Setting up destination topic 	[ OK ]
-Tue Jun 16 22:44:14 CEST 2015 - ComplexEventProcessorImpl: Reading knowledge base 		[ OK ]
-Tue Jun 16 22:44:14 CEST 2015 - ComplexEventProcessorImpl: Starting connection 			[ OK ]
-------------------------------------------------------------------------------------------------------
-Tue Jun 16 22:44:17 CEST 2015 - ServiceLocatorParseViolationReceivedFromBSM: Starting ServiceLocator component [ OK ]
-Tue Jun 16 22:44:17 CEST 2015 - MailNotification: Creating MailNotifier component 		[ OK ]
-------------------------------------------------------------------------------------------------------
-Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Creating connection object 			[ OK ]
-Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Creating public session object 			[ OK ]
-Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Creating subscribe object			[ OK ]
-Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Setting up destination topic 			[ OK ]
-Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Setting up reading topic 			[ OK ]
-Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Creating response dispatcher 			[ OK ]
-Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Starting connection 				[ OK ]
-------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------
+java.io.FileNotFoundException: systemSettings (No such file or directory)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:146)
+	at eu.learnpad.monitoring.glimpse.utils.Manager.Read(Manager.java:52)
+	at eu.learnpad.monitoring.glimpse.MainMonitoring.initProps(MainMonitoring.java:87)
+	at eu.learnpad.monitoring.glimpse.MainMonitoring.main(MainMonitoring.java:130)
+	at eu.learnpad.monitoring.AppTest.testApp(AppTest.java:37)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.maven.surefire.junit.JUnitTestSet.execute(JUnitTestSet.java:95)
+	at org.apache.maven.surefire.junit.JUnit3Provider.executeTestSet(JUnit3Provider.java:121)
+	at org.apache.maven.surefire.junit.JUnit3Provider.invoke(JUnit3Provider.java:98)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at eu.learnpad.monitoring.glimpse.utils.Manager.Read(Manager.java:46)
+	at eu.learnpad.monitoring.glimpse.MainMonitoring.init(MainMonitoring.java:180)
+	at eu.learnpad.monitoring.glimpse.MainMonitoring.main(MainMonitoring.java:130)
+	at eu.learnpad.monitoring.AppTest.testApp(AppTest.java:37)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.maven.surefire.junit.JUnitTestSet.execute(JUnitTestSet.java:95)
+	at org.apache.maven.surefire.junit.JUnit3Provider.executeTestSet(JUnit3Provider.java:121)
+	at org.apache.maven.surefire.junit.JUnit3Provider.invoke(JUnit3Provider.java:98)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
