@@ -1,5 +1,6 @@
 package eu.learnpad.monitoring;
 
+import eu.learnpad.monitoring.glimpse.MainMonitoring;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -33,6 +34,6 @@ public class AppTest
      */
     public void testApp()
     {
-        assertTrue( true );
+        MainMonitoring.main(new String[]{"systemSettings"});
     }
 }

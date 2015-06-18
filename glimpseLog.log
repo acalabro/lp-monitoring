@@ -1,0 +1,35 @@
+Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: Connection Parameters
+------------------------------------------------------------------------------------------------------
+Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: java.naming.factory.initial org.apache.activemq.jndi.ActiveMQInitialContextFactory
+Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: java.naming.provider.url tcp://atlantis.isti.cnr.it:61616
+Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: java.naming.security.principal system
+Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: java.naming.security.credentials manager
+Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: connectionFactoryNames TopicCF
+Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: topic.serviceTopic jms.serviceTopic
+Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: topic.probeTopic jms.probeTopic
+------------------------------------------------------------------------------------------------------
+Tue Jun 16 22:44:13 CEST 2015 - MainMonitoring: Setting up TopicConnectionFactory		[ OK ]
+------------------------------------------------------------------------------------------------------
+Tue Jun 16 22:44:13 CEST 2015 - ComplexEventProcessorImpl: Creating connection object log4j:WARN No appenders could be found for logger (org.apache.activemq.transport.WireFormatNegotiator).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+		[ OK ]
+Tue Jun 16 22:44:13 CEST 2015 - ComplexEventProcessorImpl: Creating public session object 	[ OK ]
+Tue Jun 16 22:44:14 CEST 2015 - ComplexEventProcessorImpl: Creating subscribe object 		[ OK ]
+Tue Jun 16 22:44:14 CEST 2015 - ComplexEventProcessorImpl: Setting up reading topic 		[ OK ]
+Tue Jun 16 22:44:14 CEST 2015 - ComplexEventProcessorImpl: Setting up destination topic 	[ OK ]
+Tue Jun 16 22:44:14 CEST 2015 - ComplexEventProcessorImpl: Reading knowledge base 		[ OK ]
+Tue Jun 16 22:44:14 CEST 2015 - ComplexEventProcessorImpl: Starting connection 			[ OK ]
+------------------------------------------------------------------------------------------------------
+Tue Jun 16 22:44:17 CEST 2015 - ServiceLocatorParseViolationReceivedFromBSM: Starting ServiceLocator component [ OK ]
+Tue Jun 16 22:44:17 CEST 2015 - MailNotification: Creating MailNotifier component 		[ OK ]
+------------------------------------------------------------------------------------------------------
+Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Creating connection object 			[ OK ]
+Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Creating public session object 			[ OK ]
+Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Creating subscribe object			[ OK ]
+Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Setting up destination topic 			[ OK ]
+Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Setting up reading topic 			[ OK ]
+Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Creating response dispatcher 			[ OK ]
+Tue Jun 16 22:44:17 CEST 2015 - GlimpseManager: Starting connection 				[ OK ]
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
