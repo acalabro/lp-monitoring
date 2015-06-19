@@ -21,7 +21,7 @@ through Complex Event Processor by means of Drools Engine.
 
 # Configuration
 The component is plugged into the Simulation Environment and
-will be called through some rest api or jms communications.
+will be called through Rest API or JMS Messages.
 
 # Interfaces
 TODO
