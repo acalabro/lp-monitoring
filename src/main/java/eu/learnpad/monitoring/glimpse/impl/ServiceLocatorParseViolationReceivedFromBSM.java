@@ -95,19 +95,16 @@ public class ServiceLocatorParseViolationReceivedFromBSM extends ServiceLocator 
 
 	@Override
 	protected SOAPConnection createConnectionToService() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String readSoapRequest(String SoapRequestXMLFilePath) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected SOAPMessage messageCreation(String soapMessageStringFile) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -115,21 +112,18 @@ public class ServiceLocatorParseViolationReceivedFromBSM extends ServiceLocator 
 	protected SOAPMessage messageSendingAndGetResponse(
 			SOAPConnection soapConnection, SOAPMessage soapMessage,
 			String serviceWsdl) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getMachineIPLocally(String serviceName, String serviceType,
 			String serviceRole) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getMachineIPQueryingDSB(String serviceName,
 			String serviceType, String serviceRole) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

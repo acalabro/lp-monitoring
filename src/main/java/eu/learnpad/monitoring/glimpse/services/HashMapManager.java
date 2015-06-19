@@ -31,13 +31,11 @@ public class HashMapManager {
 
 	public boolean deleteLocalTable(int ruleInsertionID, String serviceName,
 			InetAddress machineIP, String serviceType, String serviceRole) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean updateLocalTable(int ruleInsertionID, String serviceName,
 			InetAddress machineIP, String serviceType, String serviceRole) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

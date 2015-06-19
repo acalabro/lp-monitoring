@@ -23,7 +23,6 @@ public class ModelLoader {
 			dom = docBuilder.parse(modelURI);
 			
 		} catch (ParserConfigurationException | SAXException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return dom;

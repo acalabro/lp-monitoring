@@ -184,7 +184,6 @@ public class ResponseDispatcher {
 //		try {
 //			rulesManager.deleteRule(whoGenerateIt);
 //		} catch (UnknownRuleException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 	}
