@@ -1,69 +1,50 @@
-java.io.FileNotFoundException: systemSettings (No such file or directory)
-	at java.io.FileInputStream.open(Native Method)
-	at java.io.FileInputStream.<init>(FileInputStream.java:146)
-	at eu.learnpad.monitoring.glimpse.utils.Manager.Read(Manager.java:52)
-	at eu.learnpad.monitoring.glimpse.MainMonitoring.initProps(MainMonitoring.java:87)
-	at eu.learnpad.monitoring.glimpse.MainMonitoring.main(MainMonitoring.java:130)
-	at eu.learnpad.monitoring.AppTest.testApp(AppTest.java:37)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at junit.framework.TestCase.runTest(TestCase.java:154)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.apache.maven.surefire.junit.JUnitTestSet.execute(JUnitTestSet.java:95)
-	at org.apache.maven.surefire.junit.JUnit3Provider.executeTestSet(JUnit3Provider.java:121)
-	at org.apache.maven.surefire.junit.JUnit3Provider.invoke(JUnit3Provider.java:98)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
-	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
-	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
-	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
-java.lang.NullPointerException
-	at java.io.File.<init>(File.java:277)
-	at eu.learnpad.monitoring.glimpse.utils.Manager.Read(Manager.java:46)
-	at eu.learnpad.monitoring.glimpse.MainMonitoring.init(MainMonitoring.java:180)
-	at eu.learnpad.monitoring.glimpse.MainMonitoring.main(MainMonitoring.java:130)
-	at eu.learnpad.monitoring.AppTest.testApp(AppTest.java:37)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at junit.framework.TestCase.runTest(TestCase.java:154)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.apache.maven.surefire.junit.JUnitTestSet.execute(JUnitTestSet.java:95)
-	at org.apache.maven.surefire.junit.JUnit3Provider.executeTestSet(JUnit3Provider.java:121)
-	at org.apache.maven.surefire.junit.JUnit3Provider.invoke(JUnit3Provider.java:98)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
-	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
-	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
-	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+Sun Jun 21 18:56:17 CEST 2015 - MainMonitoring: Connection Parameters
+------------------------------------------------------------------------------------------------------
+Sun Jun 21 18:56:17 CEST 2015 - MainMonitoring: java.naming.factory.initial org.apache.activemq.jndi.ActiveMQInitialContextFactory
+Sun Jun 21 18:56:17 CEST 2015 - MainMonitoring: java.naming.provider.url tcp://atlantis.isti.cnr.it:61616
+Sun Jun 21 18:56:17 CEST 2015 - MainMonitoring: java.naming.security.principal system
+Sun Jun 21 18:56:17 CEST 2015 - MainMonitoring: java.naming.security.credentials manager
+Sun Jun 21 18:56:17 CEST 2015 - MainMonitoring: connectionFactoryNames TopicCF
+Sun Jun 21 18:56:17 CEST 2015 - MainMonitoring: topic.serviceTopic jms.serviceTopic
+Sun Jun 21 18:56:17 CEST 2015 - MainMonitoring: topic.probeTopic jms.probeTopic
+------------------------------------------------------------------------------------------------------
+Sun Jun 21 18:56:17 CEST 2015 - MainMonitoring: Setting up TopicConnectionFactory		[ OK ]
+------------------------------------------------------------------------------------------------------
+Sun Jun 21 18:56:17 CEST 2015 - ComplexEventProcessorImpl: Creating connection object log4j:WARN No appenders could be found for logger (org.apache.activemq.transport.WireFormatNegotiator).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+		[ OK ]
+Sun Jun 21 18:56:17 CEST 2015 - ComplexEventProcessorImpl: Creating public session object 	[ OK ]
+Sun Jun 21 18:56:17 CEST 2015 - ComplexEventProcessorImpl: Creating subscribe object 		[ OK ]
+Sun Jun 21 18:56:17 CEST 2015 - ComplexEventProcessorImpl: Setting up reading topic 		[ OK ]
+Sun Jun 21 18:56:17 CEST 2015 - ComplexEventProcessorImpl: Setting up destination topic 	[ OK ]
+Sun Jun 21 18:56:17 CEST 2015 - ComplexEventProcessorImpl: Reading knowledge base 		[ OK ]
+Sun Jun 21 18:56:18 CEST 2015 - ComplexEventProcessorImpl: Starting connection 			[ OK ]
+------------------------------------------------------------------------------------------------------
+Sun Jun 21 18:56:21 CEST 2015 - ServiceLocatorParseViolationReceivedFromBSM: Starting ServiceLocator component [ OK ]
+Sun Jun 21 18:56:21 CEST 2015 - MailNotification: Creating MailNotifier component 		[ OK ]
+------------------------------------------------------------------------------------------------------
+Sun Jun 21 18:56:21 CEST 2015 - GlimpseManager: Creating connection object 			[ OK ]
+Sun Jun 21 18:56:21 CEST 2015 - GlimpseManager: Creating public session object 			[ OK ]
+Sun Jun 21 18:56:21 CEST 2015 - GlimpseManager: Creating subscribe object			[ OK ]
+Sun Jun 21 18:56:21 CEST 2015 - GlimpseManager: Setting up destination topic 			[ OK ]
+Sun Jun 21 18:56:21 CEST 2015 - GlimpseManager: Setting up reading topic 			[ OK ]
+Sun Jun 21 18:56:21 CEST 2015 - GlimpseManager: Creating response dispatcher 			[ OK ]
+Sun Jun 21 18:56:21 CEST 2015 - GlimpseManager: Starting connection 				[ OK ]
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+Sun Jun 21 18:56:26 CEST 2015 - GlimpseManager: receive <?xml version="1.0" encoding="utf-8"?><ComplexEventRuleActionList xmlns="http://labse.isti.cnr.it/glimpse/xml/ComplexEventRule">  <Insert RuleType="drools">    <RuleName>Path-Crossing-Check-0of3</RuleName>    <RuleBody>import eu.learnpad.monitoring.glimpse.event.GlimpseBaseEventBPMN;		import eu.learnpad.monitoring.glimpse.manager.ResponseDispatcher;		import eu.learnpad.monitoring.glimpse.utils.NotifierUtils;		import eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager;		declare GlimpseBaseEventBPMN			@role( event )			@timestamp( timeStamp )		end		rule "Path-Crossing-Check-0of3"		no-loop true		salience 20		dialect "java"		when			$0Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Check Application");			$1Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Validate elegibility", this after $0Event);			$2Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Send rejection letter", this after $1Event);		then 			$0Event.setConsumed(true); 			update($0Event);		end</RuleBody>  </Insert>  <Insert RuleType="drools">    <RuleName>Path-Crossing-Check-1of3</RuleName>    <RuleBody>import eu.learnpad.monitoring.glimpse.event.GlimpseBaseEventBPMN;		import eu.learnpad.monitoring.glimpse.manager.ResponseDispatcher;		import eu.learnpad.monitoring.glimpse.utils.NotifierUtils;		import eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager;		declare GlimpseBaseEventBPMN			@role( event )			@timestamp( timeStamp )		end		rule "Path-Crossing-Check-1of3"		no-loop true		salience 20		dialect "java"		when			$0Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Check Application");			$1Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Validate elegibility", this after $0Event);			$2Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Invite for interview", this after $1Event);			$3Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Make interview", this after $2Event);			$4Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Decide application", this after $3Event);			$5Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Send rejection letter", this after $4Event);		then 			$0Event.setConsumed(true); 			update($0Event);		end</RuleBody>  </Insert>  <Insert RuleType="drools">    <RuleName>Path-Crossing-Check-2of3</RuleName>    <RuleBody>import eu.learnpad.monitoring.glimpse.event.GlimpseBaseEventBPMN;		import eu.learnpad.monitoring.glimpse.manager.ResponseDispatcher;		import eu.learnpad.monitoring.glimpse.utils.NotifierUtils;		import eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager;		declare GlimpseBaseEventBPMN			@role( event )			@timestamp( timeStamp )		end		rule "Path-Crossing-Check-2of3"		no-loop true		salience 20		dialect "java"		when			$0Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Check Application");			$1Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Validate elegibility", this after $0Event);			$2Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Invite for interview", this after $1Event);			$3Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Make interview", this after $2Event);			$4Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Decide application", this after $3Event);			$5Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Determine fee", this after $4Event);			$6Event : GlimpseBaseEventBPMN(this.isConsumed == false, this.isException == false, this.getEventName == "Send acceptance letter", this after $5Event);		then 			$0Event.setConsumed(true); 			update($0Event);		end</RuleBody>  </Insert></ComplexEventRuleActionList>
+------------------------------------------------------------------------------------------------------
+Sun Jun 21 18:56:26 CEST 2015 - GlimpseManager: Create answerTopic				[ OK ]
+Sun Jun 21 18:56:26 CEST 2015 - GlimpseManager: Setting up ComplexEventProcessor with new rule.
+Sun Jun 21 18:56:27 CEST 2015 - eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager: Listing rules loaded into the knowledgeBases
+Sun Jun 21 18:56:27 CEST 2015 - eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager: KnowledgeBase name: defaultpkg
+Sun Jun 21 18:56:27 CEST 2015 - eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager: RuleName: Path-Crossing-Check-0of3
+Sun Jun 21 18:56:27 CEST 2015 - eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager: RuleName: Path-Crossing-Check-1of3
+Sun Jun 21 18:56:27 CEST 2015 - eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager: RuleName: Path-Crossing-Check-2of3
+Sun Jun 21 18:56:27 CEST 2015 - eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager: KnowledgeBase name: eu.learnpad.monitoring.glimpse.event
+Sun Jun 21 18:56:27 CEST 2015 - eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager: --! No rules loaded into: eu.learnpad.monitoring.glimpse.event knowledgeBase
+Sun Jun 21 18:56:27 CEST 2015 - GlimpseManager: KnowledgeBase packages loaded: 2
+Sun Jun 21 18:56:27 CEST 2015 - GlimpseManager: Communicate the answerTopic to the requester	[ OK ]
+------------------------------------------------------------------------------------------------------

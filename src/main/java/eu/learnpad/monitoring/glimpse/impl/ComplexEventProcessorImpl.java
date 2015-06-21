@@ -226,7 +226,7 @@ public class ComplexEventProcessorImpl extends ComplexEventProcessor implements 
 						"import eu.learnpad.monitoring.glimpse.event.GlimpseBaseEventAbstract; " +
 						"declare GlimpseBaseEventAbstract " +
 						"@role( event ) " +
-						"@getTimestamp( timeStamp ) " +
+						"@timestamp( timeStamp ) " +
 						"end";
 				
 				byte[] firstRuleToLoadByteArray = firstRuleToLoad.getBytes();

@@ -24,7 +24,6 @@ import java.util.Collection;
 
 import org.apache.commons.net.ntp.TimeStamp;
 import org.drools.KnowledgeBase;
-import org.drools.RuntimeDroolsException;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
@@ -58,7 +57,10 @@ public class DroolsRulesManager extends RulesManager {
 	public void insertRule(final String rule, final String ruleName) throws IncorrectRuleFormatException, UnknownMethodCallRuleException {
 		try {
 		kbuilder.add(ResourceFactory.newByteArrayResource(rule.trim().getBytes()), ResourceType.DRL);
-		} catch (RuntimeDroolsException droolsExceptionOnLoading) {
+		//} catch (RuntimeDroolsException droolsExceptionOnLoading) {
+		} catch (Exception droolsExceptionOnLoading) {
+			DebugMessages.println(TimeStamp.getCurrentTime(),this.getClass().getCanonicalName(), droolsExceptionOnLoading.getCause() + "\n" +
+					droolsExceptionOnLoading.getMessage());			
 			throw new UnknownMethodCallRuleException();
 		}
 
