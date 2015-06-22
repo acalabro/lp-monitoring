@@ -31,7 +31,7 @@ public class PathCrossingRulesGeneratorImpl implements PathCrossingRulesGenerato
 		for(int i = 0; i<theUnfoldedBusinessProcess.size(); i++) {
 			
 			aInsert = ilDoc.addNewInsert();
-			aInsert.setRuleName("Path-Crossing-Check-"+ i +"of"+theUnfoldedBusinessProcess.size());
+			aInsert.setRuleName("Path-Crossing-Check-"+ (i+1) +"of"+theUnfoldedBusinessProcess.size());
 			aInsert.setRuleType("drools");
 			
 			
@@ -55,12 +55,11 @@ public class PathCrossingRulesGeneratorImpl implements PathCrossingRulesGenerato
 					RuleElements.getThenClause() +
 					RuleElements.getEnd());
 		}
-
-		System.out.println(rulesToLoad.toString());
 		return rulesToLoad;
 	}
 
 	public static void main(String[]args) {
+		//testClass
 		BPMNPathExplorer asd = new BPMNPathExplorerImpl();
 		PathCrossingRulesGenerator cross = new PathCrossingRulesGeneratorImpl();
 		
@@ -68,12 +67,14 @@ public class PathCrossingRulesGeneratorImpl implements PathCrossingRulesGenerato
 			DocumentBuilderFactory gg = DocumentBuilderFactory.newInstance();
 			Document theDoc = gg.newDocumentBuilder().newDocument();
 			
-			cross.generateRules(asd.getUnfoldedBPMN(theDoc));
+			String theXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+							cross.generateRules(asd.getUnfoldedBPMN(theDoc)).xmlText();
+			//ComplexEventRuleActionListDocument theRuleSet = ComplexEventRuleActionListDocument.Factory.parse(theXml);
 			
+			System.out.println(theXml);
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
 }

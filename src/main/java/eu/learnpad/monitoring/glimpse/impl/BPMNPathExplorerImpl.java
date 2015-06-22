@@ -23,7 +23,7 @@ public class BPMNPathExplorerImpl implements BPMNPathExplorer {
 						{"Check Application","Validate elegibility","Invite for interview",
 									"Make interview", "Decide application", "Send rejection letter"});
 		lastExploredBPMN.add(new String[]{"Check Application","Validate elegibility",
-									"Invite for interview", "Make interview", "Decide application", "Determine fee", "Send acceptance letter"});
+									"Invite for interview", "Make interview", "Decide application", "Decide fee", "Send acceptance letter"});
 		return lastExploredBPMN;
 	}
 

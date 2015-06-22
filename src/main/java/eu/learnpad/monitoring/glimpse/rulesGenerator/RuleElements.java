@@ -24,11 +24,11 @@ public class RuleElements {
 	}
 	
 	public static String getWhenClause() {
-		return "\n\t\twhen\n";
+		return "\t\twhen\n";
 	}
 	
 	public static String getThenClause() {
-		return "\n\n\t\tthen \n\t\t\t$0Event.setConsumed(true); \n\t\t\tupdate($0Event);\n";
+		return "\n\t\tthen \n\t\t\t$0Event.setConsumed(true); \n\t\t\tupdate($0Event);";
 	}
 	
 	public static String getEnd() {
