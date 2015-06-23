@@ -82,6 +82,7 @@ public class MainMonitoring {
 	 * @param systemSettings
 	 * @return true if operations are completed correctly
 	 */
+	
 	public static boolean initProps(String systemSettings) {
 		try {
 			systemProps = Manager

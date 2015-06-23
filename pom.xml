@@ -123,27 +123,7 @@
 			<artifactId>drools-core</artifactId>
 			<version>5.5.0.Final</version>
 		</dependency>
-		<dependency>
-			<groupId>it.cnr.isti.labsedc</groupId>
-			<artifactId>ComplexEventRule</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		    <scope>system</scope>
-		    <systemPath>${basedir}/lib/ComplexEventRule.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>it.cnr.isti.labsedc</groupId>
-			<artifactId>ComplexEventResponse</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		    <scope>system</scope>
-		    <systemPath>${basedir}/lib/ComplexEventResponse.jar</systemPath>
-		</dependency>
-	  <dependency>
-		    <groupId>it.cnr.isti.labsedc</groupId>
-		    <artifactId>ComplexEventException</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		    <scope>system</scope>
-		    <systemPath>${basedir}/lib/ComplexEventException.jar</systemPath>
-	  </dependency>
+
 	  <dependency>
 	  	<groupId>org.drools</groupId>
 	  	<artifactId>drools-decisiontables</artifactId>
@@ -158,6 +138,21 @@
 	  	<groupId>org.drools</groupId>
 	  	<artifactId>drools-persistence-jpa</artifactId>
 	  	<version>5.5.0.Final</version>
+	  </dependency>
+	  <dependency>
+	  	<groupId>it.cnr.isti.labsedc</groupId>
+	  	<artifactId>ComplexEventException</artifactId>
+	  	<version>0.0.1-SNAPSHOT</version>
+	  </dependency>
+	  <dependency>
+	  	<groupId>it.cnr.isti.labsedc</groupId>
+	  	<artifactId>ComplexEventResponse</artifactId>
+	  	<version>0.0.1-SNAPSHOT</version>
+	  </dependency>
+	  <dependency>
+	  	<groupId>it.cnr.isti.labsedc</groupId>
+	  	<artifactId>ComplexEventRule</artifactId>
+	  	<version>0.0.1-SNAPSHOT</version>
 	  </dependency>
 	</dependencies>
 </project>
