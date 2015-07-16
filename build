@@ -19,6 +19,8 @@ declare -r __OUT_CONF_PATH__="${__OUT_PATH__}/etc"
 ### BUILD ###
 function component_build() {
     mvn clean
+    # install local dependencies
+    ls $__COMPONENT_PATH__/lib | grep .jar | tr -d .jar | xargs -I '{}' mvn install:install-file -Dfile=$__COMPONENT_PATH__/lib/{}.jar -DgroupId=it.cnr.isti.labsedc -DartifactId={} -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
     # skip tests as we will do them in the component_test stage
     mvn package -Dmaven.test.skip=true
 }
