@@ -16,6 +16,9 @@ public class BPMNPathExplorerImpl implements BPMNPathExplorer {
 	public List<String[]> getUnfoldedBPMN(Document theBusinessProcessToUnfold) {
 		
 		//call the software provided by third parties
+		
+		
+		//TODO: REPLACE THIS CODE WITH THE  THIRDY PARTIES COMPONENT IN CHARGE TO EXPLORE THE BPMN AND PROVIDE A LIST 
 		lastExploredBPMN = new ArrayList<String[]>();
 		lastExploredBPMN.add(new String[]
 						{"Check Application","Validate elegibility", "Send rejection letter"});
@@ -24,6 +27,9 @@ public class BPMNPathExplorerImpl implements BPMNPathExplorer {
 									"Make interview", "Decide application", "Send rejection letter"});
 		lastExploredBPMN.add(new String[]{"Check Application","Validate elegibility",
 									"Invite for interview", "Make interview", "Decide application", "Decide fee", "Send acceptance letter"});
+		
+		//END FAKE EXPLORATION
+		
 		return lastExploredBPMN;
 	}
 

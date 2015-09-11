@@ -6,12 +6,6 @@ import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleType;
 
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-
-import eu.learnpad.monitoring.glimpse.BPMNExplorer.BPMNPathExplorer;
 import eu.learnpad.monitoring.glimpse.rulesGenerator.PathCrossingRulesGenerator;
 import eu.learnpad.monitoring.glimpse.rulesGenerator.RuleElements;
 
@@ -56,25 +50,5 @@ public class PathCrossingRulesGeneratorImpl implements PathCrossingRulesGenerato
 					RuleElements.getEnd());
 		}
 		return rulesToLoad;
-	}
-
-	public static void main(String[]args) {
-		//testClass
-		BPMNPathExplorer asd = new BPMNPathExplorerImpl();
-		PathCrossingRulesGenerator cross = new PathCrossingRulesGeneratorImpl();
-		
-		try {
-			DocumentBuilderFactory gg = DocumentBuilderFactory.newInstance();
-			Document theDoc = gg.newDocumentBuilder().newDocument();
-			
-			String theXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-							cross.generateRules(asd.getUnfoldedBPMN(theDoc)).xmlText();
-			//ComplexEventRuleActionListDocument theRuleSet = ComplexEventRuleActionListDocument.Factory.parse(theXml);
-			
-			System.out.println(theXml);
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }
