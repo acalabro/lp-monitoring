@@ -115,56 +115,66 @@ public class GlimpseManager extends Thread implements MessageListener {
 		}
 	}
 
-	public void onMessage(Message arg0) {
+	public void onMessage(Message messagePayload) {
 		
 		TextMessage msg = null;
 		try {
-			msg = (TextMessage) arg0;
+			msg = (TextMessage) messagePayload;
 			DebugMessages.line();			
 			DebugMessages.println(TimeStamp.getCurrentTime(), 
 					this.getClass().getSimpleName(),"receive " + msg.getText());
-			DebugMessages.line();
-			String XMLRule = msg.getText();
+			DebugMessages.line();			
+			String xmlMessagePayload = msg.getText();
 			String sender = msg.getStringProperty("SENDER");		
 			
-			ComplexEventRuleActionListDocument ruleDoc;			
-			ruleDoc = ComplexEventRuleActionListDocument.Factory.parse(XMLRule);	
-			ComplexEventRuleActionType rules = ruleDoc.getComplexEventRuleActionList();
+			//check if the paylod of the message is a bpmn to be used for path extraction and rules generation
+			//or if the xml is already a rule to inject into the engine
 			
-			//the topic where the listener will give analysis results
-			answerTopic =  "answerTopic" + "#" + this.getName() + "#" + System.nanoTime();
-
-			DebugMessages.print(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(), "Create answerTopic");
-			connectionTopic = publishSession.createTopic(answerTopic);
-			//tPub = publishSession.createPublisher(connectionTopic);
-			DebugMessages.ok();
-			
-			DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(), "Setting up ComplexEventProcessor with new rule.");
-			try {	
-				Object[] loadedKnowledgePackage = rulesManagerOne.loadRules(rules);
-				//inserisco la coppia chiave valore dove la chiave è il KnowledgePackage
-				//caricato, generato da DroolsRulesManager con la loadRules
-				//e il valore è l'enabler che l'ha inviata
-				//(il KnowledgePackage array dovrebbe avere sempre dimensione 1 essendo creato ad ogni loadrules)
-				for (int i = 0; i<loadedKnowledgePackage.length;i++)
-				{
-					KnowledgePackageImp singleKnowlPack = (KnowledgePackageImp) loadedKnowledgePackage[i];
-					Rule[] singleRuleContainer = new Rule[singleKnowlPack.getRules().size()];
-					singleRuleContainer = singleKnowlPack.getRules().toArray(singleRuleContainer);
-					
-					for(int j = 0; j<singleRuleContainer.length;j++)
-					{
-						requestMap.put(singleRuleContainer[j].getName(),
-								new ConsumerProfile(sender, answerTopic));
-					}
-				}
-				DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(), "KnowledgeBase packages loaded: " + rulesManagerOne.getLoadedKnowledgePackageCardinality());
-				DebugMessages.print(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),"Communicate the answerTopic to the requester");
-				sendMessage(createMessage("AnswerTopic == " + answerTopic, sender));
-				DebugMessages.ok();
-			} catch (IncorrectRuleFormatException e) {
-				sendMessage(createMessage("PROVIDED RULE CONTAINS ERRORS", sender));
+			if (xmlMessagePayload.contains("www.omg.org/spec/BPMN/20100524/MODEL")) {
+				DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(), "The message sent contains a BPMN");
+				
 			}
+			else {			
+				ComplexEventRuleActionListDocument ruleDoc;			
+				ruleDoc = ComplexEventRuleActionListDocument.Factory.parse(xmlMessagePayload);	
+				ComplexEventRuleActionType rules = ruleDoc.getComplexEventRuleActionList();
+				
+				//the topic where the listener will give analysis results
+				answerTopic =  "answerTopic" + "#" + this.getName() + "#" + System.nanoTime();
+	
+				DebugMessages.print(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(), "Create answerTopic");
+				connectionTopic = publishSession.createTopic(answerTopic);
+				//tPub = publishSession.createPublisher(connectionTopic);
+				DebugMessages.ok();
+				
+				DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(), "Setting up ComplexEventProcessor with new rule.");
+				try {	
+					Object[] loadedKnowledgePackage = rulesManagerOne.loadRules(rules);
+					//inserisco la coppia chiave valore dove la chiave è il KnowledgePackage
+					//caricato, generato da DroolsRulesManager con la loadRules
+					//e il valore è l'enabler che l'ha inviata
+					//(il KnowledgePackage array dovrebbe avere sempre dimensione 1 essendo creato ad ogni loadrules)
+					for (int i = 0; i<loadedKnowledgePackage.length;i++)
+					{
+						KnowledgePackageImp singleKnowlPack = (KnowledgePackageImp) loadedKnowledgePackage[i];
+						Rule[] singleRuleContainer = new Rule[singleKnowlPack.getRules().size()];
+						singleRuleContainer = singleKnowlPack.getRules().toArray(singleRuleContainer);
+						
+						for(int j = 0; j<singleRuleContainer.length;j++)
+						{
+							requestMap.put(singleRuleContainer[j].getName(),
+									new ConsumerProfile(sender, answerTopic));
+						}
+					}
+					DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(), "KnowledgeBase packages loaded: " + rulesManagerOne.getLoadedKnowledgePackageCardinality());
+					DebugMessages.print(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),"Communicate the answerTopic to the requester");
+					sendMessage(createMessage("AnswerTopic == " + answerTopic, sender));
+					DebugMessages.ok();
+				} catch (IncorrectRuleFormatException e) {
+					sendMessage(createMessage("PROVIDED RULE CONTAINS ERRORS", sender));
+				}
+			}
+			
 		} catch(NullPointerException asd) {
 			try {
 				sendMessage(createMessage("PROVIDED RULE IS NULL, PLEASE PROVIDE A VALID RULE", msg.getStringProperty("SENDER")));
