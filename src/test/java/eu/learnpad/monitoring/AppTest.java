@@ -1,6 +1,6 @@
 package eu.learnpad.monitoring;
 
-import eu.learnpad.monitoring.glimpse.MainMonitoring;
+import eu.learnpad.simulator.monitoring.MainMonitoring;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
