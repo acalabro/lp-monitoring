@@ -10,7 +10,6 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import eu.learnpad.simulator.mon.BPMNExplorer.BPMNPathExplorer;
-import eu.learnpad.simulator.mon.controller.DBController;
 import eu.learnpad.simulator.mon.impl.BPMNPathExplorerImpl;
 import eu.learnpad.simulator.mon.impl.PathCrossingRulesGeneratorImpl;
 import eu.learnpad.simulator.mon.rulesGenerator.PathCrossingRulesGenerator;
@@ -20,20 +19,14 @@ public class LearnerAssessmentManager {
 	private Document theBPMN;
 	private BPMNPathExplorer bpmnExplorer;
 	private PathCrossingRulesGenerator crossRulesGenerator;
-	private DBController databaseController;
 
-	public LearnerAssessmentManager(DBController databaseController) {
+	public LearnerAssessmentManager() {
 		
 		//Creation of the BPMNExplorerEngine
 		bpmnExplorer = new BPMNPathExplorerImpl();
 		
-		//the instance of DB used
-		this.databaseController = databaseController;
-		
 		//Creation of the PathCrossingRulesGenerator object
 		crossRulesGenerator = new PathCrossingRulesGeneratorImpl();
-		
-		databaseController.connectToDB();
 		
 	}
 
