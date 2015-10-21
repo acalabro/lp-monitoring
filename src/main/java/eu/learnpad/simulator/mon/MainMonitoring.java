@@ -32,6 +32,8 @@ import org.apache.commons.net.ntp.TimeStamp;
 
 import eu.learnpad.simulator.mon.buffer.EventsBuffer;
 import eu.learnpad.simulator.mon.cep.ComplexEventProcessor;
+import eu.learnpad.simulator.mon.controller.DBController;
+import eu.learnpad.simulator.mon.controller.MySqlController;
 import eu.learnpad.simulator.mon.event.GlimpseBaseEvent;
 import eu.learnpad.simulator.mon.impl.ComplexEventProcessorImpl;
 import eu.learnpad.simulator.mon.impl.EventsBufferImpl;
@@ -70,6 +72,8 @@ public class MainMonitoring {
 	protected static String BSMWSDLURIFILEPATH;
 	protected static String REGEXPATTERNFILEPATH;
 	protected static String MAILNOTIFICATIONSETTINGSFILEPATH;
+	protected static String DATABASECONNECTIONSTRING;
+
 	// end settings
 
 	private static TopicConnectionFactory connFact;
@@ -111,6 +115,8 @@ public class MainMonitoring {
 					.getProperty("REGEXPATTERNFILEPATH");
 			MAILNOTIFICATIONSETTINGSFILEPATH = systemProps
 					.getProperty("MAILNOTIFICATIONPATH");
+			DATABASECONNECTIONSTRING = systemProps
+					.getProperty("DATABASECONNECTIONSTRING");
 			return true;
 		} catch (Exception asd) {
 			System.out.println("USAGE: java -jar MainMonitoring.jar \"systemSettings\"");
@@ -156,7 +162,9 @@ public class MainMonitoring {
 				//the component in charge to locate services and load specific rules.
 				ServiceLocatorFactory.getServiceLocatorParseViolationReceivedFromBSM(engineOne, templateManager, REGEXPATTERNFILEPATH).start();
 				
-				LearnerAssessmentManager lam = new LearnerAssessmentManager();
+				DBController databaseController = new MySqlController(Manager.Read(DATABASECONNECTIONSTRING));
+								
+				LearnerAssessmentManager lam = new LearnerAssessmentManager(databaseController);
 				
 				//start MailNotifier component
 				MailNotification mailer = new MailNotification(
