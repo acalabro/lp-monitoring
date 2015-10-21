@@ -76,4 +76,6 @@ public interface DBController {
 	public void setLearnerAbsoluteGlobalScore(int idLearner,float AbsoluteGlobalScore);
 	
 	
+	
+	
 }
