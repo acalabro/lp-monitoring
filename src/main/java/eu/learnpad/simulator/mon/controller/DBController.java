@@ -14,6 +14,7 @@ public interface DBController {
 	//global saving methods
 	//TODO:save a single path, the absolute session score and the path rule
 	
+	
 	//BPMN methods
 	public int saveBPMN(Document theBPMN, Date extractionDate, String category);
 	public Document getBPMN(int theBPMNid);
@@ -30,6 +31,7 @@ public interface DBController {
 	public Date getBPMNExtractionDate(int theBPMNid);
 	public void updateBPMNExtractionDate(int theBPMNid, Date extractionDatefloat);
 	
+	
 	//Category methods
 	public String getCategoryName(int theCategoryID);
 	public void setCategoryName(int theCategoryID, String theCategoryName);
@@ -38,17 +40,22 @@ public interface DBController {
 	public int createCategory(String category);
 	
 	
-	//Paths methods
-	public void saveBPMNPaths(int idBPMN, List<List<String>> paths);
-	public List<List<String>> getBPMNPaths(int idBPMN);
+	//Path methods
+	public List<String> getIDsBPMNPaths(int idBPMN);
 	
-	public int saveSingleBPMNPath(int idBPMN, List<String> path);
-	public List<String> getSingleBPMNPaths(int idBPMN, int idSinglePath);
+	public int saveSingleBPMNPath(int idBPMN, List<String> path, float absoluteSessionScore);
+	public List<String> getSingleBPMNPath(int idBPMN, int idSinglePath);
+	
+	public float getSingleBPMNPathAbsoluteSessionScore(int idBPMN);
+	public void setSingleBPMNPathAbsoluteSessionScore(int idBPMN, float absoluteSessionScore);
+	
+	public void setPathRules(int idPath, int idBPMN, ComplexEventRuleActionListDocument rules);
+	public ComplexEventRuleActionListDocument getPathRules(int idPath, int idBPMN);
 	
 	
 	//Learner methods
 	public int saveLearnerProfile(String name, String surname);
-	public void getLearnerProfile(int idLearner);
+	public String getLearnerNameSurname(int idLearner);
 	
 	public float getLearnerBPScore(int idLearner, int idBPMN);
 	public void setLearnerBPScore(int idLearner, int idBPMN, float BPScore);
@@ -67,4 +74,6 @@ public interface DBController {
 	
 	public float getLearnerAbsoluteGlobalScore(int idLearner);
 	public void setLearnerAbsoluteGlobalScore(int idLearner,float AbsoluteGlobalScore);
+	
+	
 }

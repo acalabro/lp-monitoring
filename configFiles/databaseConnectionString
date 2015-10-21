@@ -3,4 +3,4 @@ database.name = glimpse
 username = glimpse
 password = meleeisland
 database.type = MSSQL 
-database.port = 
+database.port = 3306

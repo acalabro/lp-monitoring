@@ -3,6 +3,7 @@ package eu.learnpad.simulator.mon.controller;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -16,6 +17,8 @@ import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionList
 public class MySqlController implements DBController {
 
 	private Properties connectionProp;
+	private Connection conn;
+	private Statement statement;
 	
 	public MySqlController(Properties databaseConnectionProperties) {
 		connectionProp = databaseConnectionProperties;
@@ -23,18 +26,46 @@ public class MySqlController implements DBController {
 
 	@Override
 	public boolean connectToDB() {
+		DebugMessages.print(TimeStamp.getCurrentTime(), MySqlController.class.getSimpleName(),"Connecting to db " + connectionProp.getProperty("database.host"));
 
-		try (Connection connection = DriverManager.getConnection(
-				connectionProp.getProperty("database.host"),
-				connectionProp.getProperty("database.username"),
-				connectionProp.getProperty("database.password"))) {
-		    System.out.println("Database connected!");
+		String url = "jdbc:mysql://"
+				+ connectionProp.getProperty("database.host") +
+				":" + connectionProp.getProperty("database.port")+"/";
+		
+		String dbName = connectionProp.getProperty("database.name");
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = connectionProp.getProperty("username"); 
+		String password = connectionProp.getProperty("password");
+		try { 
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(url+dbName,userName,password);
+			statement = conn.createStatement();
+			DebugMessages.ok();
 		} catch (SQLException e) {
-		    throw new IllegalStateException(TimeStamp.getCurrentTime() + " "
-		    		+ MySqlController.class.getSimpleName() +
-		    		" - Could not connect to db " + connectionProp.getProperty("database.host"), e);
+			DebugMessages.println(TimeStamp.getCurrentTime(),
+					MySqlController.class.getSimpleName(),
+					"Could not connect to db " + connectionProp.getProperty("database.host"));
+			e.printStackTrace();
+			return false;
+		} catch (InstantiationException e) {
+			DebugMessages.println(TimeStamp.getCurrentTime(),
+					MySqlController.class.getSimpleName(),
+					"Could not connect to db " + connectionProp.getProperty("database.host"));
+			e.printStackTrace();
+			return false;
+		} catch (IllegalAccessException e) {
+			DebugMessages.println(TimeStamp.getCurrentTime(),
+					MySqlController.class.getSimpleName(),
+					"Could not connect to db " + connectionProp.getProperty("database.host"));
+			e.printStackTrace();
+			return false;
+		} catch (ClassNotFoundException e) {
+			DebugMessages.println(TimeStamp.getCurrentTime(),
+					MySqlController.class.getSimpleName(),
+					"Could not connect to db " + connectionProp.getProperty("database.host"));
+			e.printStackTrace();
+			return false;
 		}
-		DebugMessages.println(TimeStamp.getCurrentTime(), MySqlController.class.getSimpleName(),"Connected to db " + connectionProp.getProperty("database.host"));
 		return true;
 	}
 
@@ -53,7 +84,7 @@ public class MySqlController implements DBController {
 	@Override
 	public void saveBPMNCoverageRules(int idBPMN, ComplexEventRuleActionListDocument theRulesSet) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -71,7 +102,7 @@ public class MySqlController implements DBController {
 	@Override
 	public void setBPMNCategory(int theBPMNid, int theCategoryID) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -83,7 +114,7 @@ public class MySqlController implements DBController {
 	@Override
 	public void setBPMNAbsoluteScore(int theBPMNid, float absoluteScore) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -95,7 +126,7 @@ public class MySqlController implements DBController {
 	@Override
 	public void updateBPMNExtractionDate(int theBPMNid, Date extractionDatefloat) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -107,7 +138,7 @@ public class MySqlController implements DBController {
 	@Override
 	public void setCategoryName(int theCategoryID, String theCategoryName) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -123,25 +154,43 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public void saveBPMNPaths(int idBPMN, List<List<String>> paths) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public List<List<String>> getBPMNPaths(int idBPMN) {
+	public List<String> getIDsBPMNPaths(int idBPMN) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int saveSingleBPMNPath(int idBPMN, List<String> path) {
+	public int saveSingleBPMNPath(int idBPMN, List<String> path, float absoluteSessionScore) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public List<String> getSingleBPMNPaths(int idBPMN, int idSinglePath) {
+	public List<String> getSingleBPMNPath(int idBPMN, int idSinglePath) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public float getSingleBPMNPathAbsoluteSessionScore(int idBPMN) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setSingleBPMNPathAbsoluteSessionScore(int idBPMN, float absoluteSessionScore) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setPathRules(int idPath, int idBPMN, ComplexEventRuleActionListDocument rules) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ComplexEventRuleActionListDocument getPathRules(int idPath, int idBPMN) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -153,9 +202,9 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public void getLearnerProfile(int idLearner) {
+	public String getLearnerNameSurname(int idLearner) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override
@@ -167,7 +216,7 @@ public class MySqlController implements DBController {
 	@Override
 	public void setLearnerBPScore(int idLearner, int idBPMN, float BPScore) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -179,7 +228,7 @@ public class MySqlController implements DBController {
 	@Override
 	public void setLearnerSessionScore(int idLearner, int idBPMN, float SessionScore) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -191,7 +240,7 @@ public class MySqlController implements DBController {
 	@Override
 	public void setLearnerRelativeBPScore(int idLearner, int idBPMN, float BPScore) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -203,7 +252,7 @@ public class MySqlController implements DBController {
 	@Override
 	public void setLearnerGlobalScore(int idLearner, float GlobalScore) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -215,7 +264,7 @@ public class MySqlController implements DBController {
 	@Override
 	public void setLearnerRelativeGlobalScore(int idLearner, float RelativeGlobalScore) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -227,7 +276,6 @@ public class MySqlController implements DBController {
 	@Override
 	public void setLearnerAbsoluteGlobalScore(int idLearner, float AbsoluteGlobalScore) {
 		// TODO Auto-generated method stub
-
+		
 	}
-
 }
