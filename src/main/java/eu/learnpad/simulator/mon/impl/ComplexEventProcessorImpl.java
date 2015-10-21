@@ -223,7 +223,7 @@ public class ComplexEventProcessorImpl extends ComplexEventProcessor implements 
 				knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 				
 				String firstRuleToLoad = 
-						"import eu.learnpad.simulator.monitoring.event.GlimpseBaseEventAbstract; " +
+						"import eu.learnpad.simulator.mon.event.GlimpseBaseEventAbstract; " +
 						"declare GlimpseBaseEventAbstract " +
 						"@role( event ) " +
 						"@timestamp( timeStamp ) " +

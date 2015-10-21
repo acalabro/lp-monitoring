@@ -165,7 +165,7 @@ public class MainMonitoring {
 				//the manager of all the architecture
 				GlimpseManager manager = new GlimpseManager(
 						Manager.Read(MANAGERPARAMETERFILE), connFact, initConn,
-						engineOne.getRuleManager());
+						engineOne.getRuleManager(), lam);
 				
 				manager.start();
 			}
