@@ -62,6 +62,7 @@ public class GlimpseManager extends Thread implements MessageListener {
 	private String serviceTopic;
 	private String answerTopic;
 	private RulesManager rulesManagerOne;
+	private LearnerAssessmentManager learnerAssessmentManager;
 	@SuppressWarnings("unused")
 	private ResponseDispatcher responder;
 	
@@ -73,11 +74,14 @@ public class GlimpseManager extends Thread implements MessageListener {
 	 * @param initConn
 	 * @param rulesManager
 	 */
-	public GlimpseManager(Properties settings, TopicConnectionFactory connectionFact, InitialContext initConn, RulesManager rulesManagerOne)
+	public GlimpseManager(Properties settings, TopicConnectionFactory connectionFact,
+			InitialContext initConn, RulesManager rulesManagerOne,
+			LearnerAssessmentManager lam)
 	{
 		serviceTopic = settings.getProperty("serviceTopic");
 		setupConnection(connectionFact, initConn);
 		this.rulesManagerOne = rulesManagerOne;
+		this.learnerAssessmentManager = lam;
 	}
 	
 	public void setupConnection(TopicConnectionFactory connectionFact, InitialContext initConn)
@@ -132,8 +136,11 @@ public class GlimpseManager extends Thread implements MessageListener {
 			//or if the xml is already a rule to inject into the engine
 			
 			if (xmlMessagePayload.contains("www.omg.org/spec/BPMN/20100524/MODEL")) {
-				DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(), "The message sent contains a BPMN");
-				
+				DebugMessages.println(
+						TimeStamp.getCurrentTime(), 
+						this.getClass().getSimpleName(),
+						"The message sent contains a BPMN - Forwarding it to the LearnPAd Assessment Manager");
+				learnerAssessmentManager.setBPModel(xmlMessagePayload);
 			}
 			else {			
 				ComplexEventRuleActionListDocument ruleDoc;			

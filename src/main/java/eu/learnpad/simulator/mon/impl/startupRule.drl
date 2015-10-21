@@ -1,4 +1,4 @@
-import it.cnr.isti.labse.glimpse.event.GlimpseBaseEventAbstract;
+import eu.learnpad.simulator.mon.event.GlimpseBaseEventAbstract;
 
 declare GlimpseBaseEventAbstract
    @role( event )
