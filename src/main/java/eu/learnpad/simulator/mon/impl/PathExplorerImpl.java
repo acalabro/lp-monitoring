@@ -6,9 +6,9 @@ import java.util.Vector;
 
 import org.w3c.dom.Document;
 
-import eu.learnpad.simulator.mon.BPMNExplorer.BPMNPathExplorer;
+import eu.learnpad.simulator.mon.BPMN.PathExplorer;
 
-public class BPMNPathExplorerImpl implements BPMNPathExplorer {
+public class PathExplorerImpl implements PathExplorer {
 
 	public List<String[]> lastExploredBPMN;
 	

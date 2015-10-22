@@ -48,6 +48,7 @@ import org.drools.definitions.impl.*;
 
 import eu.learnpad.simulator.mon.consumer.ConsumerProfile;
 import eu.learnpad.simulator.mon.exceptions.IncorrectRuleFormatException;
+import eu.learnpad.simulator.mon.impl.LearnerAssessmentManagerImpl;
 import eu.learnpad.simulator.mon.rules.RulesManager;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 

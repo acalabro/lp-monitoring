@@ -1,4 +1,4 @@
-package eu.learnpad.mon;
+package eu.learnpad.simulator.mon;
 
 import eu.learnpad.simulator.mon.MainMonitoring;
 import junit.framework.Test;

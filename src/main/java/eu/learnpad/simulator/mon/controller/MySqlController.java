@@ -32,8 +32,6 @@ public class MySqlController implements DBController {
 
 	@Override
 	public boolean connectToDB() {
-		DebugMessages.print(TimeStamp.getCurrentTime(), MySqlController.class.getSimpleName(),"Connecting to db " + connectionProp.getProperty("database.host"));
-
 		String url = "jdbc:mysql://"
 				+ connectionProp.getProperty("database.host") +
 				":" + connectionProp.getProperty("database.port")+"/";
@@ -46,6 +44,7 @@ public class MySqlController implements DBController {
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
 			statement = conn.createStatement();
+			DebugMessages.print(TimeStamp.getCurrentTime(), MySqlController.class.getSimpleName(),"Connection to db " + connectionProp.getProperty("database.host"));
 			DebugMessages.ok();
 		} catch (SQLException e) {
 			DebugMessages.println(TimeStamp.getCurrentTime(),

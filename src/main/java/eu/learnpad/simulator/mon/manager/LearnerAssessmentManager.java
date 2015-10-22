@@ -1,61 +1,10 @@
 package eu.learnpad.simulator.mon.manager;
 
-import java.io.IOException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
-import eu.learnpad.simulator.mon.BPMNExplorer.BPMNPathExplorer;
-import eu.learnpad.simulator.mon.controller.DBController;
-import eu.learnpad.simulator.mon.impl.BPMNPathExplorerImpl;
-import eu.learnpad.simulator.mon.impl.PathCrossingRulesGeneratorImpl;
-import eu.learnpad.simulator.mon.rulesGenerator.PathCrossingRulesGenerator;
+public abstract class LearnerAssessmentManager extends Thread{
 
-public class LearnerAssessmentManager {
-
-	private Document theBPMN;
-	private BPMNPathExplorer bpmnExplorer;
-	private PathCrossingRulesGenerator crossRulesGenerator;
-	private DBController databaseController;
-
-	public LearnerAssessmentManager(DBController databaseController) {
-		 		
-		 		//Creation of the BPMNExplorerEngine
-		 bpmnExplorer = new BPMNPathExplorerImpl();
-		 		
-		//the instance of DB used
-		this.databaseController = databaseController;
-		
-		//Creation of the PathCrossingRulesGenerator object
-		crossRulesGenerator = new PathCrossingRulesGeneratorImpl();
-		 		
-		databaseController.connectToDB();
-	}
-		
-		
-	public Document setBPModel(String xmlMessagePayload) {
-		
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		Document dom = null;
-		try {
-			
-			DocumentBuilder docBuilder = dbf.newDocumentBuilder();
-			dom = docBuilder.parse(xmlMessagePayload);
-			
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			e.printStackTrace();
-		}
-		
-		this.theBPMN = dom;
-		return dom;
-	}
+	public abstract Document setBPModel(String xmlMessagePayload);
+	public abstract void ExploreBPSavePathsGenerateAndSaveRules(Document dom);
 	
-	public void ExploreBPSavePathsGenerateAndSaveRules(Document dom){
-		crossRulesGenerator.generateRules(bpmnExplorer.getUnfoldedBPMN(dom));
-		//TODO:
-	}
 }
