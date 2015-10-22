@@ -11,6 +11,12 @@ import java.util.Properties;
 import org.apache.commons.net.ntp.TimeStamp;
 import org.w3c.dom.Document;
 
+import eu.learnpad.simulator.mon.coverage.Bpmn;
+import eu.learnpad.simulator.mon.coverage.Category;
+import eu.learnpad.simulator.mon.coverage.Learner;
+import eu.learnpad.simulator.mon.coverage.Path;
+import eu.learnpad.simulator.mon.coverage.Role;
+import eu.learnpad.simulator.mon.coverage.Topic;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionListDocument;
 
@@ -70,139 +76,7 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public int saveBPMN(Document theBPMN, Date extractionDate, String category) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Document getBPMN(int theBPMNid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveBPMNCoverageRules(int idBPMN, ComplexEventRuleActionListDocument theRulesSet) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public ComplexEventRuleActionListDocument getBPMNCoverageRules(int idBPMN) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getBPMNCategory(int theBPMNid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setBPMNCategory(int theBPMNid, int theCategoryID) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public float getBPMNAbsoluteScore(int theBPMNid) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setBPMNAbsoluteScore(int theBPMNid, float absoluteScore) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Date getBPMNExtractionDate(int theBPMNid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateBPMNExtractionDate(int theBPMNid, Date extractionDatefloat) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getCategoryName(int theCategoryID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setCategoryName(int theCategoryID, String theCategoryName) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getCategoryID(String theCategoryName) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int createCategory(String category) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<String> getIDsBPMNPaths(int idBPMN) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int saveSingleBPMNPath(int idBPMN, List<String> path, float absoluteSessionScore) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<String> getSingleBPMNPath(int idBPMN, int idSinglePath) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public float getSingleBPMNPathAbsoluteSessionScore(int idBPMN) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setSingleBPMNPathAbsoluteSessionScore(int idBPMN, float absoluteSessionScore) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setPathRules(int idPath, int idBPMN, ComplexEventRuleActionListDocument rules) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public ComplexEventRuleActionListDocument getPathRules(int idPath, int idBPMN) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int saveLearnerProfile(String name, String surname) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public String getLearnerNameSurname(int idLearner) {
+	public List<Path> getBPMNPaths(int idBPMN) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -214,21 +88,9 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public void setLearnerBPScore(int idLearner, int idBPMN, float BPScore) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public float getLearnerSessionScore(int idLearner, int idBPMN) {
+	public int setLearnerBPScore(int idLearner, int idBPMN, float BPScore) {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public void setLearnerSessionScore(int idLearner, int idBPMN, float SessionScore) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -238,44 +100,152 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public void setLearnerRelativeBPScore(int idLearner, int idBPMN, float BPScore) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public float getLearnerGlobalScore(int idLearner) {
+	public int setLearnerRelativeBPScore(int idLearner, int idBPMN, float relativeBPScore) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setLearnerGlobalScore(int idLearner, float GlobalScore) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public float getLearnerRelativeGlobalScore(int idLearner) {
+	public float getLearnerBPCoverage(int idLearner, int idBPMN) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setLearnerRelativeGlobalScore(int idLearner, float RelativeGlobalScore) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public float getLearnerAbsoluteGlobalScore(int idLearner) {
+	public int setLearnerBPCoverage(int idLearner, int idBPMN, float BPCoverage) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setLearnerAbsoluteGlobalScore(int idLearner, float AbsoluteGlobalScore) {
+	public float getLearnerSessionScore(int idLearner, int idPath, int idRole, Date executionDate) {
 		// TODO Auto-generated method stub
-		
+		return 0;
+	}
+
+	@Override
+	public float getLearnerSessionScore(Learner theLearner, Path thePath, int idRole, Date executionDate) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int setLearnerSessionScore(int idLearner, int idPath, int idRole, float sessionScore) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int setLearnerSessionScore(Learner theLearner, Path thePath, float sessionScore) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int saveBPMN(Bpmn theBPMN) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Bpmn getBPMN(int theBPMNid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateBpmn(int theBPMNid, Bpmn theBpmnToUpdate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int saveCategory(Category theCategory) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Category getCategory(int theCategoryID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateCategory(int theCategoryid, Category theCategoryToUpdate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int saveLearnerProfile(Learner theLearner) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Learner getLearner(int idLearner) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateLearner(int idLearner, Learner theLearnerToUpdate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int savePath(Path thePath) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Path getPath(int thePathID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updatePath(int thePathId, Path thePathToUpdate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int saveRole(Role theRole) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Role getRole(int theRoleID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateRole(int theRoleId, Role theRoleToUpdate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int saveTopic(Topic theTopic) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Topic getTopic(int theTopicID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateTopic(int theTopicId, Topic theTopicToUpdate) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
