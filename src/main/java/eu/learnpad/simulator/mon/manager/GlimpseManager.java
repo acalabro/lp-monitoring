@@ -48,7 +48,6 @@ import org.drools.definitions.impl.*;
 
 import eu.learnpad.simulator.mon.consumer.ConsumerProfile;
 import eu.learnpad.simulator.mon.exceptions.IncorrectRuleFormatException;
-import eu.learnpad.simulator.mon.impl.LearnerAssessmentManagerImpl;
 import eu.learnpad.simulator.mon.rules.RulesManager;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 
@@ -141,7 +140,17 @@ public class GlimpseManager extends Thread implements MessageListener {
 						TimeStamp.getCurrentTime(), 
 						this.getClass().getSimpleName(),
 						"The message sent contains a BPMN - Forwarding it to the LearnPAd Assessment Manager");
-				learnerAssessmentManager.setBPModel(xmlMessagePayload);
+				if (learnerAssessmentManager.checkModel(xmlMessagePayload)) {
+					DebugMessages.println(
+							TimeStamp.getCurrentTime(), 
+							this.getClass().getSimpleName(),
+							"The message sent contains a valid BPMN - Examinating it with LearnPAd Assessment Manager");
+				} else {		
+					DebugMessages.println(
+							TimeStamp.getCurrentTime(), 
+							this.getClass().getSimpleName(),
+							"The message sent contains an INVALID BPMN");
+				}
 			}
 			else {			
 				ComplexEventRuleActionListDocument ruleDoc;			

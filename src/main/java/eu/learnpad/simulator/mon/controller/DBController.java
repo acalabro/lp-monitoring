@@ -16,6 +16,7 @@ public interface DBController {
 	public boolean connectToDB();
 	
 	//global methods
+	public boolean checkIfBPHasBeenAlreadyExtracted(int idBPMN);
 	public List<Path> getBPMNPaths(int idBPMN);
 	
 	public float getLearnerBPScore(int idLearner, int idBPMN);

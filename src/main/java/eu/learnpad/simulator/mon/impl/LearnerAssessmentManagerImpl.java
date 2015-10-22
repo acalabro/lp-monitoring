@@ -40,26 +40,33 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		databaseController.connectToDB();
 	}
 	
-	public Document setBPModel(String xmlMessagePayload) {
+	public boolean checkModel(String xmlMessagePayload) {  
 		
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		Document dom = null;
 		try {
+			 this.theBPMN = setBPModel(xmlMessagePayload);
+		} catch(ParserConfigurationException|SAXException|IOException gg) {
+			theBPMN = null;
+			return false;
+		} finally {
 			
-			DocumentBuilder docBuilder = dbf.newDocumentBuilder();
-			dom = docBuilder.parse(xmlMessagePayload);
-			
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			e.printStackTrace();
 		}
-		
-		this.theBPMN = dom;
-		return dom;
+		return true;
 	}
 	
 	public void ExploreBPSavePathsGenerateAndSaveRules(Document dom){
 		crossRulesGenerator.generateRules(bpmnExplorer.getUnfoldedBPMN(dom));
 		//TODO:
+	}
+
+	@Override
+	public Document setBPModel(String xmlMessagePayload) throws ParserConfigurationException, SAXException, IOException {
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		Document dom = null;
+	
+		DocumentBuilder docBuilder = dbf.newDocumentBuilder();
+		dom = docBuilder.parse(xmlMessagePayload);
+		this.theBPMN = dom;
+		return dom;
 	}
 	
 	

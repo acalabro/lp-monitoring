@@ -247,4 +247,10 @@ public class MySqlController implements DBController {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public boolean checkIfBPHasBeenAlreadyExtracted(int idBPMN) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
