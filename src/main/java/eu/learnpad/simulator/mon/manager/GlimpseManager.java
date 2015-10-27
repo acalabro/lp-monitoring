@@ -139,19 +139,9 @@ public class GlimpseManager extends Thread implements MessageListener {
 				DebugMessages.println(
 						TimeStamp.getCurrentTime(), 
 						this.getClass().getSimpleName(),
-						"The message sent contains a BPMN - Forwarding it to the LearnPAd Assessment Manager");
-				if (learnerAssessmentManager.checkModel(xmlMessagePayload)) {
-					DebugMessages.println(
-							TimeStamp.getCurrentTime(), 
-							this.getClass().getSimpleName(),
-							"The message sent contains a valid BPMN - Examinating it with LearnPAd Assessment Manager");
-				} else {		
-					DebugMessages.println(
-							TimeStamp.getCurrentTime(), 
-							this.getClass().getSimpleName(),
-							"The message sent contains an INVALID BPMN");
+						"The message sent seems to contain a BPMN - Forwarding it to the LearnPAd Assessment Manager");
+				learnerAssessmentManager.elaborateModel(xmlMessagePayload);
 				}
-			}
 			else {			
 				ComplexEventRuleActionListDocument ruleDoc;			
 				ruleDoc = ComplexEventRuleActionListDocument.Factory.parse(xmlMessagePayload);	

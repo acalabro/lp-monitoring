@@ -14,6 +14,7 @@ import eu.learnpad.simulator.mon.coverage.Topic;
 public interface DBController {
 	
 	public boolean connectToDB();
+	public boolean disconnectFromDB();
 	
 	//global methods
 	public boolean checkIfBPHasBeenAlreadyExtracted(int idBPMN);

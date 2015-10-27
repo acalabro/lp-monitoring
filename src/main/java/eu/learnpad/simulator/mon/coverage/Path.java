@@ -7,6 +7,9 @@ public class Path {
 	private float absoluteSessionScore;
 	private String pathRule;
 	
+	public Path() {
+	}
+	
 	public Path(int id, int idBpmn) {
 		this.id = id;
 		this.idBpmn = idBpmn;
@@ -14,6 +17,13 @@ public class Path {
 		this.pathRule = "";
 	}
 
+	public Path(int id, int idBpmn, String pathRule) {
+		this.id = id;
+		this.idBpmn = idBpmn;
+		this.absoluteSessionScore = 0;
+		this.pathRule = pathRule;
+	}
+	
 	public Path(int id, int idBpmn, float absoluteSessionScore) {
 		this.id = id;
 		this.idBpmn = idBpmn;
@@ -27,7 +37,7 @@ public class Path {
 		this.absoluteSessionScore = absoluteSessionScore;
 		this.pathRule = pathRule;
 	}
-	
+
 	public int getId() {
 		return id;
 	}

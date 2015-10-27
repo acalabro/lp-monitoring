@@ -2,14 +2,13 @@ package eu.learnpad.simulator.mon.controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.net.ntp.TimeStamp;
-import org.w3c.dom.Document;
 
 import eu.learnpad.simulator.mon.coverage.Bpmn;
 import eu.learnpad.simulator.mon.coverage.Category;
@@ -18,13 +17,12 @@ import eu.learnpad.simulator.mon.coverage.Path;
 import eu.learnpad.simulator.mon.coverage.Role;
 import eu.learnpad.simulator.mon.coverage.Topic;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
-import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionListDocument;
 
 public class MySqlController implements DBController {
 
 	private Properties connectionProp;
-	private Connection conn;
-	private Statement statement;
+	private Connection conn;	  
+    private PreparedStatement preparedStmt;
 	
 	public MySqlController(Properties databaseConnectionProperties) {
 		connectionProp = databaseConnectionProperties;
@@ -43,7 +41,6 @@ public class MySqlController implements DBController {
 		try { 
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
-			statement = conn.createStatement();
 			DebugMessages.print(TimeStamp.getCurrentTime(), MySqlController.class.getSimpleName(),"Connection to db " + connectionProp.getProperty("database.host"));
 			DebugMessages.ok();
 		} catch (SQLException e) {
@@ -74,6 +71,11 @@ public class MySqlController implements DBController {
 		return true;
 	}
 
+	@Override
+	public boolean disconnectFromDB() {
+		return false;
+	}
+	
 	@Override
 	public List<Path> getBPMNPaths(int idBPMN) {
 		// TODO Auto-generated method stub
@@ -142,7 +144,26 @@ public class MySqlController implements DBController {
 
 	@Override
 	public int saveBPMN(Bpmn theBPMN) {
-		// TODO Auto-generated method stub
+
+	      String query = " insert into bpmn (id_bpmn, extraction_date, id_category, absolute_bp_score)"
+	    	        + " values (?, ?, ?, ?)";
+	    	 
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			preparedStmt.setInt(1, theBPMN.getId());
+		    preparedStmt.setDate(2, java.sql.Date.valueOf(theBPMN.getExtractionDate().toString()));
+		    preparedStmt.setInt(3,theBPMN.getIdCategory());
+		    preparedStmt.setFloat(4, theBPMN.getAbsoluteBpScore());
+		 
+		    // execute the preparedstatement
+		    preparedStmt.execute();
+		} catch (SQLException e) {
+			return 1;
+		}  
+		DebugMessages.println(
+				TimeStamp.getCurrentTime(), 
+				this.getClass().getSimpleName(),
+				"BPMN Saved");
 		return 0;
 	}
 
@@ -196,7 +217,25 @@ public class MySqlController implements DBController {
 
 	@Override
 	public int savePath(Path thePath) {
-		// TODO Auto-generated method stub
+		 String query = " insert into path (id_path, id_bpmn, absolute_session_score, path_rule)"
+	    	        + " values (?, ?, ?, ?)";
+	    	 
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			preparedStmt.setInt(1, thePath.getId());
+		    preparedStmt.setInt(2, thePath.getIdBpmn());
+		    preparedStmt.setFloat(3,thePath.getAbsoluteSessionScore());
+		    preparedStmt.setString(4, thePath.getPathRule());
+		 
+		    // execute the preparedstatement
+		    preparedStmt.execute();
+		} catch (SQLException e) {
+			return 1;
+		}  
+		DebugMessages.println(
+				TimeStamp.getCurrentTime(), 
+				this.getClass().getSimpleName(),
+				"Path Saved");
 		return 0;
 	}
 
