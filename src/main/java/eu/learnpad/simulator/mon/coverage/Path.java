@@ -3,35 +3,35 @@ package eu.learnpad.simulator.mon.coverage;
 public class Path {
 
 	private int id;
-	private int idBpmn;
+	private String idBpmn;
 	private float absoluteSessionScore;
 	private String pathRule;
 	
 	public Path() {
 	}
 	
-	public Path(int id, int idBpmn) {
+	public Path(int id, String idBpmn) {
 		this.id = id;
 		this.idBpmn = idBpmn;
 		this.absoluteSessionScore = 0;
 		this.pathRule = "";
 	}
 
-	public Path(int id, int idBpmn, String pathRule) {
+	public Path(int id, String idBpmn, String pathRule) {
 		this.id = id;
 		this.idBpmn = idBpmn;
 		this.absoluteSessionScore = 0;
 		this.pathRule = pathRule;
 	}
 	
-	public Path(int id, int idBpmn, float absoluteSessionScore) {
+	public Path(int id, String idBpmn, float absoluteSessionScore) {
 		this.id = id;
 		this.idBpmn = idBpmn;
 		this.absoluteSessionScore = absoluteSessionScore;
 		this.pathRule = "";
 	}
 
-	public Path(int id, int idBpmn, float absoluteSessionScore, String pathRule) {
+	public Path(int id, String idBpmn, float absoluteSessionScore, String pathRule) {
 		this.id = id;
 		this.idBpmn = idBpmn;
 		this.absoluteSessionScore = absoluteSessionScore;
@@ -44,10 +44,10 @@ public class Path {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getIdBpmn() {
+	public String getIdBpmn() {
 		return idBpmn;
 	}
-	public void setIdBpmn(int idBpmn) {
+	public void setIdBpmn(String idBpmn) {
 		this.idBpmn = idBpmn;
 	}
 	public float getAbsoluteSessionScore() {

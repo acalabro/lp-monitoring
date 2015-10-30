@@ -17,6 +17,7 @@ import eu.learnpad.simulator.mon.coverage.Path;
 import eu.learnpad.simulator.mon.coverage.Role;
 import eu.learnpad.simulator.mon.coverage.Topic;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
+import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionListDocument;
 
 public class MySqlController implements DBController {
 
@@ -150,8 +151,8 @@ public class MySqlController implements DBController {
 	    	 
 		try {
 			preparedStmt = conn.prepareStatement(query);
-			preparedStmt.setInt(1, theBPMN.getId());
-		    preparedStmt.setDate(2, java.sql.Date.valueOf(theBPMN.getExtractionDate().toString()));
+			preparedStmt.setString(1, theBPMN.getId());
+		    preparedStmt.setDate(2, new java.sql.Date(theBPMN.getExtractionDate().getTime()));
 		    preparedStmt.setInt(3,theBPMN.getIdCategory());
 		    preparedStmt.setFloat(4, theBPMN.getAbsoluteBpScore());
 		 
@@ -223,7 +224,7 @@ public class MySqlController implements DBController {
 		try {
 			preparedStmt = conn.prepareStatement(query);
 			preparedStmt.setInt(1, thePath.getId());
-		    preparedStmt.setInt(2, thePath.getIdBpmn());
+		    preparedStmt.setString(2, thePath.getIdBpmn());
 		    preparedStmt.setFloat(3,thePath.getAbsoluteSessionScore());
 		    preparedStmt.setString(4, thePath.getPathRule());
 		 
@@ -288,8 +289,14 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public boolean checkIfBPHasBeenAlreadyExtracted(int idBPMN) {
+	public boolean checkIfBPHasBeenAlreadyExtracted(String idBPMN) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public ComplexEventRuleActionListDocument getRulesListForASpecificBPMN(String bpmnIDFromXML) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

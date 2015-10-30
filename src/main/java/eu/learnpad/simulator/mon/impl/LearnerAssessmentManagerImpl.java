@@ -1,5 +1,6 @@
 package eu.learnpad.simulator.mon.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.net.ntp.TimeStamp;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import eu.learnpad.simulator.mon.BPMN.PathExplorer;
@@ -29,6 +31,7 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 	private PathExplorer bpmnExplorer;
 	private PathCrossingRulesGenerator crossRulesGenerator;
 	private DBController databaseController;
+	private ComplexEventRuleActionListDocument rulesLists;
 
 	public LearnerAssessmentManagerImpl(DBController databaseController) {
 		
@@ -47,44 +50,48 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		databaseController.connectToDB();
 	}
 		
-	public void ExploreBPSavePathsGenerateAndSaveRules(Document dom) {
+	public ComplexEventRuleActionListDocument ExploreBPSavePathsGenerateAndSaveRules(Document dom) {
 		
 		List<String[]> paths = bpmnExplorer.getUnfoldedBPMN(dom);
 		
-		ComplexEventRuleActionListDocument rulesLists = crossRulesGenerator.generateRules(paths);
+		rulesLists = crossRulesGenerator.generateRules(paths);
 		
 		Date now = new Date();
 		
 //		Bpmn newBpmn = new Bpmn(
 //				Integer.parseInt(dom.getElementsByTagName("bpmnID").item(0).getFirstChild().getTextContent()), now);
-		Bpmn newBpmn = new Bpmn(1,now);
+		Bpmn newBpmn = new Bpmn("a"+System.currentTimeMillis(),now);
 		
 		databaseController.saveBPMN(newBpmn);
 		Path pathToSave;
 		for (int i = 0; i< paths.size(); i++) {
-			pathToSave = new Path(i,newBpmn.getId(),rulesLists.getComplexEventRuleActionList().getInsertArray()[i].getDomNode().getTextContent());
+			pathToSave = new Path(i,newBpmn.getId(),rulesLists.getComplexEventRuleActionList().getInsertArray()[i].toString());
 			databaseController.savePath(pathToSave);
 		}
-		crossRulesGenerator.generateRules(bpmnExplorer.getUnfoldedBPMN(dom));
+		return rulesLists;
 	}
 
 	@Override
 	public Document setBPModel(String xmlMessagePayload) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		Document dom = null;
-	
+
 		DocumentBuilder docBuilder = dbf.newDocumentBuilder();
-		dom = docBuilder.parse(xmlMessagePayload);
+		dom = docBuilder.parse(new InputSource(new ByteArrayInputStream(xmlMessagePayload.getBytes("utf-8"))));
 		this.theBPMN = dom;
 		return dom;
 	}
 
 	@Override
-	public void elaborateModel(String xmlMessagePayload) {
+	public ComplexEventRuleActionListDocument elaborateModel(String xmlMessagePayload) {
+		ComplexEventRuleActionListDocument rulesList;
 		try {
-			this.theBPMN = setBPModel(xmlMessagePayload);
-			
-			
+			theBPMN = setBPModel(xmlMessagePayload);
+			if (!databaseController.checkIfBPHasBeenAlreadyExtracted(getBpmnIDFromXML(theBPMN))) {
+				rulesList = ExploreBPSavePathsGenerateAndSaveRules(theBPMN);
+			} else {
+				rulesList = databaseController.getRulesListForASpecificBPMN(getBpmnIDFromXML(theBPMN));
+			}			
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 			DebugMessages.println(
@@ -95,6 +102,11 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 					this.getClass().getSimpleName(),
 					"The message contains an INVALID BPMN");
 		}
-		ExploreBPSavePathsGenerateAndSaveRules(this.theBPMN);
+		return rulesLists;
+	}
+
+	private String getBpmnIDFromXML(Document theBPMN2) {
+		//TODO: fix it
+		return "asd";
 	}
 }
