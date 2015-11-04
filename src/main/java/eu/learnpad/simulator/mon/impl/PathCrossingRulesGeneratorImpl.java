@@ -4,8 +4,9 @@ import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionList
 import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionType;
 import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleType;
 
-import java.util.List;
+import java.util.Vector;
 
+import eu.learnpad.simulator.mon.coverage.Activity;
 import eu.learnpad.simulator.mon.rulesGenerator.PathCrossingRulesGenerator;
 import eu.learnpad.simulator.mon.rulesGenerator.RuleElements;
 
@@ -14,8 +15,8 @@ public class PathCrossingRulesGeneratorImpl implements PathCrossingRulesGenerato
 	ComplexEventRuleActionListDocument rulesToLoad;
 	
 	@Override
-	public ComplexEventRuleActionListDocument generateRules(
-			List<String[]> theUnfoldedBusinessProcess) {
+	public ComplexEventRuleActionListDocument generateAllPathsRules(
+			Vector<Activity[]> theUnfoldedBusinessProcess) {
 
 		rulesToLoad = ComplexEventRuleActionListDocument.Factory.newInstance();
 		
@@ -34,12 +35,12 @@ public class PathCrossingRulesGeneratorImpl implements PathCrossingRulesGenerato
 				if (j == 0) {
 					concat = "\t\t\t$"+j+"Event : GlimpseBaseEventBPMN("+
 							"this.isConsumed == false, this.isException == false, this.getEventName == \"" +
-							theUnfoldedBusinessProcess.get(i)[j] + "\");\n";
+							theUnfoldedBusinessProcess.get(i)[j].getName() + "\");\n";
 				} else {
 					concat = concat +
 							"\t\t\t$"+j+"Event : GlimpseBaseEventBPMN(" +
 							"this.isConsumed == false, this.isException == false, this.getEventName == \"" +
-							theUnfoldedBusinessProcess.get(i)[j] +
+							theUnfoldedBusinessProcess.get(i)[j].getName() +
 							"\", this after $" + (j-1) + "Event);\n";
 				}
 			}
@@ -50,5 +51,11 @@ public class PathCrossingRulesGeneratorImpl implements PathCrossingRulesGenerato
 					RuleElements.getEnd());
 		}
 		return rulesToLoad;
+	}
+
+	@Override
+	public ComplexEventRuleActionListDocument generateSinglePathRule(Activity[] thePathEventsIdentifierString) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

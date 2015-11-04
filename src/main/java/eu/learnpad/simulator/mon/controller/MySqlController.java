@@ -42,7 +42,9 @@ public class MySqlController implements DBController {
 		try { 
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
-			DebugMessages.print(TimeStamp.getCurrentTime(), MySqlController.class.getSimpleName(),"Connection to db " + connectionProp.getProperty("database.host"));
+			DebugMessages.print(TimeStamp.getCurrentTime(),
+					MySqlController.class.getSimpleName(),
+					"Connection to db " + connectionProp.getProperty("database.host"));
 			DebugMessages.ok();
 		} catch (SQLException e) {
 			DebugMessages.println(TimeStamp.getCurrentTime(),
@@ -155,8 +157,8 @@ public class MySqlController implements DBController {
 		    preparedStmt.setDate(2, new java.sql.Date(theBPMN.getExtractionDate().getTime()));
 		    preparedStmt.setInt(3,theBPMN.getIdCategory());
 		    preparedStmt.setFloat(4, theBPMN.getAbsoluteBpScore());
-		 
-		    // execute the preparedstatement
+
+		    // execute the prepared statement
 		    preparedStmt.execute();
 		} catch (SQLException e) {
 			return 1;
@@ -218,7 +220,7 @@ public class MySqlController implements DBController {
 
 	@Override
 	public int savePath(Path thePath) {
-		 String query = " insert into path (id_path, id_bpmn, absolute_session_score, path_rule)"
+		 String query = " insert into path (id_path, learnpad_bpmn_id, absolute_session_score, path_rule)"
 	    	        + " values (?, ?, ?, ?)";
 	    	 
 		try {
@@ -228,7 +230,7 @@ public class MySqlController implements DBController {
 		    preparedStmt.setFloat(3,thePath.getAbsoluteSessionScore());
 		    preparedStmt.setString(4, thePath.getPathRule());
 		 
-		    // execute the preparedstatement
+		    // execute the prepared statement
 		    preparedStmt.execute();
 		} catch (SQLException e) {
 			return 1;

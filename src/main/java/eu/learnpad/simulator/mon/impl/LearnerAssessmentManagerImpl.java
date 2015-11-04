@@ -3,7 +3,7 @@ package eu.learnpad.simulator.mon.impl;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
+import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 
 import eu.learnpad.simulator.mon.BPMN.PathExplorer;
 import eu.learnpad.simulator.mon.controller.DBController;
+import eu.learnpad.simulator.mon.coverage.Activity;
 import eu.learnpad.simulator.mon.coverage.Bpmn;
 import eu.learnpad.simulator.mon.coverage.Path;
 import eu.learnpad.simulator.mon.impl.PathExplorerImpl;
@@ -52,9 +53,9 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		
 	public ComplexEventRuleActionListDocument ExploreBPSavePathsGenerateAndSaveRules(Document dom) {
 		
-		List<String[]> paths = bpmnExplorer.getUnfoldedBPMN(dom);
+		Vector<Activity[]> paths = bpmnExplorer.getUnfoldedBPMN(dom);
 		
-		rulesLists = crossRulesGenerator.generateRules(paths);
+		rulesLists = crossRulesGenerator.generateAllPathsRules(paths);
 		
 		Date now = new Date();
 		
