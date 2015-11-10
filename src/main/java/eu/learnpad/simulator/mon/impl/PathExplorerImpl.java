@@ -27,14 +27,14 @@ public class PathExplorerImpl implements PathExplorer {
 		kpiExample.put("kpiThree", 0.3f);
 		kpiExample.put("kpiFour", 0.4f);
 		
-		Activity checkApp = new Activity("Check Application",kpiExample, 2.0f);
-		Activity validateEleg = new Activity("Validate elegibility",kpiExample, 2.0f);
-		Activity sendReject = new Activity("Send rejection letter",kpiExample, 2.0f);
-		Activity inviteInterview = new Activity("Invite for interview",kpiExample, 2.0f);
-		Activity makeInterview = new Activity("Make Interview",kpiExample, 2.0f);
-		Activity decideApplication = new Activity("Decide application",kpiExample, 2.0f);
-		Activity decidefee = new Activity("Decide fee",kpiExample, 2.0f);
-		Activity sendAcceptance = new Activity("Send Acceptance letter",kpiExample, 2.0f);
+		Activity checkApp = new Activity("act1","Check Application",kpiExample, 2.0f);
+		Activity validateEleg = new Activity("act2", "Validate elegibility",kpiExample, 2.0f);
+		Activity inviteInterview = new Activity("act3","Invite for interview",kpiExample, 2.0f);
+		Activity sendReject = new Activity("act4","Send rejection letter",kpiExample, 2.0f);
+		Activity makeInterview = new Activity("act5","Make Interview",kpiExample, 2.0f);
+		Activity decideApplication = new Activity("act6","Decide application",kpiExample, 2.0f);
+		Activity decidefee = new Activity("act7","Decide fee",kpiExample, 2.0f);
+		Activity sendAcceptance = new Activity("act8","Send Acceptance letter",kpiExample, 2.0f);
 		
 		lastExploredBPMN.add(new Activity[]
 						{checkApp, validateEleg, sendReject});

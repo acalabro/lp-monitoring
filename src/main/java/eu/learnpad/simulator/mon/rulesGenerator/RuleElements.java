@@ -7,10 +7,10 @@ public class RuleElements {
 	
 	public static String getHeader(String ruleName, String dialect) {
 	
-		header ="\t\timport eu.learnpad.monitoring.glimpse.event.GlimpseBaseEventBPMN;\n\t\t" +
-				"import eu.learnpad.monitoring.glimpse.manager.ResponseDispatcher;\n\t\t" +
-				"import eu.learnpad.monitoring.glimpse.utils.NotifierUtils;\n\t\t" +
-				"import eu.learnpad.monitoring.glimpse.rules.DroolsRulesManager;\n\n" +
+		header ="\t\timport eu.learnpad.simulator.mon.event.GlimpseBaseEventBPMN;\n\t\t" +
+				"import eu.learnpad.simulator.mon.manager.ResponseDispatcher;\n\t\t" +
+				"import eu.learnpad.simulator.mon.utils.NotifierUtils;\n\t\t" +
+				"import eu.learnpad.simulator.mon.rules.DroolsRulesManager;\n\n" +
 				"\t\tdeclare GlimpseBaseEventBPMN\n" +
 				"\t\t\t@role( event )\n" +
 				"\t\t\t@timestamp( timeStamp )\n" +

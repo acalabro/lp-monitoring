@@ -3,7 +3,7 @@ package eu.learnpad.simulator.mon.controller;
 import java.util.Date;
 import java.util.List;
 
-
+import eu.learnpad.simulator.mon.coverage.Activity;
 import eu.learnpad.simulator.mon.coverage.Bpmn;
 import eu.learnpad.simulator.mon.coverage.Category;
 import eu.learnpad.simulator.mon.coverage.Learner;
@@ -36,9 +36,11 @@ public interface DBController {
 	public int setLearnerSessionScore(int idLearner, int idPath, int idRole, float sessionScore);
 	public int setLearnerSessionScore(Learner theLearner, Path thePath, float sessionScore);
 	
+	public Activity[] getAllDistinctActivityOFaBPMN(Bpmn theBpmn);
+	
 	//BPMN methods
 	public int saveBPMN(Bpmn theBPMN);
-	public Bpmn getBPMN(int theBPMNid);
+	public Bpmn getBPMN(int theBPMNid, String learnpad_bpmn_id);
 	public boolean updateBpmn(int theBPMNid, Bpmn theBpmnToUpdate);
 	
 	//Category methods
@@ -56,6 +58,11 @@ public interface DBController {
 	public Path getPath(int thePathID);
 	public boolean updatePath(int thePathId, Path thePathToUpdate);
 	
+/*	//Activity methods
+	public int saveActivity(Activity activityToSave);
+	public Activity getActivity(int id_bpmn, String learnpad_id_activity);
+	public boolean updateActivity(int id_bpmn, String learnpad_id_activity, Activity theActivityToUpdate);*/
+	
 	//Role methods
 	public int saveRole(Role theRole);
 	public Role getRole(int theRoleID);
@@ -65,4 +72,5 @@ public interface DBController {
 	public int saveTopic(Topic theTopic);
 	public Topic getTopic(int theTopicID);
 	public boolean updateTopic(int theTopicId, Topic theTopicToUpdate);
+	
 }

@@ -4,8 +4,10 @@ import java.util.Vector;
 
 import eu.learnpad.simulator.mon.coverage.Activity;
 import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionListDocument;
+import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleType;
 
 public interface PathCrossingRulesGenerator {
 	ComplexEventRuleActionListDocument generateAllPathsRules(Vector<Activity[]> theUnfoldedBusinessProcess);
 	ComplexEventRuleActionListDocument generateSinglePathRule(Activity[] thePathEventsIdentifierString);
+	ComplexEventRuleType generateRuleForSinglePath(Activity[] anActivitiesSet, String rulesName);
 }

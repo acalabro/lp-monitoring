@@ -3,13 +3,17 @@ package eu.learnpad.simulator.mon.controller;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.net.ntp.TimeStamp;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 
+import eu.learnpad.simulator.mon.coverage.Activity;
 import eu.learnpad.simulator.mon.coverage.Bpmn;
 import eu.learnpad.simulator.mon.coverage.Category;
 import eu.learnpad.simulator.mon.coverage.Learner;
@@ -18,12 +22,15 @@ import eu.learnpad.simulator.mon.coverage.Role;
 import eu.learnpad.simulator.mon.coverage.Topic;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionListDocument;
+import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionType;
+import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleType;
 
 public class MySqlController implements DBController {
 
 	private Properties connectionProp;
 	private Connection conn;	  
     private PreparedStatement preparedStmt;
+    private ResultSet resultsSet;
 	
 	public MySqlController(Properties databaseConnectionProperties) {
 		connectionProp = databaseConnectionProperties;
@@ -149,7 +156,7 @@ public class MySqlController implements DBController {
 	public int saveBPMN(Bpmn theBPMN) {
 
 	      String query = " insert into bpmn (id_bpmn, extraction_date, id_category, absolute_bp_score)"
-	    	        + " values (?, ?, ?, ?)";
+	    	        + " values (?, ?, ?, ?) ";
 	    	 
 		try {
 			preparedStmt = conn.prepareStatement(query);
@@ -168,12 +175,6 @@ public class MySqlController implements DBController {
 				this.getClass().getSimpleName(),
 				"BPMN Saved");
 		return 0;
-	}
-
-	@Override
-	public Bpmn getBPMN(int theBPMNid) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -220,7 +221,7 @@ public class MySqlController implements DBController {
 
 	@Override
 	public int savePath(Path thePath) {
-		 String query = " insert into path (id_path, learnpad_bpmn_id, absolute_session_score, path_rule)"
+		 String query = " insert into path (id, id_bpmn, absolute_session_score, path_rule)"
 	    	        + " values (?, ?, ?, ?)";
 	    	 
 		try {
@@ -292,13 +293,115 @@ public class MySqlController implements DBController {
 
 	@Override
 	public boolean checkIfBPHasBeenAlreadyExtracted(String idBPMN) {
-		// TODO Auto-generated method stub
+		String query = "select * from path where id_bpmn = \'"+idBPMN+"';";
+			
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			resultsSet = preparedStmt.executeQuery();
+			if (resultsSet.first()) { 
+				DebugMessages.println(
+						TimeStamp.getCurrentTime(), 
+						this.getClass().getSimpleName(),
+						"The BPMN has been already extracted, loading values");
+				return true; 
+				} 				
+			}	catch(SQLException asd) {
+				System.err.println("Exception during checkIfBPHasBeenAlreadyExtracted ");
+				return false;
+			}
 		return false;
 	}
 
 	@Override
 	public ComplexEventRuleActionListDocument getRulesListForASpecificBPMN(String bpmnIDFromXML) {
+		
+		String query = "select path_rule from path where learnpad_bpmn_id = \'"+bpmnIDFromXML+"';";
+		ComplexEventRuleActionListDocument theResult = ComplexEventRuleActionListDocument.Factory.newInstance();
+		
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			resultsSet = preparedStmt.executeQuery(); 
+			ComplexEventRuleActionType anActionType = theResult.addNewComplexEventRuleActionList();
+			ComplexEventRuleType anInsert;
+			XmlObject theRuleToLoad;
+			
+            while ( resultsSet.next() ) {
+            	anInsert = anActionType.addNewInsert();
+            	theRuleToLoad = XmlObject.Factory.parse(resultsSet.getString("path_rule"));
+    			anInsert.set(theRuleToLoad);
+            }
+            DebugMessages.println(
+					TimeStamp.getCurrentTime(), 
+					this.getClass().getSimpleName(),
+					"Extracted paths loaded from DB");
+        	conn.close();
+		} catch (SQLException | XmlException e) {
+			System.err.println("Exception during getRulesListForASpecificBPMN ");
+			System.err.println(e.getMessage());
+		}
+        return theResult;
+	}
+
+	@Override
+	public Activity[] getAllDistinctActivityOFaBPMN(Bpmn theBpmn) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Bpmn getBPMN(int theBPMNid, String learnpad_bpmn_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+/*	@Override
+	public int saveActivity(Activity activityToSave) {
+		String query = " insert into activity (id_bpmn, id_path, name, weigth, expected_kpi)"
+    	        + " values (?, ?, ?, ?, ?, ?)";
+	try {
+		preparedStmt = conn.prepareStatement(query);
+		preparedStmt.setString(1, activityToSave.get);
+	    preparedStmt.setString(2, activityToSave.getPath_id());
+	    preparedStmt.setString(3,activityToSave.getName());
+	    preparedStmt.setFloat(4, activityToSave.getWeight());
+	    preparedStmt.setBlob(5, serializeObject(activityToSave.getExpectedKpi()));
+	 
+	    // execute the prepared statement
+	    preparedStmt.execute();
+	} catch (SQLException e) {
+		return 1;
+	}  
+	DebugMessages.println(
+			TimeStamp.getCurrentTime(), 
+			this.getClass().getSimpleName(),
+			"Path Saved");
+	return 0;
+	}
+
+	private Blob serializeObject(HashMap<String, Float> expectedKpi) {
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutput out;
+		try {
+			out = new ObjectOutputStream(bos);
+			out.writeObject(expectedKpi);
+			return new SerialBlob(bos.toByteArray());
+		} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Activity getActivity(int id_bpmn, String learnpad_id_activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateActivity(int id_bpmn, String learnpad_id_activity, Activity theActivityToUpdate) {
+		// TODO Auto-generated method stub
+		return false;
+	}*/
 }

@@ -25,6 +25,8 @@ import eu.learnpad.simulator.mon.manager.LearnerAssessmentManager;
 import eu.learnpad.simulator.mon.rulesGenerator.PathCrossingRulesGenerator;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionListDocument;
+import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionType;
+import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleType;
 
 public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 
@@ -53,22 +55,29 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		
 	public ComplexEventRuleActionListDocument ExploreBPSavePathsGenerateAndSaveRules(Document dom) {
 		
-		Vector<Activity[]> paths = bpmnExplorer.getUnfoldedBPMN(dom);
-		
-		rulesLists = crossRulesGenerator.generateAllPathsRules(paths);
-		
 		Date now = new Date();
-		
 //		Bpmn newBpmn = new Bpmn(
-//				Integer.parseInt(dom.getElementsByTagName("bpmnID").item(0).getFirstChild().getTextContent()), now);
+//		Integer.parseInt(dom.getElementsByTagName("bpmnID").item(0).getFirstChild().getTextContent()), now);
 		Bpmn newBpmn = new Bpmn("a"+System.currentTimeMillis(),now);
-		
 		databaseController.saveBPMN(newBpmn);
-		Path pathToSave;
-		for (int i = 0; i< paths.size(); i++) {
-			pathToSave = new Path(i,newBpmn.getId(),rulesLists.getComplexEventRuleActionList().getInsertArray()[i].toString());
-			databaseController.savePath(pathToSave);
+		
+		Vector<Activity[]> activitiesSet = bpmnExplorer.getUnfoldedBPMN(dom);
+		
+		rulesLists = ComplexEventRuleActionListDocument.Factory.newInstance();
+		
+		ComplexEventRuleActionType ilDoc = rulesLists.addNewComplexEventRuleActionList();
+		ComplexEventRuleType[] theRulesToInsert = new ComplexEventRuleType[activitiesSet.size()];
+		
+		for (int i =0; i<activitiesSet.size();i++) {
+			theRulesToInsert[i] = crossRulesGenerator.generateRuleForSinglePath(activitiesSet.get(i),
+					"BPMN-ID:" + newBpmn.getId() + " ActivitiesSet: " + (i+1) + " of "+ activitiesSet.size());
+			
+			Path theCompletePathObject = new Path(i, newBpmn.getId(), 
+					computeAbsoluteSessionScores(activitiesSet.get(i)), 
+					theRulesToInsert[i].toString(), activitiesSet.get(i));
+			databaseController.savePath(theCompletePathObject);			
 		}
+		ilDoc.setInsertArray(theRulesToInsert);
 		return rulesLists;
 	}
 
@@ -85,29 +94,36 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 
 	@Override
 	public ComplexEventRuleActionListDocument elaborateModel(String xmlMessagePayload) {
-		ComplexEventRuleActionListDocument rulesList;
+		
 		try {
 			theBPMN = setBPModel(xmlMessagePayload);
 			if (!databaseController.checkIfBPHasBeenAlreadyExtracted(getBpmnIDFromXML(theBPMN))) {
-				rulesList = ExploreBPSavePathsGenerateAndSaveRules(theBPMN);
+				this.rulesLists = ExploreBPSavePathsGenerateAndSaveRules(theBPMN);
 			} else {
-				rulesList = databaseController.getRulesListForASpecificBPMN(getBpmnIDFromXML(theBPMN));
+				this.rulesLists = databaseController.getRulesListForASpecificBPMN(getBpmnIDFromXML(theBPMN));
 			}			
-		} catch (ParserConfigurationException | SAXException | IOException e) {
+		} catch (ParserConfigurationException | SAXException | IOException e ) {
 			e.printStackTrace();
-			DebugMessages.println(
-					TimeStamp.getCurrentTime(), 
+			DebugMessages.println(TimeStamp.getCurrentTime(), 
 					this.getClass().getSimpleName(),e.getCause().toString());
-			DebugMessages.println(
-					TimeStamp.getCurrentTime(), 
-					this.getClass().getSimpleName(),
-					"The message contains an INVALID BPMN");
+			DebugMessages.println(TimeStamp.getCurrentTime(), 
+					this.getClass().getSimpleName(),"The message contains an INVALID BPMN");
 		}
 		return rulesLists;
 	}
 
 	private String getBpmnIDFromXML(Document theBPMN2) {
-		//TODO: fix it
-		return "asd";
+		
+		return "a1446728873453458831";
+	}
+
+
+	@Override
+	public float computeAbsoluteSessionScores(Activity[] paths) {
+		float absoluteSessionScore = 0;
+		for (int i=0; i< paths.length; i++) {
+			absoluteSessionScore = absoluteSessionScore + paths[i].getWeight();
+		}
+		return absoluteSessionScore;
 	}
 }

@@ -52,6 +52,37 @@ public class PathCrossingRulesGeneratorImpl implements PathCrossingRulesGenerato
 		}
 		return rulesToLoad;
 	}
+	
+	@Override
+	public ComplexEventRuleType generateRuleForSinglePath(
+			Activity[] anActivitiesSet, String rulesName) {
+
+		ComplexEventRuleType aInsert = ComplexEventRuleType.Factory.newInstance();
+		aInsert.setRuleName("Path-Crossing-Check-" + rulesName);
+		aInsert.setRuleType("drools");
+		
+		
+		String concat = "";
+		for(int j = 0; j<anActivitiesSet.length; j++) {
+			if (j == 0) {
+				concat = "\t\t\t$"+j+"Event : GlimpseBaseEventBPMN("+
+						"this.isConsumed == false, this.isException == false, this.getEventName == \"" +
+						anActivitiesSet[j].getName() + "\");\n";
+			} else {
+				concat = concat +
+						"\t\t\t$"+j+"Event : GlimpseBaseEventBPMN(" +
+						"this.isConsumed == false, this.isException == false, this.getEventName == \"" +
+						anActivitiesSet[j].getName() +
+						"\", this after $" + (j-1) + "Event);\n";
+			}
+		}
+		aInsert.setRuleBody(RuleElements.getHeader(aInsert.getRuleName(),  "java") +
+				RuleElements.getWhenClause() + 
+				concat + 
+				RuleElements.getThenClause() +
+				RuleElements.getEnd());
+		return aInsert;
+	}
 
 	@Override
 	public ComplexEventRuleActionListDocument generateSinglePathRule(Activity[] thePathEventsIdentifierString) {
