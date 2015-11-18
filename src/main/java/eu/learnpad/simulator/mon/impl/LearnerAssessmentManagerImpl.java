@@ -119,6 +119,7 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 
 
 	@Override
+	//TODO: FIX Formula
 	public float computeAbsoluteSessionScores(Activity[] paths) {
 		float absoluteSessionScore = 0;
 		for (int i=0; i< paths.length; i++) {
