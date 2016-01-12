@@ -23,11 +23,18 @@ public class RestNotifier {
 	private static HttpResponse response;
 	
 	public RestNotifier(String restEventNotificationURL) {
-		
 		client = HttpClientBuilder.create().build();
 		post = new HttpPost(restEventNotificationURL); 
 	}
 
+	public static void notifySimulationStart(String processID, String processName, String processTimeStamp, String learnerID, String sessionID) {
+		RestNotifier.executePostAction(processID, processName, processTimeStamp, learnerID, sessionID);
+	}
+		
+	public static void notifySimulationStop(String processID, String processName, String processTimeStamp,	String learnerID, String sessionID) {
+		RestNotifier.executePostAction(processID, processName, processTimeStamp, learnerID, sessionID);
+	}
+		
 	public static void notifyProcessStart(String processID, String processName, String processTimeStamp, String learnerID, String sessionID) {
 		RestNotifier.executePostAction(processID, processName, processTimeStamp, learnerID, sessionID);
 	}
@@ -60,18 +67,18 @@ public class RestNotifier {
 	}
 	
 	public static void executePostAction(String processID, String processName, String processTimeStamp,
-			String learnerID, String sessionID) {
-			try {
-				post.setEntity(new UrlEncodedFormEntity(RestNotifier.setupValue(processID,processName, processTimeStamp, learnerID, sessionID)));		
-				response = client.execute(post);
-		
-				BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-				String line = "";
-				while ((line = rd.readLine()) != null) {
-					System.out.println(line);
-				}
-			} catch (IOException e) {
-				DebugMessages.println(TimeStamp.getCurrentTime(), RestNotifier.class.getSimpleName(),e.getCause().toString());
+																		String learnerID, String sessionID) {
+		try {
+			post.setEntity(new UrlEncodedFormEntity(RestNotifier.setupValue(processID,processName, processTimeStamp, learnerID, sessionID)));		
+			response = client.execute(post);
+	
+			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			String line = "";
+			while ((line = rd.readLine()) != null) {
+				System.out.println(line);
 			}
+		} catch (IOException e) {
+			DebugMessages.println(TimeStamp.getCurrentTime(), RestNotifier.class.getSimpleName(),e.getCause().toString());
 		}
+	}
 }

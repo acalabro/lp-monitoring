@@ -47,7 +47,7 @@ public class PathCrossingRulesGeneratorImpl implements PathCrossingRulesGenerato
 			aInsert.setRuleBody(RuleElements.getHeader(aInsert.getRuleName(),  "java") +
 					RuleElements.getWhenClause() + 
 					concat + 
-					RuleElements.getThenClause() +
+					RuleElements.getThenClause(theUnfoldedBusinessProcess.get(i)) +
 					RuleElements.getEnd());
 		}
 		return rulesToLoad;
@@ -79,7 +79,7 @@ public class PathCrossingRulesGeneratorImpl implements PathCrossingRulesGenerato
 		aInsert.setRuleBody(RuleElements.getHeader(aInsert.getRuleName(),  "java") +
 				RuleElements.getWhenClause() + 
 				concat + 
-				RuleElements.getThenClause() +
+				RuleElements.getThenClause(anActivitiesSet) +
 				RuleElements.getEnd());
 		return aInsert;
 	}

@@ -10,3 +10,4 @@ BSMWSDLURIFILEPATH = 		./configFiles/bsmWsdl
 REGEXPATTERNFILEPATH = 		./configFiles/regexParameters
 MAILNOTIFICATIONPATH = 		./configFiles/mailSettings
 DATABASECONNECTIONSTRING = 	./configFiles/databaseConnectionString 
+RESTNOTIFIERURLSTRING = ./configFiles/restUrlString

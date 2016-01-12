@@ -41,6 +41,7 @@ import eu.learnpad.simulator.mon.impl.LearnerAssessmentManagerImpl;
 import eu.learnpad.simulator.mon.impl.RuleTemplateManager;
 import eu.learnpad.simulator.mon.manager.GlimpseManager;
 import eu.learnpad.simulator.mon.manager.LearnerAssessmentManager;
+import eu.learnpad.simulator.mon.manager.RestNotifier;
 import eu.learnpad.simulator.mon.services.ServiceLocatorFactory;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 import eu.learnpad.simulator.mon.utils.MailNotification;
@@ -74,6 +75,7 @@ public class MainMonitoring {
 	protected static String REGEXPATTERNFILEPATH;
 	protected static String MAILNOTIFICATIONSETTINGSFILEPATH;
 	protected static String DATABASECONNECTIONSTRING;
+	protected static String RESTNOTIFIERURLSTRING; 
 	// end settings
 
 	private static TopicConnectionFactory connFact;
@@ -104,6 +106,7 @@ public class MainMonitoring {
 			REGEXPATTERNFILEPATH = 				systemProps.getProperty("REGEXPATTERNFILEPATH");
 			MAILNOTIFICATIONSETTINGSFILEPATH = 	systemProps.getProperty("MAILNOTIFICATIONPATH");
 			DATABASECONNECTIONSTRING = 			systemProps.getProperty("DATABASECONNECTIONSTRING");
+			RESTNOTIFIERURLSTRING = 			systemProps.getProperty("RESTNOTIFIERURLSTRING");
 			return true;
 		} catch (Exception asd) {
 			System.out.println("USAGE: java -jar MainMonitoring.jar \"systemSettings\"");
@@ -179,6 +182,8 @@ public class MainMonitoring {
 						initConn);
 
 				engineOne.start();
+				
+				RestNotifier notifierEngine = new RestNotifier(Manager.Read(RESTNOTIFIERURLSTRING).getProperty("post.rest.url"));
 
 				//starting the LAM and connecting to DB
 				DBController databaseController = new MySqlController(Manager.Read(DATABASECONNECTIONSTRING));

@@ -1,5 +1,7 @@
 package eu.learnpad.simulator.mon.rulesGenerator;
 
+import eu.learnpad.simulator.mon.coverage.Activity;
+
 public class RuleElements {
 
 	
@@ -9,6 +11,7 @@ public class RuleElements {
 	
 		header ="\t\timport eu.learnpad.simulator.mon.event.GlimpseBaseEventBPMN;\n\t\t" +
 				"import eu.learnpad.simulator.mon.manager.ResponseDispatcher;\n\t\t" +
+				"import eu.learnpad.simulator.mon.manager.RestNotifier;\n\t\t" +
 				"import eu.learnpad.simulator.mon.utils.NotifierUtils;\n\t\t" +
 				"import eu.learnpad.simulator.mon.rules.DroolsRulesManager;\n\n" +
 				"\t\tdeclare GlimpseBaseEventBPMN\n" +
@@ -27,8 +30,24 @@ public class RuleElements {
 		return "\t\twhen\n";
 	}
 	
-	public static String getThenClause() {
-		return "\n\t\tthen \n\t\t\t$0Event.setConsumed(true); \n\t\t\tupdate($0Event);";
+	public static String getThenClause(Activity[] theActivitySetToSetConsumed) {
+		String concat = "\n\t\tthen ";
+		for (int i = 0; i<theActivitySetToSetConsumed.length; i++) {
+			concat = concat + "\n\t\t\t$"+ i
+					+ "Event.setConsumed(true); \n\t\t\tupdate($"+ i +"Event);"; 
+		}
+		return concat;
+	}
+	
+	public static String getThenClauseWithProcessStartNotification(Activity[] theActivitySetToSetConsumed) {
+		//TODO: Add notification RESTNotifier;
+		String concat = "\n\t\tthen ";
+		for (int i = 0; i<theActivitySetToSetConsumed.length; i++) {
+			concat = concat + "\n\t\t\t$"+i
+					+ "Event.setConsumed(true); \n\t\t\tupdate($"+ i +"Event);"; 
+		}
+		return concat;
+		
 	}
 	
 	public static String getEnd() {
