@@ -9,7 +9,8 @@ public class RuleElements {
 	
 	public static String getHeader(String ruleName, String dialect) {
 	
-		header ="\t\timport eu.learnpad.simulator.mon.event.GlimpseBaseEventBPMN;\n\t\t" +
+		header ="\t\t"+
+				"import eu.learnpad.simulator.mon.event.GlimpseBaseEventBPMN;\n\t\t" +
 				"import eu.learnpad.simulator.mon.manager.ResponseDispatcher;\n\t\t" +
 				"import eu.learnpad.simulator.mon.manager.RestNotifier;\n\t\t" +
 				"import eu.learnpad.simulator.mon.utils.NotifierUtils;\n\t\t" +

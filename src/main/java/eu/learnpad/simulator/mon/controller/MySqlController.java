@@ -221,15 +221,15 @@ public class MySqlController implements DBController {
 
 	@Override
 	public int savePath(Path thePath) {
-		 String query = " insert into path (id, id_bpmn, absolute_session_score, path_rule)"
-	    	        + " values (?, ?, ?, ?)";
+		 String query = " insert into path (id_bpmn, absolute_session_score, path_rule)"
+	    	        + " values (?, ?, ?)";
 	    	 
 		try {
 			preparedStmt = conn.prepareStatement(query);
-			preparedStmt.setInt(1, thePath.getId());
-		    preparedStmt.setString(2, thePath.getIdBpmn());
-		    preparedStmt.setFloat(3,thePath.getAbsoluteSessionScore());
-		    preparedStmt.setString(4, thePath.getPathRule());
+			
+		    preparedStmt.setString(1, thePath.getIdBpmn());
+		    preparedStmt.setFloat(2,thePath.getAbsoluteSessionScore());
+		    preparedStmt.setString(3, thePath.getPathRule());
 		 
 		    // execute the prepared statement
 		    preparedStmt.execute();

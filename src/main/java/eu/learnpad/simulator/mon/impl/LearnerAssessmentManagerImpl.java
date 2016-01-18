@@ -18,6 +18,7 @@ import eu.learnpad.simulator.mon.BPMN.PathExplorer;
 import eu.learnpad.simulator.mon.controller.DBController;
 import eu.learnpad.simulator.mon.coverage.Activity;
 import eu.learnpad.simulator.mon.coverage.Bpmn;
+import eu.learnpad.simulator.mon.coverage.ComputeScore;
 import eu.learnpad.simulator.mon.coverage.Path;
 import eu.learnpad.simulator.mon.impl.PathExplorerImpl;
 import eu.learnpad.simulator.mon.impl.PathCrossingRulesGeneratorImpl;
@@ -58,25 +59,30 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		Date now = new Date();
 //		Bpmn newBpmn = new Bpmn(
 //		Integer.parseInt(dom.getElementsByTagName("bpmnID").item(0).getFirstChild().getTextContent()), now);
-		Bpmn newBpmn = new Bpmn("a"+System.currentTimeMillis(),now);
-		databaseController.saveBPMN(newBpmn);
-		
+				
 		Vector<Activity[]> activitiesSet = bpmnExplorer.getUnfoldedBPMN(dom);
+		
+		Bpmn newBpmn = new Bpmn("a"+System.currentTimeMillis(),now,0);
 		
 		rulesLists = ComplexEventRuleActionListDocument.Factory.newInstance();
 		
 		ComplexEventRuleActionType ilDoc = rulesLists.addNewComplexEventRuleActionList();
 		ComplexEventRuleType[] theRulesToInsert = new ComplexEventRuleType[activitiesSet.size()];
 		
+		Vector<Path> thePathOfTheBPMN = new Vector<Path>();
+		
 		for (int i =0; i<activitiesSet.size();i++) {
 			theRulesToInsert[i] = crossRulesGenerator.generateRuleForSinglePath(activitiesSet.get(i),
 					"BPMN-ID:" + newBpmn.getId() + " ActivitiesSet: " + (i+1) + " of "+ activitiesSet.size());
 			
 			Path theCompletePathObject = new Path(i, newBpmn.getId(), 
-					computeAbsoluteSessionScores(activitiesSet.get(i)), 
+					ComputeScore.absoluteSession(activitiesSet.get(i)), 
 					theRulesToInsert[i].toString(), activitiesSet.get(i));
+			thePathOfTheBPMN.add(theCompletePathObject);
 			databaseController.savePath(theCompletePathObject);			
 		}
+		newBpmn.setAbsoluteBpScore(ComputeScore.absoluteBP(thePathOfTheBPMN));
+		databaseController.saveBPMN(newBpmn);
 		ilDoc.setInsertArray(theRulesToInsert);
 		return rulesLists;
 	}
@@ -115,16 +121,5 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 	private String getBpmnIDFromXML(Document theBPMN2) {
 		
 		return "a1446728873453458831";
-	}
-
-
-	@Override
-	//TODO: FIX Formula
-	public float computeAbsoluteSessionScores(Activity[] paths) {
-		float absoluteSessionScore = 0;
-		for (int i=0; i< paths.length; i++) {
-			absoluteSessionScore = absoluteSessionScore + paths[i].getWeight();
-		}
-		return absoluteSessionScore;
 	}
 }
