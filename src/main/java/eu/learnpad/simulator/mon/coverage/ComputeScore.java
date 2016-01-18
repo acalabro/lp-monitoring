@@ -7,7 +7,20 @@ public class ComputeScore {
 	
 	/*RELATIVE SCORE*/
 	
-	
+	public static float relativeBP(Vector<Path> executedByUser) {
+		float relativeBP = 0;
+		for (int i = 0; i<executedByUser.size(); i++) {
+			relativeBP = relativeBP + executedByUser.get(i).getAbsoluteSessionScore();
+		}
+		return relativeBP;
+	}
+
+//	public static float global(Vector<Bpmn> executedByUser) {
+//		float relativeBP = 0;
+//		for (int i = 0; i<executedByUser.size(); i++) {
+//			relativeBP = relativeBP + executedByUser.get(i).getAbsoluteSessionScore();
+//		}
+//		return relativeBP;
 	
 	
 	/*ABSOLUTE SCORE*/
