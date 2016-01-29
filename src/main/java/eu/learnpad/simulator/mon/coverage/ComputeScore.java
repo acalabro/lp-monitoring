@@ -4,31 +4,47 @@ import java.util.Vector;
 
 public class ComputeScore {
 
+	/*SINGLE SCORES*/
+	public static float global(Vector<Activity> theActivitiesExecutedByUser) {
+		float global = 0;
+		for (int i = 0; i<theActivitiesExecutedByUser.size(); i++){
+			global += theActivitiesExecutedByUser.get(i).getWeight();
+		}
+		return global;
+	}
 	
-	/*RELATIVE SCORE*/
 	
+	/*RELATIVE SCORES*/
 	public static float relativeBP(Vector<Path> executedByUser) {
 		float relativeBP = 0;
 		for (int i = 0; i<executedByUser.size(); i++) {
-			relativeBP = relativeBP + executedByUser.get(i).getAbsoluteSessionScore();
+			relativeBP += executedByUser.get(i).getAbsoluteSessionScore();
 		}
 		return relativeBP;
+	}
+	
+	public static float relativeGlobal(Vector<Float> relativeBPScoreExecutedByUser) {
+		float relativeGlobal = 0;
+		for (int i = 0; i<relativeBPScoreExecutedByUser.size(); i++) {
+			relativeGlobal += relativeBPScoreExecutedByUser.get(i);
+		}
+		return relativeGlobal;
 	}
 
 //	public static float global(Vector<Bpmn> executedByUser) {
 //		float relativeBP = 0;
 //		for (int i = 0; i<executedByUser.size(); i++) {
-//			relativeBP = relativeBP + executedByUser.get(i).getAbsoluteSessionScore();
+//			relativeBP += executedByUser.get(i).getAbsoluteSessionScore();
 //		}
 //		return relativeBP;
 	
 	
-	/*ABSOLUTE SCORE*/
+	/*ABSOLUTE SCORES*/
 	public static float absoluteSession(Activity[] activities) {
 
 			float absoluteSession = 0;
 			for (int i=0; i< activities.length; i++) {
-				absoluteSession = absoluteSession + activities[i].getWeight();			
+				absoluteSession += activities[i].getWeight();			
 			}
 			return absoluteSession;
 	}
@@ -36,7 +52,7 @@ public class ComputeScore {
 	public static float absoluteBP(Vector<Path> thePathOfTheBPMN) {
 		float absoluteBP = 0;
 		for(int i = 0; i<thePathOfTheBPMN.size(); i++) {
-			absoluteBP = absoluteBP + thePathOfTheBPMN.get(i).getAbsoluteSessionScore();
+			absoluteBP += thePathOfTheBPMN.get(i).getAbsoluteSessionScore();
 		}
 		return absoluteBP;
 	}
@@ -44,7 +60,7 @@ public class ComputeScore {
 	public static float absoluteGlobal(Vector<Bpmn> theBPMNexecutedByTheUser) {
 		float absoluteGlobal = 0;
 		for(int i = 0; i<theBPMNexecutedByTheUser.size(); i++) {
-			absoluteGlobal = absoluteGlobal + theBPMNexecutedByTheUser.get(i).getAbsoluteBpScore();
+			absoluteGlobal += theBPMNexecutedByTheUser.get(i).getAbsoluteBpScore();
 		}
 		return absoluteGlobal;
 	}

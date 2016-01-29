@@ -25,6 +25,7 @@ import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionType
 
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Vector;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -37,7 +38,6 @@ import javax.jms.TopicConnectionFactory;
 import javax.jms.TopicPublisher;
 import javax.jms.TopicSession;
 import javax.jms.TopicSubscriber;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -47,6 +47,7 @@ import org.drools.definition.rule.Rule;
 import org.drools.definitions.impl.*;
 
 import eu.learnpad.simulator.mon.consumer.ConsumerProfile;
+import eu.learnpad.simulator.mon.coverage.Learner;
 import eu.learnpad.simulator.mon.exceptions.IncorrectRuleFormatException;
 import eu.learnpad.simulator.mon.rules.RulesManager;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
@@ -142,7 +143,11 @@ public class GlimpseManager extends Thread implements MessageListener {
 			if (xmlMessagePayload.contains("www.omg.org/spec/BPMN/20100524/MODEL")) {
 				DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),
 						"The message sent seems to contain a BPMN - Forwarding it to the LearnPAd Assessment Manager");
-				ruleDoc = learnerAssessmentManager.elaborateModel(xmlMessagePayload);
+				
+				String[] learnersIDs = msg.getObjectProperty("USERSINVOLVEDID").toString().split("-");	
+				String sessionID = msg.getObjectProperty("SESSIONID").toString();	
+				Vector<Learner> objectProperty = learnerAssessmentManager.getDBController().getLearners(learnersIDs); 
+				ruleDoc = learnerAssessmentManager.elaborateModel(xmlMessagePayload, objectProperty, sessionID);
 
 			} else {
 				ruleDoc = ComplexEventRuleActionListDocument.Factory.parse(xmlMessagePayload);

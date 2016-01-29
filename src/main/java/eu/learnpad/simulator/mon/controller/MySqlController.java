@@ -6,8 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
+import java.util.Vector;
 
 import org.apache.commons.net.ntp.TimeStamp;
 import org.apache.xmlbeans.XmlException;
@@ -87,45 +87,29 @@ public class MySqlController implements DBController {
 	}
 	
 	@Override
-	public List<Path> getBPMNPaths(int idBPMN) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public float getLearnerBPScore(int idLearner, int idBPMN) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int setLearnerBPScore(int idLearner, int idBPMN, float BPScore) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public float getLearnerRelativeBPScore(int idLearner, int idBPMN) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int setLearnerRelativeBPScore(int idLearner, int idBPMN, float relativeBPScore) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public float getLearnerBPCoverage(int idLearner, int idBPMN) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int setLearnerBPCoverage(int idLearner, int idBPMN, float BPCoverage) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Vector<Path> getBPMNPaths(String idBPMN) {
+		String query = "select * from path where id_bpmn = \'"+idBPMN+"';";
+		Vector<Path> retrievedPath = new Vector<Path>();
+		
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			resultsSet = preparedStmt.executeQuery(); 
+		            
+			while ( resultsSet.next() ) {
+				retrievedPath.add(new Path(Integer.parseInt(resultsSet.getString("id")),
+									resultsSet.getString("id_bpmn"),
+									resultsSet.getFloat("absolute_session_score"),
+									resultsSet.getString("path_rule")));
+            }
+            DebugMessages.println(
+					TimeStamp.getCurrentTime(), 
+					this.getClass().getSimpleName(),
+					"Extracted paths loaded from DB");
+		} catch (SQLException e) {
+			System.err.println("Exception during getBPMNPaths ");
+			System.err.println(e.getMessage());
+		}
+        return retrievedPath;
 	}
 
 	@Override
@@ -226,11 +210,10 @@ public class MySqlController implements DBController {
 	    	 
 		try {
 			preparedStmt = conn.prepareStatement(query);
-			
 		    preparedStmt.setString(1, thePath.getIdBpmn());
 		    preparedStmt.setFloat(2,thePath.getAbsoluteSessionScore());
 		    preparedStmt.setString(3, thePath.getPathRule());
-		 
+
 		    // execute the prepared statement
 		    preparedStmt.execute();
 		} catch (SQLException e) {
@@ -354,6 +337,88 @@ public class MySqlController implements DBController {
 		return null;
 	}
 
+	@Override
+	public float getLearnerBPScore(int idLearner, String idBPMN) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int setLearnerBPScore(int idLearner, String idBPMN, float BPScore) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getLearnerRelativeBPScore(int idLearner, String idBPMN) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int setLearnerRelativeBPScore(int idLearner, String idBPMN, float relativeBPScore) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getLearnerBPCoverage(int idLearner, String idBPMN) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int setLearnerBPCoverage(int idLearner, String idBPMN, float BPCoverage) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Vector<Learner> getLearners(String[] learnersIDs) {
+		Vector<Learner> learners = new Vector<Learner>();
+		String query;
+		Learner aLearner;
+		try {
+			for (int i = 0; i<learnersIDs.length; i++) {
+				query = "select * from learner where id_learner = \'"+learnersIDs[i]+"';";
+					
+						preparedStmt = conn.prepareStatement(query);
+						resultsSet = preparedStmt.executeQuery(); 
+						
+						if (resultsSet.first()) {
+							learners.add(new Learner(
+								Integer.parseInt(XmlObject.Factory.parse(resultsSet.getString("id")).toString()),
+								Integer.parseInt(XmlObject.Factory.parse(resultsSet.getString("id_role")).toString()),
+								XmlObject.Factory.parse(resultsSet.getString("name")).toString(),
+								XmlObject.Factory.parse(resultsSet.getString("surname")).toString(),
+								Float.parseFloat(XmlObject.Factory.parse(resultsSet.getString("global_score")).toString()),
+								Float.parseFloat(XmlObject.Factory.parse(resultsSet.getString("relative_global_score")).toString()),
+								Float.parseFloat(XmlObject.Factory.parse(resultsSet.getString("absolute_global_score")).toString())));
+							DebugMessages.println(TimeStamp.getCurrentTime(),this.getClass().getSimpleName(),"Learner found");
+							}
+						else {
+							aLearner = new Learner(Integer.parseInt(learnersIDs[i]),0,"noname","noname",0.0f,0.0f,0.0f);
+							learners.add(aLearner);
+							saveLearnerProfile(aLearner);
+							}	 
+						}
+		} catch (SQLException | XmlException e) {
+			System.err.println("Exception during getLearners");
+			System.err.println(e.getMessage());
+		}
+		return learners;	
+	}
+
+	@Override
+	public Vector<Path> savePathsForBPMN(Vector<Path> vector) {
+
+		for (int i = 0; i<vector.size(); i++) {
+			savePath(vector.get(i));
+		}
+		return vector;
+	}
+}
+
 /*	@Override
 	public int saveActivity(Activity activityToSave) {
 		String query = " insert into activity (id_bpmn, id_path, name, weigth, expected_kpi)"
@@ -404,4 +469,3 @@ public class MySqlController implements DBController {
 		// TODO Auto-generated method stub
 		return false;
 	}*/
-}

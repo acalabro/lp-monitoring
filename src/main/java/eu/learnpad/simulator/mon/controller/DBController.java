@@ -1,7 +1,7 @@
 package eu.learnpad.simulator.mon.controller;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Vector;
 
 import eu.learnpad.simulator.mon.coverage.Activity;
 import eu.learnpad.simulator.mon.coverage.Bpmn;
@@ -19,17 +19,17 @@ public interface DBController {
 	
 	//global methods
 	public boolean checkIfBPHasBeenAlreadyExtracted(String idBPMN);
-	public List<Path> getBPMNPaths(int idBPMN);
+	public Vector<Path> getBPMNPaths(String idBPMN);
 	public ComplexEventRuleActionListDocument getRulesListForASpecificBPMN(String bpmnIDFromXML);
 	
-	public float getLearnerBPScore(int idLearner, int idBPMN);
-	public int setLearnerBPScore(int idLearner, int idBPMN, float BPScore);
+	public float getLearnerBPScore(int idLearner, String idBPMN);
+	public int setLearnerBPScore(int idLearner, String idBPMN, float BPScore);
 	
-	public float getLearnerRelativeBPScore(int idLearner, int idBPMN);
-	public int setLearnerRelativeBPScore(int idLearner, int idBPMN, float relativeBPScore);
+	public float getLearnerRelativeBPScore(int idLearner, String idBPMN);
+	public int setLearnerRelativeBPScore(int idLearner, String idBPMN, float relativeBPScore);
 	
-	public float getLearnerBPCoverage(int idLearner, int idBPMN);
-	public int setLearnerBPCoverage(int idLearner, int idBPMN, float BPCoverage);
+	public float getLearnerBPCoverage(int idLearner, String idBPMN);
+	public int setLearnerBPCoverage(int idLearner, String idBPMN, float BPCoverage);
 	
 	public float getLearnerSessionScore(int idLearner, int idPath, int idRole, Date executionDate);
 	public float getLearnerSessionScore(Learner theLearner, Path thePath, int idRole, Date executionDate);
@@ -72,5 +72,7 @@ public interface DBController {
 	public int saveTopic(Topic theTopic);
 	public Topic getTopic(int theTopicID);
 	public boolean updateTopic(int theTopicId, Topic theTopicToUpdate);
+	public Vector<Learner> getLearners(String[] learnersIDs);
+	public Vector<Path> savePathsForBPMN(Vector<Path> vector);
 	
 }
