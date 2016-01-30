@@ -7,7 +7,6 @@ import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleType;
 import java.util.Vector;
 
 import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
 
 import eu.learnpad.simulator.mon.coverage.Activity;
 import eu.learnpad.simulator.mon.coverage.ComputeScore;
@@ -19,6 +18,7 @@ import eu.learnpad.simulator.mon.rulesGenerator.RuleElements;
 public class PathGeneratorImpl implements PathGenerator {
 
 	ComplexEventRuleActionListDocument rulesToLoad;
+	private ComplexEventRuleType[] rules;
 	
 	@Override
 	public ComplexEventRuleActionListDocument generateAllPathsRules(
@@ -112,12 +112,13 @@ public class PathGeneratorImpl implements PathGenerator {
 
 			try {
 				ComplexEventRuleType rule = ComplexEventRuleType.Factory.parse(updatedPath);
-				rulesToLoad.addNewComplexEventRuleActionList().setInsertArray(i, rule);
+				 rules[i]= rule;
 			} catch (XmlException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		rulesToLoad.addNewComplexEventRuleActionList().setInsertArray(rules);
 		return rulesToLoad;
 	}
 }
