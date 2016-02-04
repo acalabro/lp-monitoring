@@ -18,7 +18,6 @@ import eu.learnpad.simulator.mon.rulesGenerator.RuleElements;
 public class PathGeneratorImpl implements PathGenerator {
 
 	ComplexEventRuleActionListDocument rulesToLoad;
-	private ComplexEventRuleType[] rules;
 	
 	@Override
 	public ComplexEventRuleActionListDocument generateAllPathsRules(
@@ -54,13 +53,15 @@ public class PathGeneratorImpl implements PathGenerator {
 			if (j == 0) {
 				concat = "\t\t\t$"+j+"Event : GlimpseBaseEventBPMN("+
 						"this.isConsumed == false, this.sessionID == \"##SESSIONIDPLACEHOLDER##\""
-						+ " this.isException == false, this.getEventName == \"" +
+						+", this.assigneeID == \"##USERSINVOLVEDIDS##\""
+						+", this.isException == false, this.getEventName == \"" +
 						anActivitiesSet[j].getName() + "\");\n";
 			} else {
 				concat = concat +
 						"\t\t\t$"+j+"Event : GlimpseBaseEventBPMN(" +
 						"this.isConsumed == false, this.sessionID == \"##SESSIONIDPLACEHOLDER##\""
-						+ " this.isException == false, this.getEventName == \"" +
+						+", this.assigneeID == \"##USERSINVOLVEDIDS##\""
+						+", this.isException == false, this.getEventName == \"" +
 						anActivitiesSet[j].getName() +
 						"\", this after $" + (j-1) + "Event);\n";
 			}
@@ -92,6 +93,7 @@ public class PathGeneratorImpl implements PathGenerator {
 		rulesToLoad = ComplexEventRuleActionListDocument.Factory.newInstance();
 		
 		String updatedPath;
+		ComplexEventRuleType[] rules = new ComplexEventRuleType[thePathsToInstantiate.size()];
 		
 		for (int i = 0; i<thePathsToInstantiate.size(); i++) {
 			
@@ -101,20 +103,20 @@ public class PathGeneratorImpl implements PathGenerator {
 			
 			if (usersInvolved.size() > 1) {
 				for (int j=0; j< usersInvolved.size()-1;j++) {
-					usersInvolvedText = usersInvolvedText + String.valueOf(usersInvolved.get(j).getId()) + " && ";
+					usersInvolvedText = usersInvolvedText + String.valueOf(usersInvolved.get(j).getId()) + "\" || this.assigneeID == \"";
 				}
 				usersInvolvedText = usersInvolvedText + String.valueOf(usersInvolved.get(usersInvolved.size()-1).getId());
 			}
 			else
 				usersInvolvedText = String.valueOf(usersInvolved.get(0).getId());
 
-			updatedPath.replaceAll("##USERSINVOLVEDIDS##", usersInvolvedText);
+			updatedPath = updatedPath.replaceAll("##USERSINVOLVEDIDS##", usersInvolvedText);
 
 			try {
+				
 				ComplexEventRuleType rule = ComplexEventRuleType.Factory.parse(updatedPath);
-				 rules[i]= rule;
+				rules[i]= rule;
 			} catch (XmlException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
