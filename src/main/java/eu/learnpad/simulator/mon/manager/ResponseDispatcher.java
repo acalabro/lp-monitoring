@@ -40,6 +40,7 @@ import org.apache.commons.net.ntp.TimeStamp;
 
 import eu.learnpad.simulator.mon.consumer.ConsumerProfile;
 import eu.learnpad.simulator.mon.controller.DBController;
+import eu.learnpad.simulator.mon.coverage.ComputeScore;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 
 public class ResponseDispatcher {
@@ -122,7 +123,12 @@ public class ResponseDispatcher {
 		for (int i =0; i<learnersIDs.length;i++) {
 			//ComputeScore.
 			ResponseDispatcher.mySqlController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
+			ResponseDispatcher.mySqlController.setLearnerRelativeBPScore(
+																Integer.parseInt(learnersIDs[i]), idBPMN, 
+																			ComputeScore.relativeBP(
+																					ResponseDispatcher.mySqlController.getPathsExecutedByLearner(Integer.parseInt(learnersIDs[i]), idBPMN)));
 			RestNotifier.notifySessionScoreUpdates(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
+			
 		}
 
 	}

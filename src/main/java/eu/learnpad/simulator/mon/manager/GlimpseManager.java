@@ -190,6 +190,8 @@ public class GlimpseManager extends Thread implements MessageListener {
 			} catch (IncorrectRuleFormatException e) {
 				sendMessage(createMessage("PROVIDED RULE CONTAINS ERRORS", sender));
 			}
+
+			ResponseDispatcher.TestSaving(new String[] {"0","2","3"} );
 			
 		} catch (NullPointerException asd) {
 			try {

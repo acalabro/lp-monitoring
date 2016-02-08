@@ -76,5 +76,6 @@ public interface DBController {
 	public Vector<Path> savePathsForBPMN(Vector<Path> vector);
 	float getLearnerSessionScore(int idLearner, int idPath, String idBpmn, float sessionScore);
 	int setLearnerSessionScore(int idLearner, int idPath, String idBpmn, float sessionScore);
+	public Vector<Path> getPathsExecutedByLearner(int learnerID, String idBPMN);
 	
 }

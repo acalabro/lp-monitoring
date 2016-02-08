@@ -217,8 +217,30 @@ public class MySqlController implements DBController {
 
 	@Override
 	public int saveLearnerProfile(Learner theLearner) {
-		// TODO Auto-generated method stub
-		return 0;
+		String query = "insert into learner"
+				+ "(id_learner, id_role, name, surname, global_score, relative_global_score, absolute_global_score)"
+    	        + " values (?, ?, ?, ?, ?, ?, ?)";
+    	 
+	try {
+		preparedStmt = conn.prepareStatement(query);
+	    preparedStmt.setInt(1, theLearner.getId());
+	    preparedStmt.setInt(2, theLearner.getIdRole());
+	    preparedStmt.setString(3, theLearner.getName());
+	    preparedStmt.setString(4, theLearner.getSurname());
+	    preparedStmt.setFloat(5,theLearner.getGlobalScore());
+	    preparedStmt.setFloat(6,theLearner.getRelativeGlobalScore());
+	    preparedStmt.setFloat(7,theLearner.getAbsolute_global_score());
+
+	    // execute the prepared statement
+	    preparedStmt.execute();
+	} catch (SQLException e) {
+		return 1;
+	}  
+	DebugMessages.println(
+			TimeStamp.getCurrentTime(), 
+			this.getClass().getSimpleName(),
+			"Learner Saved");
+	return 0;
 	}
 
 	@Override
@@ -387,7 +409,24 @@ public class MySqlController implements DBController {
 
 	@Override
 	public int setLearnerRelativeBPScore(int idLearner, String idBPMN, float relativeBPScore) {
-		// TODO Auto-generated method stub
+		 String query = " insert into bpmn_learner (id_learner, id_bpmn, relative_bp_score)"
+	    	        + " values (?, ?, ?)";
+	    	 
+		try {
+			preparedStmt = conn.prepareStatement(query);
+		    preparedStmt.setInt(1, idLearner);
+		    preparedStmt.setString(2,idBPMN);
+		    preparedStmt.setFloat(3, relativeBPScore);
+
+		    // execute the prepared statement
+		    preparedStmt.execute();
+		} catch (SQLException e) {
+			return 1;
+		}  
+		DebugMessages.println(
+				TimeStamp.getCurrentTime(), 
+				this.getClass().getSimpleName(),
+				"RelativeScore Updated");
 		return 0;
 	}
 
@@ -446,6 +485,36 @@ public class MySqlController implements DBController {
 			savePath(vector.get(i));
 		}
 		return vector;
+	}
+
+	@Override
+	public Vector<Path> getPathsExecutedByLearner(int learnerID, String idBPMN) {
+		String query = "SELECT path.id, path.id_bpmn, path.absolute_session_score, path.path_rule"
+							+ " FROM glimpse.path, glimpse.path_learner" 
+							+ " where path_learner.id_learner = '" + learnerID +
+							"' and  path.id = path_learner.id_path and path_learner.id_bpmn = '"
+							+ idBPMN + "'";
+		Vector<Path> retrievedPath = new Vector<Path>();
+		
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			resultsSet = preparedStmt.executeQuery(); 
+		            
+			while ( resultsSet.next() ) {
+				retrievedPath.add(new Path(Integer.parseInt(resultsSet.getString("id")),
+									resultsSet.getString("id_bpmn"),
+									resultsSet.getFloat("absolute_session_score"),
+									resultsSet.getString("path_rule")));
+            }
+            DebugMessages.println(
+					TimeStamp.getCurrentTime(), 
+					this.getClass().getSimpleName(),
+					"Extracted paths loaded from DB");
+		} catch (SQLException e) {
+			System.err.println("Exception during getBPMNPaths ");
+			System.err.println(e.getMessage());
+		}
+        return retrievedPath;
 	}
 }
 

@@ -69,8 +69,7 @@ public class PathGeneratorImpl implements PathGenerator {
 						+", this.isException == false, this.getEventName == \"" +
 						anActivitiesSet[j].getName() + "\");\n";
 			} else {
-				concat = concat +
-						"\t\t\t$"+j+"Event : GlimpseBaseEventBPMN(" +
+				concat +="\t\t\t$"+j+"Event : GlimpseBaseEventBPMN(" +
 						"this.isConsumed == false, this.sessionID == \"##SESSIONIDPLACEHOLDER##\""
 						+", this.assigneeID == \"##USERSINVOLVEDIDS##\""
 						+", this.isException == false, this.getEventName == \"" +
@@ -116,11 +115,11 @@ public class PathGeneratorImpl implements PathGenerator {
 			
 			if (usersInvolved.size() > 1) {
 				for (int j=0; j< usersInvolved.size()-1;j++) {
-					usersInvolvedText = usersInvolvedText + String.valueOf(usersInvolved.get(j).getId()) + "\" || this.assigneeID == \"";
-					usersInvolvedList = usersInvolvedList + String.valueOf(usersInvolved.get(j).getId()) + "-"; 
+					usersInvolvedText += String.valueOf(usersInvolved.get(j).getId()) + "\" || this.assigneeID == \"";
+					usersInvolvedList += String.valueOf(usersInvolved.get(j).getId()) + "-"; 
 				}
-				usersInvolvedText = usersInvolvedText + String.valueOf(usersInvolved.get(usersInvolved.size()-1).getId());
-				usersInvolvedList = usersInvolvedList  + String.valueOf(usersInvolved.get(usersInvolved.size()-1).getId());
+				usersInvolvedText += String.valueOf(usersInvolved.get(usersInvolved.size()-1).getId());
+				usersInvolvedList += String.valueOf(usersInvolved.get(usersInvolved.size()-1).getId());
 			}
 			else {
 				usersInvolvedText = String.valueOf(usersInvolved.get(0).getId());
