@@ -31,10 +31,10 @@ public interface DBController {
 	public float getLearnerBPCoverage(int idLearner, String idBPMN);
 	public int setLearnerBPCoverage(int idLearner, String idBPMN, float BPCoverage);
 	
-	public float getLearnerSessionScore(int idLearner, int idPath, int idRole, Date executionDate);
-	public float getLearnerSessionScore(Learner theLearner, Path thePath, int idRole, Date executionDate);
-	public int setLearnerSessionScore(int idLearner, int idPath, int idRole, float sessionScore);
-	public int setLearnerSessionScore(Learner theLearner, Path thePath, float sessionScore);
+	public float getLearnerSessionScore(int idLearner, int idPath, String idBpmn, int idRole, Date executionDate);
+	public float getLearnerSessionScore(Learner theLearner, Path thePath, String idBpmn, int idRole, Date executionDate);
+	public int setLearnerSessionScore(int idLearner, int idPath, String idBpmn, int idRole, float sessionScore);
+	public int setLearnerSessionScore(Learner theLearner, Path thePath, String idBpmn, float sessionScore);
 	
 	public Activity[] getAllDistinctActivityOFaBPMN(Bpmn theBpmn);
 	
@@ -74,5 +74,7 @@ public interface DBController {
 	public boolean updateTopic(int theTopicId, Topic theTopicToUpdate);
 	public Vector<Learner> getLearners(String[] learnersIDs);
 	public Vector<Path> savePathsForBPMN(Vector<Path> vector);
+	float getLearnerSessionScore(int idLearner, int idPath, String idBpmn, float sessionScore);
+	int setLearnerSessionScore(int idLearner, int idPath, String idBpmn, float sessionScore);
 	
 }

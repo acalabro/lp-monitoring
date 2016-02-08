@@ -39,6 +39,7 @@ import javax.naming.InitialContext;
 import org.apache.commons.net.ntp.TimeStamp;
 
 import eu.learnpad.simulator.mon.consumer.ConsumerProfile;
+import eu.learnpad.simulator.mon.controller.DBController;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 
 public class ResponseDispatcher {
@@ -53,6 +54,7 @@ public class ResponseDispatcher {
 	
 	@SuppressWarnings("unused")
 	private static TopicSession publicSession;
+	private static DBController mySqlController;
 	
 	public ResponseDispatcher(InitialContext initConn,
 			TopicConnectionFactory connectionFact,
@@ -60,6 +62,21 @@ public class ResponseDispatcher {
 
 		ResponseDispatcher.requestMap = requestMap;
 		ResponseDispatcher.initConn = initConn;
+		try {
+			connection = connectionFact.createTopicConnection();
+			publishSession = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public ResponseDispatcher(InitialContext initConn,
+			TopicConnectionFactory connectionFact,
+			HashMap<Object, ConsumerProfile> requestMap, DBController controller) {
+
+		ResponseDispatcher.requestMap = requestMap;
+		ResponseDispatcher.initConn = initConn;
+		ResponseDispatcher.mySqlController = controller;
 		try {
 			connection = connectionFact.createTopicConnection();
 			publishSession = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -98,6 +115,20 @@ public class ResponseDispatcher {
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void saveAndNotifyLearnersScore(String learnersID, String idBPMN, int idPath, float sessionScore) {
+		String[] learnersIDs = learnersID.split("-");
+		for (int i =0; i<learnersIDs.length;i++) {
+			//ComputeScore.
+			ResponseDispatcher.mySqlController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
+			RestNotifier.notifySessionScoreUpdates(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
+		}
+
+	}
+	
+	public static void TestSaving(String args[]) {
+		ResponseDispatcher.saveAndNotifyLearnersScore("1-2-3-4-5-6", "a1446728873453458831", 1, 600.0f);
 	}
 	
 	public static void sendResponse(Object object, String enablerName, String answerTopic)

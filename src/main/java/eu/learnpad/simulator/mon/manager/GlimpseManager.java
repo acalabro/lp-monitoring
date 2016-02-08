@@ -78,9 +78,10 @@ public class GlimpseManager extends Thread implements MessageListener {
 	public GlimpseManager(Properties settings, TopicConnectionFactory connectionFact, InitialContext initConn,
 			RulesManager rulesManagerOne, LearnerAssessmentManager lam) {
 		serviceTopic = settings.getProperty("serviceTopic");
-		setupConnection(connectionFact, initConn);
 		this.rulesManagerOne = rulesManagerOne;
 		this.learnerAssessmentManager = lam;
+		setupConnection(connectionFact, initConn);
+		
 	}
 
 	public void setupConnection(TopicConnectionFactory connectionFact, InitialContext initConn) {
@@ -114,7 +115,7 @@ public class GlimpseManager extends Thread implements MessageListener {
 
 			DebugMessages.print(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),
 					"Creating response dispatcher ");
-			responder = new ResponseDispatcher(initConn, connectionFact, requestMap);
+			responder = new ResponseDispatcher(initConn, connectionFact, requestMap, this.learnerAssessmentManager.getDBController());
 			DebugMessages.ok();
 
 		} catch (JMSException e) {
@@ -189,7 +190,7 @@ public class GlimpseManager extends Thread implements MessageListener {
 			} catch (IncorrectRuleFormatException e) {
 				sendMessage(createMessage("PROVIDED RULE CONTAINS ERRORS", sender));
 			}
-
+			
 		} catch (NullPointerException asd) {
 			try {
 				sendMessage(createMessage("PROVIDED RULE IS NULL, PLEASE PROVIDE A VALID RULE",

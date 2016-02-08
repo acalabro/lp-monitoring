@@ -113,29 +113,59 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public float getLearnerSessionScore(int idLearner, int idPath, int idRole, Date executionDate) {
+	public float getLearnerSessionScore(int idLearner, int idPath, String idBPMN, int idRole, Date executionDate) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public float getLearnerSessionScore(Learner theLearner, Path thePath, int idRole, Date executionDate) {
+	public float getLearnerSessionScore(Learner theLearner, Path thePath, String idBPMN, int idRole, Date executionDate) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int setLearnerSessionScore(int idLearner, int idPath, int idRole, float sessionScore) {
+	public float getLearnerSessionScore(int idLearner, int idPath, String idBPMN, float sessionScore) {
+		return 0;
+	}
+	
+	@Override
+	public int setLearnerSessionScore(int idLearner, int idPath, String idBPMN, float sessionScore) {
+	      String query = " insert into path_learner (id_learner, id_path, id_bpmn, session_score, execution_date)"
+	    	        + " values (?, ?, ?, ?, ?) ";
+	    	 Date now = new Date();
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			preparedStmt.setInt(1, idLearner);
+			preparedStmt.setInt(2, idPath);
+		    preparedStmt.setString(3,idBPMN);
+		    preparedStmt.setFloat(4, sessionScore);
+		    preparedStmt.setDate(5,new java.sql.Date(now.getTime()));
+
+		    // execute the prepared statement
+		    preparedStmt.execute();
+		} catch (SQLException e) {
+			return 1;
+		}  
+		DebugMessages.println(
+				TimeStamp.getCurrentTime(), 
+				this.getClass().getSimpleName(),
+				"PathLearner SessionScore Saved");
+		return 0;
+	}
+	
+	@Override
+	public int setLearnerSessionScore(int idLearner, int idPath, String idBPMN, int idRole, float sessionScore) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int setLearnerSessionScore(Learner theLearner, Path thePath, float sessionScore) {
+	public int setLearnerSessionScore(Learner theLearner, Path thePath, String idBPMN, float sessionScore) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	
 	@Override
 	public int saveBPMN(Bpmn theBPMN) {
 

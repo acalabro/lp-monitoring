@@ -27,8 +27,6 @@ import eu.learnpad.simulator.mon.manager.LearnerAssessmentManager;
 import eu.learnpad.simulator.mon.rulesGenerator.PathGenerator;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionListDocument;
-import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionType;
-import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleType;
 
 public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 
@@ -84,9 +82,7 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 				Bpmn newBpmn = new Bpmn("a"+System.currentTimeMillis(),now,0);
 
 				Vector<Activity[]> theUnfoldedBPMN = bpmnExplorer.getUnfoldedBPMN(theBPMN);
-				Vector<Path> theGeneratedPath = crossRulesGenerator.generatePaths(
-												crossRulesGenerator.generateAllPathsRules(theUnfoldedBPMN),
-																	theUnfoldedBPMN, theBPMNidentifier);
+				Vector<Path> theGeneratedPath = crossRulesGenerator.generatePathsRules(crossRulesGenerator.generateAllPaths(theUnfoldedBPMN, newBpmn.getId()));
 				
 				this.rulesLists = crossRulesGenerator.instantiateRulesSetForUsersInvolved(
 						databaseController.savePathsForBPMN(theGeneratedPath),usersInvolved, sessionID);
@@ -113,38 +109,38 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		return "a1446728873453458831";
 	}
 	
-	@Override
-	public ComplexEventRuleActionListDocument ExploreBPSavePathsGenerateAndSaveRules(Document dom) {
-			
-			Date now = new Date();
-	//		Bpmn newBpmn = new Bpmn(
-	//		Integer.parseInt(dom.getElementsByTagName("bpmnID").item(0).getFirstChild().getTextContent()), now);
-					
-			Vector<Activity[]> activitiesSet = bpmnExplorer.getUnfoldedBPMN(dom);
-			
-			Bpmn newBpmn = new Bpmn("a"+System.currentTimeMillis(),now,0);
-			
-			rulesLists = ComplexEventRuleActionListDocument.Factory.newInstance();
-			
-			ComplexEventRuleActionType ilDoc = rulesLists.addNewComplexEventRuleActionList();
-			ComplexEventRuleType[] theRulesToInsert = new ComplexEventRuleType[activitiesSet.size()];
-			
-			Vector<Path> thePathOfTheBPMN = new Vector<Path>();
-			
-			for (int i =0; i<activitiesSet.size();i++) {
-				theRulesToInsert[i] = crossRulesGenerator.generateRuleForSinglePath(activitiesSet.get(i),
-						"BPMN-ID:" + newBpmn.getId() + " ActivitiesSet: " + (i+1) + " of "+ activitiesSet.size());
-				
-				Path theCompletePathObject = new Path(i, newBpmn.getId(), ComputeScore.absoluteSession(activitiesSet.get(i)),
-														theRulesToInsert[i].toString(), activitiesSet.get(i));
-				thePathOfTheBPMN.add(theCompletePathObject);
-				databaseController.savePath(theCompletePathObject);			
-			}
-			newBpmn.setAbsoluteBpScore(ComputeScore.absoluteBP(thePathOfTheBPMN));
-			databaseController.saveBPMN(newBpmn);
-			ilDoc.setInsertArray(theRulesToInsert);
-			return rulesLists;
-		}
+//	@Override
+//	public ComplexEventRuleActionListDocument ExploreBPSavePathsGenerateAndSaveRules(Document dom) {
+//			
+//			Date now = new Date();
+//	//		Bpmn newBpmn = new Bpmn(
+//	//		Integer.parseInt(dom.getElementsByTagName("bpmnID").item(0).getFirstChild().getTextContent()), now);
+//					
+//			Vector<Activity[]> activitiesSet = bpmnExplorer.getUnfoldedBPMN(dom);
+//			
+//			Bpmn newBpmn = new Bpmn("a"+System.currentTimeMillis(),now,0);
+//			
+//			rulesLists = ComplexEventRuleActionListDocument.Factory.newInstance();
+//			
+//			ComplexEventRuleActionType ilDoc = rulesLists.addNewComplexEventRuleActionList();
+//			ComplexEventRuleType[] theRulesToInsert = new ComplexEventRuleType[activitiesSet.size()];
+//			
+//			Vector<Path> thePathOfTheBPMN = new Vector<Path>();
+//			
+//			for (int i =0; i<activitiesSet.size();i++) {
+//				theRulesToInsert[i] = crossRulesGenerator.generateRuleForSinglePath(activitiesSet.get(i),
+//						"BPMN-ID:" + newBpmn.getId() + " ActivitiesSet: " + (i+1) + " of "+ activitiesSet.size(), newBpmn.getId());
+//				
+//				Path theCompletePathObject = new Path(i, newBpmn.getId(), ComputeScore.absoluteSession(activitiesSet.get(i)),
+//														theRulesToInsert[i].toString(), activitiesSet.get(i));
+//				thePathOfTheBPMN.add(theCompletePathObject);
+//				databaseController.savePath(theCompletePathObject);			
+//			}
+//			newBpmn.setAbsoluteBpScore(ComputeScore.absoluteBP(thePathOfTheBPMN));
+//			databaseController.saveBPMN(newBpmn);
+//			ilDoc.setInsertArray(theRulesToInsert);
+//			return rulesLists;
+//		}
 
 	
 }

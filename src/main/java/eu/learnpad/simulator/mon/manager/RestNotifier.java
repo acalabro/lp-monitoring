@@ -51,7 +51,7 @@ public class RestNotifier {
 		RestNotifier.executePostAction(processID, processName, processTimeStamp, learnerID, sessionID);
 	}
 	
-	public static void notifySessionScoreUpdates() {
+	public static void notifySessionScoreUpdates(int learnerID, int idPath, String idBPMN, float sessionScore) {
 		
 	}
 	

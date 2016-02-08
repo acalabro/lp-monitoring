@@ -35,23 +35,24 @@ public class RuleElements {
 		String concat = "\n\t\tthen ";
 		for (int i = 0; i<theActivitySetToSetConsumed.length; i++) {
 			concat = concat + "\n\t\t\t$"+ i
-					+ "Event.setConsumed(true); \n\t\t\tupdate($"+ i +"Event);"; 
+					+ "Event.setConsumed(true); \n\t\t\tupdate($"+ i +"Event);"
+					+ "\n\t\t\tretract($"+ i +"Event);"; 
 		}
 		return concat;
 	}
 	
-	public static String getThenClauseWithProcessStartNotification(Activity[] theActivitySetToSetConsumed) {
-		//TODO: Add notification RESTNotifier;
+	public static String getThenClauseWithLearnersScoreUpdateAndProcessStartNotification(Activity[] theActivitySetToSetConsumed, String idBPMN, int idPath) {
 		String concat = "\n\t\tthen ";
 		for (int i = 0; i<theActivitySetToSetConsumed.length; i++) {
-			concat = concat + "\n\t\t\t$"+i
-					+ "Event.setConsumed(true); \n\t\t\tupdate($"+ i +"Event);"; 
+			concat = concat + "\n\t\t\t$"+ i
+					+ "Event.setConsumed(true); \n\t\t\tupdate($"+ i +"Event);"
+					+ "\n\t\t\tretract($"+ i +"Event);";					
 		}
+		 concat = concat + "\n\t\t\t"
+			+ "ResponseDispatcher.saveAndNotifyLearnersScore(\"##LEARNERSINVOLVEDID##\", \""+ idBPMN +"\", " +  idPath + ", " + "##TASKSCORE##);";
 		return concat;
-		
 	}
-	
-	
+		
 	
 	public static String getEnd() {
 		return "\n\t\tend\n\n\t";
