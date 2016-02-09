@@ -77,5 +77,8 @@ public interface DBController {
 	float getLearnerSessionScore(int idLearner, int idPath, String idBpmn, float sessionScore);
 	int setLearnerSessionScore(int idLearner, int idPath, String idBpmn, float sessionScore);
 	public Vector<Path> getPathsExecutedByLearner(int learnerID, String idBPMN);
+	public void setLearnerGlobalScore(int learnerID, float learnerGlobalScore);
+	public void setLearnerRelativeGlobalScore(int learnerID, float learnerRelativeGlobalScore);
+	public void setLearnerAbsoluteGlobalScore(int learnerID, float absoluteGlobalScore);
 	
 }

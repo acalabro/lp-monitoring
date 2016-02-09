@@ -512,6 +512,24 @@ public class MySqlController implements DBController {
 		}
         return retrievedPath;
 	}
+
+	@Override
+	public void setLearnerGlobalScore(int learnerID, float learnerGlobalScore) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setLearnerRelativeGlobalScore(int learnerID, float learnerRelativeGlobalScore) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setLearnerAbsoluteGlobalScore(int learnerID, float absoluteGlobalScore) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 /*	@Override

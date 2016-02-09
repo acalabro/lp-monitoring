@@ -65,5 +65,29 @@ public class ComputeScore {
 		return absoluteGlobal;
 	}
 
+
+	public static float learnerBPScore(int learnerID, String idBPMN) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public static float learnerGlobalScore(int learnerID) {
+		// TODO Auto-generated method stub
+		return 0f;
+	}
+
+
+	public static float learnerRelativeGlobalScore(int learnerID) {
+		// TODO Auto-generated method stub
+		return 0f;
+	}
+
+
+	public static float absoluteGlobalScore(int learnerID) {
+		// TODO Auto-generated method stub
+		return 0f;
+	}
+
 	
 }

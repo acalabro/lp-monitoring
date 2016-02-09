@@ -79,7 +79,7 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 			if (!databaseController.checkIfBPHasBeenAlreadyExtracted(theBPMNidentifier)) {
 				
 				Date now = new Date();
-				Bpmn newBpmn = new Bpmn("a"+System.currentTimeMillis(),now,0);
+				Bpmn newBpmn = new Bpmn(theBPMNidentifier,now,0);
 
 				Vector<Activity[]> theUnfoldedBPMN = bpmnExplorer.getUnfoldedBPMN(theBPMN);
 				Vector<Path> theGeneratedPath = crossRulesGenerator.generatePathsRules(crossRulesGenerator.generateAllPaths(theUnfoldedBPMN, newBpmn.getId()));
@@ -91,7 +91,7 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 				databaseController.saveBPMN(newBpmn);
 			} else {
 				this.rulesLists = crossRulesGenerator.instantiateRulesSetForUsersInvolved(
-						databaseController.getBPMNPaths(getBpmnIDFromXML(theBPMN)),
+						databaseController.getBPMNPaths(theBPMNidentifier),
 						usersInvolved, sessionID);
 			}			
 		} catch (ParserConfigurationException | SAXException | IOException e ) {
@@ -105,7 +105,7 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 	}
 
 	private String getBpmnIDFromXML(Document theBPMN2) {
-		
+		//TODO: create correct method
 		return "a1446728873453458831";
 	}
 
@@ -114,11 +114,21 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		
 		String[] learnersIDs = learnersID.split("-");
 		for(int i = 0; i<learnersIDs.length; i++) {
-		databaseController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
-		databaseController.setLearnerRelativeBPScore(Integer.parseInt(learnersIDs[i]), idBPMN, 
-														ComputeScore.relativeBP(
-															databaseController.getPathsExecutedByLearner(
-																	Integer.parseInt(learnersIDs[i]), idBPMN)));
+		
+			databaseController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
+			
+			databaseController.setLearnerRelativeBPScore(Integer.parseInt(learnersIDs[i]), idBPMN, 
+											ComputeScore.relativeBP(databaseController.getPathsExecutedByLearner(
+														Integer.parseInt(learnersIDs[i]), idBPMN)));
+			
+			databaseController.setLearnerBPScore(Integer.parseInt(learnersIDs[i]), idBPMN,
+													ComputeScore.learnerBPScore(Integer.parseInt(learnersIDs[i]), idBPMN));
+			databaseController.setLearnerGlobalScore(Integer.parseInt(learnersIDs[i]), ComputeScore.learnerGlobalScore(Integer.parseInt(learnersIDs[i])));
+			databaseController.setLearnerRelativeGlobalScore(Integer.parseInt(learnersIDs[i]), 
+											ComputeScore.learnerRelativeGlobalScore(Integer.parseInt(learnersIDs[i])));
+			databaseController.setLearnerAbsoluteGlobalScore(Integer.parseInt(learnersIDs[i]), 
+											ComputeScore.absoluteGlobalScore(Integer.parseInt(learnersIDs[i])));
+															
 		}
 	}
 	
