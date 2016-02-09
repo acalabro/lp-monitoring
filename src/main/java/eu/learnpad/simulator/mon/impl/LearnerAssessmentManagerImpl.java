@@ -108,6 +108,19 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		
 		return "a1446728873453458831";
 	}
+
+	@Override
+	public void computeAndSaveScores(String learnersID, int idPath, String idBPMN, float sessionScore) {
+		
+		String[] learnersIDs = learnersID.split("-");
+		for(int i = 0; i<learnersIDs.length; i++) {
+		databaseController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
+		databaseController.setLearnerRelativeBPScore(Integer.parseInt(learnersIDs[i]), idBPMN, 
+														ComputeScore.relativeBP(
+															databaseController.getPathsExecutedByLearner(
+																	Integer.parseInt(learnersIDs[i]), idBPMN)));
+		}
+	}
 	
 //	@Override
 //	public ComplexEventRuleActionListDocument ExploreBPSavePathsGenerateAndSaveRules(Document dom) {

@@ -51,9 +51,6 @@ public class RestNotifier {
 		RestNotifier.executePostAction(processID, processName, processTimeStamp, learnerID, sessionID);
 	}
 	
-	public static void notifySessionScoreUpdates(int learnerID, int idPath, String idBPMN, float sessionScore) {
-		
-	}
 	
 	public static List<BasicNameValuePair> setupValue(String processID, String processName, String processTimeStamp,
 																		String learnerID, String sessionID) {
@@ -80,5 +77,10 @@ public class RestNotifier {
 		} catch (IOException e) {
 			DebugMessages.println(TimeStamp.getCurrentTime(), RestNotifier.class.getSimpleName(),e.getCause().toString());
 		}
+	}
+
+	public static void notifySessionScoreUpdates(String learnersID, int idPath, String idBPMN, float sessionScore) {
+		// TODO Auto-generated method stub
+		
 	}
 }

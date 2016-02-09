@@ -115,7 +115,7 @@ public class GlimpseManager extends Thread implements MessageListener {
 
 			DebugMessages.print(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),
 					"Creating response dispatcher ");
-			responder = new ResponseDispatcher(initConn, connectionFact, requestMap, this.learnerAssessmentManager.getDBController());
+			responder = new ResponseDispatcher(initConn, connectionFact, requestMap, learnerAssessmentManager);
 			DebugMessages.ok();
 
 		} catch (JMSException e) {

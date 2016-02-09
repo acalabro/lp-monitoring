@@ -39,8 +39,6 @@ import javax.naming.InitialContext;
 import org.apache.commons.net.ntp.TimeStamp;
 
 import eu.learnpad.simulator.mon.consumer.ConsumerProfile;
-import eu.learnpad.simulator.mon.controller.DBController;
-import eu.learnpad.simulator.mon.coverage.ComputeScore;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 
 public class ResponseDispatcher {
@@ -55,7 +53,7 @@ public class ResponseDispatcher {
 	
 	@SuppressWarnings("unused")
 	private static TopicSession publicSession;
-	private static DBController mySqlController;
+	private static LearnerAssessmentManager lam;
 	
 	public ResponseDispatcher(InitialContext initConn,
 			TopicConnectionFactory connectionFact,
@@ -73,11 +71,11 @@ public class ResponseDispatcher {
 	
 	public ResponseDispatcher(InitialContext initConn,
 			TopicConnectionFactory connectionFact,
-			HashMap<Object, ConsumerProfile> requestMap, DBController controller) {
+			HashMap<Object, ConsumerProfile> requestMap, LearnerAssessmentManager learnerAssessmentManager) {
 
 		ResponseDispatcher.requestMap = requestMap;
 		ResponseDispatcher.initConn = initConn;
-		ResponseDispatcher.mySqlController = controller;
+		ResponseDispatcher.lam = learnerAssessmentManager;
 		try {
 			connection = connectionFact.createTopicConnection();
 			publishSession = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -119,17 +117,10 @@ public class ResponseDispatcher {
 	}
 	
 	public static void saveAndNotifyLearnersScore(String learnersID, String idBPMN, int idPath, float sessionScore) {
-		String[] learnersIDs = learnersID.split("-");
-		for (int i =0; i<learnersIDs.length;i++) {
-			//ComputeScore.
-			ResponseDispatcher.mySqlController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
-			ResponseDispatcher.mySqlController.setLearnerRelativeBPScore(
-																Integer.parseInt(learnersIDs[i]), idBPMN, 
-																			ComputeScore.relativeBP(
-																					ResponseDispatcher.mySqlController.getPathsExecutedByLearner(Integer.parseInt(learnersIDs[i]), idBPMN)));
-			RestNotifier.notifySessionScoreUpdates(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
 			
-		}
+			ResponseDispatcher.lam.computeAndSaveScores(learnersID, idPath, idBPMN, sessionScore);
+			
+			RestNotifier.notifySessionScoreUpdates(learnersID, idPath, idBPMN, sessionScore);
 
 	}
 	

@@ -218,15 +218,13 @@ public class MySqlController implements DBController {
 	@Override
 	public int saveLearnerProfile(Learner theLearner) {
 		String query = "insert into learner"
-				+ "(id_learner, id_role, name, surname, global_score, relative_global_score, absolute_global_score)"
-    	        + " values (?, ?, ?, ?, ?, ?, ?)";
+				+ "(id_learner, id_role, global_score, relative_global_score, absolute_global_score)"
+    	        + " values (?, ?, ?, ?, ?)";
     	 
 	try {
 		preparedStmt = conn.prepareStatement(query);
 	    preparedStmt.setInt(1, theLearner.getId());
 	    preparedStmt.setInt(2, theLearner.getIdRole());
-	    preparedStmt.setString(3, theLearner.getName());
-	    preparedStmt.setString(4, theLearner.getSurname());
 	    preparedStmt.setFloat(5,theLearner.getGlobalScore());
 	    preparedStmt.setFloat(6,theLearner.getRelativeGlobalScore());
 	    preparedStmt.setFloat(7,theLearner.getAbsolute_global_score());
@@ -458,15 +456,13 @@ public class MySqlController implements DBController {
 							learners.add(new Learner(
 								Integer.parseInt(XmlObject.Factory.parse(resultsSet.getString("id")).toString()),
 								Integer.parseInt(XmlObject.Factory.parse(resultsSet.getString("id_role")).toString()),
-								XmlObject.Factory.parse(resultsSet.getString("name")).toString(),
-								XmlObject.Factory.parse(resultsSet.getString("surname")).toString(),
 								Float.parseFloat(XmlObject.Factory.parse(resultsSet.getString("global_score")).toString()),
 								Float.parseFloat(XmlObject.Factory.parse(resultsSet.getString("relative_global_score")).toString()),
 								Float.parseFloat(XmlObject.Factory.parse(resultsSet.getString("absolute_global_score")).toString())));
 							DebugMessages.println(TimeStamp.getCurrentTime(),this.getClass().getSimpleName(),"Learner found");
 							}
 						else {
-							aLearner = new Learner(Integer.parseInt(learnersIDs[i]),0,"noname","noname",0.0f,0.0f,0.0f);
+							aLearner = new Learner(Integer.parseInt(learnersIDs[i]),0,0.0f,0.0f,0.0f);
 							learners.add(aLearner);
 							saveLearnerProfile(aLearner);
 							}	 
