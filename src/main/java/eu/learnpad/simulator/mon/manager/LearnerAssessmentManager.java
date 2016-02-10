@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 
 import eu.learnpad.simulator.mon.controller.DBController;
 import eu.learnpad.simulator.mon.coverage.Learner;
+import eu.learnpad.simulator.mon.coverage.Path;
 import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionListDocument;
 
 public abstract class LearnerAssessmentManager extends Thread {
@@ -20,4 +21,5 @@ public abstract class LearnerAssessmentManager extends Thread {
 
 	public abstract DBController getDBController();
 	public abstract void computeAndSaveScores(String learnersID, int idPath, String idBPMN, float sessionScore);
+	public abstract void setAllAbsoluteSessionScores(Vector<Path> theGeneratedPath);
 }

@@ -68,7 +68,7 @@ public class ComputeScore {
 
 	public static float learnerBPScore(int learnerID, String idBPMN) {
 		// TODO Auto-generated method stub
-		return 0;
+		return 0f;
 	}
 
 

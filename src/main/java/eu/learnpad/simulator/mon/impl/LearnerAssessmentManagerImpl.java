@@ -88,6 +88,7 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 						databaseController.savePathsForBPMN(theGeneratedPath),usersInvolved, sessionID);
 				
 				newBpmn.setAbsoluteBpScore(ComputeScore.absoluteBP(theGeneratedPath));
+				setAllAbsoluteSessionScores(theGeneratedPath);
 				databaseController.saveBPMN(newBpmn);
 			} else {
 				this.rulesLists = crossRulesGenerator.instantiateRulesSetForUsersInvolved(
@@ -102,6 +103,12 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 					this.getClass().getSimpleName(),"The message contains an INVALID BPMN");
 		}
 		return rulesLists;
+	}
+
+	@Override
+	public void setAllAbsoluteSessionScores(Vector<Path> theGeneratedPath) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private String getBpmnIDFromXML(Document theBPMN2) {
