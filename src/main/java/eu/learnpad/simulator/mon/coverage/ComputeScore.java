@@ -35,13 +35,12 @@ public class ComputeScore {
 		return absoluteBP;
 	}
 	
-	public static float global(Vector<Bpmn> theBPMNExecutedByUser) {
-//		float global = 0;
-//		for (int i = 0; i<theActivitiesExecutedByUser.size(); i++){
-//			global += theActivitiesExecutedByUser.get(i).getWeight();
-//		}
-//		return global;
-		return 0f;
+	public static float learnerGlobal(Vector<Float> theScoresOfTheBPMNExecutedByUser) {
+		float global = 0;
+		for (int i = 0; i<theScoresOfTheBPMNExecutedByUser.size(); i++){
+			global += theScoresOfTheBPMNExecutedByUser.get(i);
+		}
+		return global;
 	}
 	
 	public static float relativeGlobal(Vector<Float> relativeBPScoreExecutedByUser) {

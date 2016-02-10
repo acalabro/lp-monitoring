@@ -1,6 +1,5 @@
 package eu.learnpad.simulator.mon.controller;
 
-import java.util.Date;
 import java.util.Vector;
 
 import eu.learnpad.simulator.mon.coverage.Activity;
@@ -31,11 +30,6 @@ public interface DBController {
 	public float getLearnerBPCoverage(int idLearner, String idBPMN);
 	public int setLearnerBPCoverage(int idLearner, String idBPMN, float BPCoverage);
 	
-	public float getLearnerSessionScore(int idLearner, int idPath, String idBpmn, int idRole, Date executionDate);
-	public float getLearnerSessionScore(Learner theLearner, Path thePath, String idBpmn, int idRole, Date executionDate);
-	public int setLearnerSessionScore(int idLearner, int idPath, String idBpmn, int idRole, float sessionScore);
-	public int setLearnerSessionScore(Learner theLearner, Path thePath, String idBpmn, float sessionScore);
-	
 	public Activity[] getAllDistinctActivityOFaBPMN(Bpmn theBpmn);
 	
 	//BPMN methods
@@ -57,12 +51,7 @@ public interface DBController {
 	public int savePath(Path thePath);
 	public Path getPath(int thePathID);
 	public boolean updatePath(int thePathId, Path thePathToUpdate);
-	
-/*	//Activity methods
-	public int saveActivity(Activity activityToSave);
-	public Activity getActivity(int id_bpmn, String learnpad_id_activity);
-	public boolean updateActivity(int id_bpmn, String learnpad_id_activity, Activity theActivityToUpdate);*/
-	
+		
 	//Role methods
 	public int saveRole(Role theRole);
 	public Role getRole(int theRoleID);
@@ -72,13 +61,26 @@ public interface DBController {
 	public int saveTopic(Topic theTopic);
 	public Topic getTopic(int theTopicID);
 	public boolean updateTopic(int theTopicId, Topic theTopicToUpdate);
+	
 	public Vector<Learner> getLearners(String[] learnersIDs);
+	
+	public Vector<Path> getPathsExecutedByLearner(int learnerID, String idBPMN);
 	public Vector<Path> savePathsForBPMN(Vector<Path> vector);
+	
 	float getLearnerSessionScore(int idLearner, int idPath, String idBpmn, float sessionScore);
 	int setLearnerSessionScore(int idLearner, int idPath, String idBpmn, float sessionScore);
-	public Vector<Path> getPathsExecutedByLearner(int learnerID, String idBPMN);
+	
+	
 	public void setLearnerGlobalScore(int learnerID, float learnerGlobalScore);
+	public float getLearnerGlobalScore(int learnerID);
+	
 	public void setLearnerRelativeGlobalScore(int learnerID, float learnerRelativeGlobalScore);
+	public float getLearnerRelativeGlobalScore(int learnerID);
+	
 	public void setLearnerAbsoluteGlobalScore(int learnerID, float absoluteGlobalScore);
+	public float setLearnerAbsoluteGlobalScore(int learnerID);
+	
+	public Vector<Float> getLearnerBPMNScores(int learnerID);
+	public Vector<Float> getLearnerRelativeBPScores(int learnerID);
 	
 }

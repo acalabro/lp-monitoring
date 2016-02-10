@@ -113,18 +113,6 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public float getLearnerSessionScore(int idLearner, int idPath, String idBPMN, int idRole, Date executionDate) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public float getLearnerSessionScore(Learner theLearner, Path thePath, String idBPMN, int idRole, Date executionDate) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public float getLearnerSessionScore(int idLearner, int idPath, String idBPMN, float sessionScore) {
 		return 0;
 	}
@@ -151,18 +139,6 @@ public class MySqlController implements DBController {
 				TimeStamp.getCurrentTime(), 
 				this.getClass().getSimpleName(),
 				"PathLearner SessionScore Saved");
-		return 0;
-	}
-	
-	@Override
-	public int setLearnerSessionScore(int idLearner, int idPath, String idBPMN, int idRole, float sessionScore) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int setLearnerSessionScore(Learner theLearner, Path thePath, String idBPMN, float sessionScore) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
@@ -394,27 +370,21 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public int setLearnerBPScore(int idLearner, String idBPMN, float BPScore) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public float getLearnerRelativeBPScore(int idLearner, String idBPMN) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
-	public int setLearnerRelativeBPScore(int idLearner, String idBPMN, float relativeBPScore) {
-		 String query = " insert into bpmn_learner (id_learner, id_bpmn, relative_bp_score)"
+	public int setLearnerBPScore(int idLearner, String idBPMN, float BPScore) {
+		 String query = " insert into bpmn_learner (id_learner, id_bpmn, bp_score)"
 	    	        + " values (?, ?, ?)";
 	    	 
 		try {
 			preparedStmt = conn.prepareStatement(query);
 		    preparedStmt.setInt(1, idLearner);
 		    preparedStmt.setString(2,idBPMN);
-		    preparedStmt.setFloat(3, relativeBPScore);
+		    preparedStmt.setFloat(3, BPScore);
 
 		    // execute the prepared statement
 		    preparedStmt.execute();
@@ -530,55 +500,80 @@ public class MySqlController implements DBController {
 		// TODO Auto-generated method stub
 		
 	}
-}
 
-/*	@Override
-	public int saveActivity(Activity activityToSave) {
-		String query = " insert into activity (id_bpmn, id_path, name, weigth, expected_kpi)"
-    	        + " values (?, ?, ?, ?, ?, ?)";
-	try {
-		preparedStmt = conn.prepareStatement(query);
-		preparedStmt.setString(1, activityToSave.get);
-	    preparedStmt.setString(2, activityToSave.getPath_id());
-	    preparedStmt.setString(3,activityToSave.getName());
-	    preparedStmt.setFloat(4, activityToSave.getWeight());
-	    preparedStmt.setBlob(5, serializeObject(activityToSave.getExpectedKpi()));
-	 
-	    // execute the prepared statement
-	    preparedStmt.execute();
-	} catch (SQLException e) {
-		return 1;
-	}  
-	DebugMessages.println(
-			TimeStamp.getCurrentTime(), 
-			this.getClass().getSimpleName(),
-			"Path Saved");
-	return 0;
-	}
-
-	private Blob serializeObject(HashMap<String, Float> expectedKpi) {
-
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out;
+	@Override
+	public Vector<Float> getLearnerBPMNScores(int learnerID) {
+		String query = "SELECT bpmn_learner.bp_score "
+				+ " FROM glimpse.bpmn_learner" 
+				+ " where bpmn_learner.id_learner = '" + learnerID +
+				"'";
+		Vector<Float> retrievedScores = new Vector<Float>();
+		
 		try {
-			out = new ObjectOutputStream(bos);
-			out.writeObject(expectedKpi);
-			return new SerialBlob(bos.toByteArray());
-		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		preparedStmt = conn.prepareStatement(query);
+		resultsSet = preparedStmt.executeQuery(); 
+		        
+		while ( resultsSet.next() ) {
+			retrievedScores.add(resultsSet.getFloat("bp_score"));
 		}
-		return null;
+		DebugMessages.println(
+				TimeStamp.getCurrentTime(), 
+				this.getClass().getSimpleName(),
+				"BPMN scores retrieved");
+		} catch (SQLException e) {
+		System.err.println("Exception during getLearnerBPMNScores");
+		System.err.println(e.getMessage());
+		}
+		return retrievedScores;
 	}
 
 	@Override
-	public Activity getActivity(int id_bpmn, String learnpad_id_activity) {
+	public int setLearnerRelativeBPScore(int idLearner, String idBPMN, float relativeBPScore) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
-	public boolean updateActivity(int id_bpmn, String learnpad_id_activity, Activity theActivityToUpdate) {
+	public float getLearnerGlobalScore(int learnerID) {
 		// TODO Auto-generated method stub
-		return false;
-	}*/
+		return 0;
+	}
+
+	@Override
+	public float getLearnerRelativeGlobalScore(int learnerID) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float setLearnerAbsoluteGlobalScore(int learnerID) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Vector<Float> getLearnerRelativeBPScores(int learnerID) {
+		String query = "SELECT bpmn_learner.bp_score "
+				+ " FROM glimpse.bpmn_learner" 
+				+ " where bpmn_learner.id_learner = '" + learnerID +
+				"'";
+		Vector<Float> retrievedScores = new Vector<Float>();
+		
+		try {
+		preparedStmt = conn.prepareStatement(query);
+		resultsSet = preparedStmt.executeQuery(); 
+		        
+		while ( resultsSet.next() ) {
+			retrievedScores.add(resultsSet.getFloat("bp_score"));
+		}
+		DebugMessages.println(
+				TimeStamp.getCurrentTime(), 
+				this.getClass().getSimpleName(),
+				"BPMN scores retrieved");
+		} catch (SQLException e) {
+		System.err.println("Exception during getLearnerBPMNScores");
+		System.err.println(e.getMessage());
+		}
+		return retrievedScores;
+	}
+}
