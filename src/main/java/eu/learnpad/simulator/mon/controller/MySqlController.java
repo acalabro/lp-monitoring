@@ -113,7 +113,7 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public float getLearnerSessionScore(int idLearner, int idPath, String idBPMN, float sessionScore) {
+	public float getLearnerSessionScore(int idLearner, int idPath, String idBPMN) {
 		return 0;
 	}
 	
@@ -377,14 +377,16 @@ public class MySqlController implements DBController {
 
 	@Override
 	public int setLearnerBPScore(int idLearner, String idBPMN, float BPScore) {
-		 String query = " insert into bpmn_learner (id_learner, id_bpmn, bp_score)"
-	    	        + " values (?, ?, ?)";
+		 String query = " insert into bpmn_learner (id_learner, id_bpmn, bp_score, relative_bp_score, bp_coverage)"
+	    	        + " values (?, ?, ?, ?. ?)";
 	    	 
 		try {
 			preparedStmt = conn.prepareStatement(query);
 		    preparedStmt.setInt(1, idLearner);
 		    preparedStmt.setString(2,idBPMN);
 		    preparedStmt.setFloat(3, BPScore);
+		    preparedStmt.setFloat(4, 0f);
+		    preparedStmt.setFloat(5, 0f);
 
 		    // execute the prepared statement
 		    preparedStmt.execute();
@@ -575,5 +577,11 @@ public class MySqlController implements DBController {
 		System.err.println(e.getMessage());
 		}
 		return retrievedScores;
+	}
+
+	@Override
+	public Vector<Bpmn> getBPMNExecutedByLearner(int learnerID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

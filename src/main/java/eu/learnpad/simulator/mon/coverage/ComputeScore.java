@@ -51,11 +51,19 @@ public class ComputeScore {
 		return relativeGlobal;
 	}
 	
-	public static float absoluteGlobal(Vector<Bpmn> theBPMNexecutedByTheUser) {
+	public static float learnerAbsoluteGlobal(Vector<Bpmn> theBPMNexecutedByTheUser) {
 		float absoluteGlobal = 0;
 		for(int i = 0; i<theBPMNexecutedByTheUser.size(); i++) {
 			absoluteGlobal += theBPMNexecutedByTheUser.get(i).getAbsoluteBpScore();
 		}
 		return absoluteGlobal;
+	}
+
+	public static float learnerRelativeGlobal(Vector<Float> learnerRelativeBPScores) {
+		float relativeGlobal = 0;
+		for(int i = 0; i<learnerRelativeBPScores.size(); i++) {
+			relativeGlobal += learnerRelativeBPScores.get(i);
+		}
+		return relativeGlobal;
 	}	
 }

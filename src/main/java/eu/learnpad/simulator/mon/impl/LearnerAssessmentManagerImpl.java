@@ -130,22 +130,26 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		
 			databaseController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
 			
-			databaseController.setLearnerRelativeBPScore(Integer.parseInt(learnersIDs[i]), idBPMN, 
-											ComputeScore.learnerRelativeBP(databaseController.getPathsExecutedByLearner(
-														Integer.parseInt(learnersIDs[i]), idBPMN)));
-			
-			databaseController.setLearnerBPScore(Integer.parseInt(learnersIDs[i]), idBPMN,
-													ComputeScore.learnerBP(Integer.parseInt(learnersIDs[i]), idBPMN));
-			
-			databaseController.setLearnerGlobalScore(Integer.parseInt(learnersIDs[i]), ComputeScore.learnerGlobal(
-															databaseController.getLearnerBPMNScores(Integer.parseInt(learnersIDs[i]))));
+			databaseController.setLearnerGlobalScore(Integer.parseInt(learnersIDs[i]),
+					ComputeScore.learnerGlobal(databaseController.getLearnerBPMNScores(Integer.parseInt(learnersIDs[i]))));
 			
 			databaseController.setLearnerRelativeGlobalScore(Integer.parseInt(learnersIDs[i]), 
-													ComputeScore.learnerRelativeGlobal(
-															databaseController.getLearnerRelativeBPScores(Integer.parseInt(learnersIDs[i]))));
-			
+					ComputeScore.learnerRelativeGlobal(databaseController.getLearnerRelativeBPScores(Integer.parseInt(learnersIDs[i]))));
+
 			databaseController.setLearnerAbsoluteGlobalScore(Integer.parseInt(learnersIDs[i]), 
-													ComputeScore.learnerAbsoluteGlobal(Integer.parseInt(learnersIDs[i])));
+					ComputeScore.learnerAbsoluteGlobal(
+							databaseController.getBPMNExecutedByLearner(Integer.parseInt(learnersIDs[i]))));
+			
+			databaseController.setLearnerBPScore(Integer.parseInt(learnersIDs[i]), idBPMN,
+					ComputeScore.learnerBP(Integer.parseInt(learnersIDs[i]), idBPMN));
+
+			databaseController.setLearnerRelativeBPScore(Integer.parseInt(learnersIDs[i]), idBPMN, 
+					ComputeScore.learnerRelativeBP(databaseController.getPathsExecutedByLearner(Integer.parseInt(learnersIDs[i]), idBPMN)));			
+			
+System.out.println("asd");
+//			databaseController.setLearnerBPCoverage(Integer.parseInt(learnersIDs[i]), idBPMN, 
+//					ComputeScore.BPCoverage());
+			
 															
 		}
 	}
