@@ -82,13 +82,15 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 				Bpmn newBpmn = new Bpmn(theBPMNidentifier,now,0);
 
 				Vector<Activity[]> theUnfoldedBPMN = bpmnExplorer.getUnfoldedBPMN(theBPMN);
-				Vector<Path> theGeneratedPath = crossRulesGenerator.generatePathsRules(crossRulesGenerator.generateAllPaths(theUnfoldedBPMN, newBpmn.getId()));
+				Vector<Path> theGeneratedPath = crossRulesGenerator.generatePathsRules(
+																	crossRulesGenerator.generateAllPaths(theUnfoldedBPMN, newBpmn.getId()));
+				theGeneratedPath = setAllAbsoluteSessionScores(theGeneratedPath);
 				
 				this.rulesLists = crossRulesGenerator.instantiateRulesSetForUsersInvolved(
 						databaseController.savePathsForBPMN(theGeneratedPath),usersInvolved, sessionID);
 				
 				newBpmn.setAbsoluteBpScore(ComputeScore.absoluteBP(theGeneratedPath));
-				setAllAbsoluteSessionScores(theGeneratedPath);
+				
 				databaseController.saveBPMN(newBpmn);
 			} else {
 				this.rulesLists = crossRulesGenerator.instantiateRulesSetForUsersInvolved(
@@ -106,8 +108,12 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 	}
 
 	@Override
-	public void setAllAbsoluteSessionScores(Vector<Path> theGeneratedPath) {
-		// TODO Auto-generated method stub
+	public Vector<Path> setAllAbsoluteSessionScores(Vector<Path> theGeneratedPath) {
+
+		for (int i =0; i< theGeneratedPath.size(); i++) {
+			theGeneratedPath.get(i).setAbsoluteSessionScore(ComputeScore.absoluteSession(theGeneratedPath.get(i).getActivities()));
+		}
+		return theGeneratedPath;
 		
 	}
 
@@ -125,16 +131,17 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 			databaseController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
 			
 			databaseController.setLearnerRelativeBPScore(Integer.parseInt(learnersIDs[i]), idBPMN, 
-											ComputeScore.relativeBP(databaseController.getPathsExecutedByLearner(
+											ComputeScore.learnerRelativeBP(databaseController.getPathsExecutedByLearner(
 														Integer.parseInt(learnersIDs[i]), idBPMN)));
 			
 			databaseController.setLearnerBPScore(Integer.parseInt(learnersIDs[i]), idBPMN,
-													ComputeScore.learnerBPScore(Integer.parseInt(learnersIDs[i]), idBPMN));
-			databaseController.setLearnerGlobalScore(Integer.parseInt(learnersIDs[i]), ComputeScore.learnerGlobalScore(Integer.parseInt(learnersIDs[i])));
-			databaseController.setLearnerRelativeGlobalScore(Integer.parseInt(learnersIDs[i]), 
-											ComputeScore.learnerRelativeGlobalScore(Integer.parseInt(learnersIDs[i])));
-			databaseController.setLearnerAbsoluteGlobalScore(Integer.parseInt(learnersIDs[i]), 
-											ComputeScore.absoluteGlobalScore(Integer.parseInt(learnersIDs[i])));
+													ComputeScore.learnerBP(Integer.parseInt(learnersIDs[i]), idBPMN));
+//			databaseController.setLearnerGlobalScore(Integer.parseInt(learnersIDs[i]), 
+//													ComputeScore.learnerGlobal(Integer.parseInt(learnersIDs[i])));
+//			databaseController.setLearnerRelativeGlobalScore(Integer.parseInt(learnersIDs[i]), 
+//													ComputeScore.learnerRelativeGlobal(Integer.parseInt(learnersIDs[i])));
+//			databaseController.setLearnerAbsoluteGlobalScore(Integer.parseInt(learnersIDs[i]), 
+//													ComputeScore.learnerAbsoluteGlobal(Integer.parseInt(learnersIDs[i])));
 															
 		}
 	}

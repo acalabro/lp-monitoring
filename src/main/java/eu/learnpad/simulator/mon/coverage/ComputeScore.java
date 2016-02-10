@@ -4,23 +4,44 @@ import java.util.Vector;
 
 public class ComputeScore {
 
-	/*SINGLE SCORES*/
-	public static float global(Vector<Activity> theActivitiesExecutedByUser) {
-		float global = 0;
-		for (int i = 0; i<theActivitiesExecutedByUser.size(); i++){
-			global += theActivitiesExecutedByUser.get(i).getWeight();
+
+	public static float absoluteSession(Activity[] activities) {
+
+		float absoluteSession = 0;
+		for (int i=0; i< activities.length; i++) {
+			absoluteSession += activities[i].getWeight();			
 		}
-		return global;
+		return absoluteSession;
+	}
+
+	public static float learnerBP(int learnerID, String idBPMN) {
+		// TODO Auto-generated method stub
+		return 0f;
 	}
 	
-	
-	/*RELATIVE SCORES*/
-	public static float relativeBP(Vector<Path> executedByUser) {
+	public static float learnerRelativeBP(Vector<Path> executedByUser) {
 		float relativeBP = 0;
 		for (int i = 0; i<executedByUser.size(); i++) {
 			relativeBP += executedByUser.get(i).getAbsoluteSessionScore();
 		}
 		return relativeBP;
+	}
+	
+	public static float absoluteBP(Vector<Path> thePathOfTheBPMN) {
+		float absoluteBP = 0;
+		for(int i = 0; i<thePathOfTheBPMN.size(); i++) {
+			absoluteBP += thePathOfTheBPMN.get(i).getAbsoluteSessionScore();
+		}
+		return absoluteBP;
+	}
+	
+	public static float global(Vector<Bpmn> theBPMNExecutedByUser) {
+//		float global = 0;
+//		for (int i = 0; i<theActivitiesExecutedByUser.size(); i++){
+//			global += theActivitiesExecutedByUser.get(i).getWeight();
+//		}
+//		return global;
+		return 0f;
 	}
 	
 	public static float relativeGlobal(Vector<Float> relativeBPScoreExecutedByUser) {
@@ -30,32 +51,6 @@ public class ComputeScore {
 		}
 		return relativeGlobal;
 	}
-
-//	public static float global(Vector<Bpmn> executedByUser) {
-//		float relativeBP = 0;
-//		for (int i = 0; i<executedByUser.size(); i++) {
-//			relativeBP += executedByUser.get(i).getAbsoluteSessionScore();
-//		}
-//		return relativeBP;
-	
-	
-	/*ABSOLUTE SCORES*/
-	public static float absoluteSession(Activity[] activities) {
-
-			float absoluteSession = 0;
-			for (int i=0; i< activities.length; i++) {
-				absoluteSession += activities[i].getWeight();			
-			}
-			return absoluteSession;
-	}
-
-	public static float absoluteBP(Vector<Path> thePathOfTheBPMN) {
-		float absoluteBP = 0;
-		for(int i = 0; i<thePathOfTheBPMN.size(); i++) {
-			absoluteBP += thePathOfTheBPMN.get(i).getAbsoluteSessionScore();
-		}
-		return absoluteBP;
-	}
 	
 	public static float absoluteGlobal(Vector<Bpmn> theBPMNexecutedByTheUser) {
 		float absoluteGlobal = 0;
@@ -63,31 +58,5 @@ public class ComputeScore {
 			absoluteGlobal += theBPMNexecutedByTheUser.get(i).getAbsoluteBpScore();
 		}
 		return absoluteGlobal;
-	}
-
-
-	public static float learnerBPScore(int learnerID, String idBPMN) {
-		// TODO Auto-generated method stub
-		return 0f;
-	}
-
-
-	public static float learnerGlobalScore(int learnerID) {
-		// TODO Auto-generated method stub
-		return 0f;
-	}
-
-
-	public static float learnerRelativeGlobalScore(int learnerID) {
-		// TODO Auto-generated method stub
-		return 0f;
-	}
-
-
-	public static float absoluteGlobalScore(int learnerID) {
-		// TODO Auto-generated method stub
-		return 0f;
-	}
-
-	
+	}	
 }
