@@ -14,9 +14,12 @@ public class ComputeScore {
 		return absoluteSession;
 	}
 
-	public static float learnerBP(int learnerID, String idBPMN) {
-		// TODO Auto-generated method stub
-		return 0f;
+	public static float learnerBP(Vector<Float> executedByUser) {
+		float bp = 0;
+		for (int i = 0; i<executedByUser.size(); i++){
+			bp += executedByUser.get(i);
+		}
+		return bp;
 	}
 	
 	public static float learnerRelativeBP(Vector<Path> executedByUser) {
@@ -51,10 +54,10 @@ public class ComputeScore {
 		return relativeGlobal;
 	}
 	
-	public static float learnerAbsoluteGlobal(Vector<Bpmn> theBPMNexecutedByTheUser) {
+	public static float learnerAbsoluteGlobal(Vector<Float> BPMNScoresExecutedByUser) {
 		float absoluteGlobal = 0;
-		for(int i = 0; i<theBPMNexecutedByTheUser.size(); i++) {
-			absoluteGlobal += theBPMNexecutedByTheUser.get(i).getAbsoluteBpScore();
+		for(int i = 0; i<BPMNScoresExecutedByUser.size(); i++) {
+			absoluteGlobal += BPMNScoresExecutedByUser.get(i);
 		}
 		return absoluteGlobal;
 	}

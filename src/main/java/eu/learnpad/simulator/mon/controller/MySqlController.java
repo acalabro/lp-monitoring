@@ -580,8 +580,55 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public Vector<Bpmn> getBPMNExecutedByLearner(int learnerID) {
+	public Vector<Float> getBPMNScoresExecutedByLearner(int learnerID) {
+		String query = "SELECT bpmn_learner.bp_score"
+				+ " FROM glimpse.bpmn, glimpse.bpmn_learner" + " where bpmn_learner.id_learner = '" + learnerID + "'";
+
+		Vector<Float> retrievedScores = new Vector<Float>();
+
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			resultsSet = preparedStmt.executeQuery();
+
+			while (resultsSet.next()) {
+				retrievedScores.add(resultsSet.getFloat("bp_score"));
+			}
+			DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),
+					"Extracted bpmn loaded from DB");
+		} catch (SQLException e) {
+			System.err.println("Exception during getBPMNExecutedByLearner");
+			System.err.println(e.getMessage());
+		}
+		return retrievedScores;
+	}
+
+	@Override
+	public Vector<Float> getMaxSessionScores(int parseInt, String idBPMN) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Vector<Float> getBPMNAbsoluteScoresExecutedByLearner(int learnerID) {
+		String query = "SELECT bpmn.absolute_bp_score"
+				+ " FROM glimpse.bpmn, glimpse.bpmn_learner"
+				+ " where bpmn_learner.id_learner = '" + learnerID + "'";
+
+		Vector<Float> retrievedScores = new Vector<Float>();
+
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			resultsSet = preparedStmt.executeQuery();
+
+			while (resultsSet.next()) {
+				retrievedScores.add(resultsSet.getFloat("absolute_bp_score"));
+			}
+			DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),
+					"Selected absolute_bp_scores");
+		} catch (SQLException e) {
+			System.err.println("Exception during getBPMNAbsoluteScoresExecutedByLearner");
+			System.err.println(e.getMessage());
+		}
+		return retrievedScores;
 	}
 }

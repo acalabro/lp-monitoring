@@ -85,6 +85,8 @@ public interface DBController {
 	
 	public float getLearnerBPCoverage(int idLearner, String idBPMN);
 	public int setLearnerBPCoverage(int idLearner, String idBPMN, float BPCoverage);
-	public Vector<Bpmn> getBPMNExecutedByLearner(int learnerID);
+	public Vector<Float> getBPMNScoresExecutedByLearner(int learnerID);
+	public Vector<Float> getMaxSessionScores(int parseInt, String idBPMN);
+	public Vector<Float> getBPMNAbsoluteScoresExecutedByLearner(int learnerID);
 	
 }
