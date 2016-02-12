@@ -130,6 +130,10 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		
 			databaseController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
 			
+			databaseController.setLearnerBPScore(Integer.parseInt(learnersIDs[i]), idBPMN,
+					ComputeScore.learnerBP(
+							databaseController.getMaxSessionScores(Integer.parseInt(learnersIDs[i]), idBPMN)));
+			
 			databaseController.setLearnerGlobalScore(Integer.parseInt(learnersIDs[i]),
 					ComputeScore.learnerGlobal(databaseController.getLearnerBPMNScores(Integer.parseInt(learnersIDs[i]))));
 			
@@ -141,14 +145,9 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 					ComputeScore.learnerAbsoluteGlobal(
 							databaseController.getBPMNAbsoluteScoresExecutedByLearner(Integer.parseInt(learnersIDs[i]))));
 			
-			databaseController.setLearnerBPScore(Integer.parseInt(learnersIDs[i]), idBPMN,
-					ComputeScore.learnerBP(
-							databaseController.getMaxSessionScores(Integer.parseInt(learnersIDs[i]), idBPMN)));
-
-			databaseController.setLearnerRelativeBPScore(Integer.parseInt(learnersIDs[i]), idBPMN, 
-					ComputeScore.learnerRelativeBP(databaseController.getPathsExecutedByLearner(Integer.parseInt(learnersIDs[i]), idBPMN)));			
 			
-System.out.println("asd");
+//			databaseController.setLearnerRelativeBPScore(Integer.parseInt(learnersIDs[i]), idBPMN, 
+//					ComputeScore.learnerRelativeBP(databaseController.getPathsExecutedByLearner(Integer.parseInt(learnersIDs[i]), idBPMN)));			
 //			databaseController.setLearnerBPCoverage(Integer.parseInt(learnersIDs[i]), idBPMN, 
 //					ComputeScore.BPCoverage());
 			

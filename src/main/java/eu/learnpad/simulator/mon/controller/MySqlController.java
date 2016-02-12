@@ -201,9 +201,9 @@ public class MySqlController implements DBController {
 		preparedStmt = conn.prepareStatement(query);
 	    preparedStmt.setInt(1, theLearner.getId());
 	    preparedStmt.setInt(2, theLearner.getIdRole());
-	    preparedStmt.setFloat(5,theLearner.getGlobalScore());
-	    preparedStmt.setFloat(6,theLearner.getRelativeGlobalScore());
-	    preparedStmt.setFloat(7,theLearner.getAbsolute_global_score());
+	    preparedStmt.setFloat(3,theLearner.getGlobalScore());
+	    preparedStmt.setFloat(4,theLearner.getRelativeGlobalScore());
+	    preparedStmt.setFloat(5,theLearner.getAbsolute_global_score());
 
 	    // execute the prepared statement
 	    preparedStmt.execute();
@@ -426,11 +426,11 @@ public class MySqlController implements DBController {
 						
 						if (resultsSet.first()) {
 							learners.add(new Learner(
-								Integer.parseInt(XmlObject.Factory.parse(resultsSet.getString("id")).toString()),
-								Integer.parseInt(XmlObject.Factory.parse(resultsSet.getString("id_role")).toString()),
-								Float.parseFloat(XmlObject.Factory.parse(resultsSet.getString("global_score")).toString()),
-								Float.parseFloat(XmlObject.Factory.parse(resultsSet.getString("relative_global_score")).toString()),
-								Float.parseFloat(XmlObject.Factory.parse(resultsSet.getString("absolute_global_score")).toString())));
+								Integer.parseInt(resultsSet.getString("id_learner")),
+								Integer.parseInt(resultsSet.getString("id_role")),
+								Float.parseFloat(resultsSet.getString("global_score")),
+								Float.parseFloat(resultsSet.getString("relative_global_score")),
+								Float.parseFloat(resultsSet.getString("absolute_global_score"))));
 							DebugMessages.println(TimeStamp.getCurrentTime(),this.getClass().getSimpleName(),"Learner found");
 							}
 						else {
@@ -439,7 +439,7 @@ public class MySqlController implements DBController {
 							saveLearnerProfile(aLearner);
 							}	 
 						}
-		} catch (SQLException | XmlException e) {
+		} catch (SQLException e) {
 			System.err.println("Exception during getLearners");
 			System.err.println(e.getMessage());
 		}
@@ -487,20 +487,55 @@ public class MySqlController implements DBController {
 
 	@Override
 	public void setLearnerGlobalScore(int learnerID, float learnerGlobalScore) {
-		// TODO Auto-generated method stub
+		 String query = " update glimpse.learner set global_score = "+
+				 			learnerGlobalScore + ";";
+	    	 
+		try {
+			preparedStmt = conn.prepareStatement(query);
+		    
+		    // execute the prepared statement
+		    preparedStmt.execute();
+		} catch (SQLException e) {
+			System.err.println("Exception during setLearnerGlobalScore ");
+			System.err.println(e.getMessage());
+		}  
+		DebugMessages.println(
+				TimeStamp.getCurrentTime(), 
+				this.getClass().getSimpleName(),
+				"GlobalScore Updated");
 		
 	}
 
 	@Override
 	public void setLearnerRelativeGlobalScore(int learnerID, float learnerRelativeGlobalScore) {
-		// TODO Auto-generated method stub
-		
+		 String query = " update glimpse.learner set relative_global_score = "+
+				 learnerRelativeGlobalScore + ";";
+	 
+		try {
+			preparedStmt = conn.prepareStatement(query);
+
+			// execute the prepared statement
+			preparedStmt.execute();
+		} catch (SQLException e) {
+		}
+		DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),
+				"learnerRelativeGlobalScore Updated");
 	}
 
 	@Override
 	public void setLearnerAbsoluteGlobalScore(int learnerID, float absoluteGlobalScore) {
-		// TODO Auto-generated method stub
-		
+		 String query = " update glimpse.learner set absolute_global_score = "+
+				 absoluteGlobalScore + ";";
+	 
+		try {
+			preparedStmt = conn.prepareStatement(query);
+
+			// execute the prepared statement
+			preparedStmt.execute();
+		} catch (SQLException e) {
+		}
+		DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),
+				"absoluteGlobalScore Updated");
 	}
 
 	@Override
@@ -560,21 +595,21 @@ public class MySqlController implements DBController {
 				+ " where bpmn_learner.id_learner = '" + learnerID +
 				"'";
 		Vector<Float> retrievedScores = new Vector<Float>();
-		
 		try {
-		preparedStmt = conn.prepareStatement(query);
-		resultsSet = preparedStmt.executeQuery(); 
-		        
-		while ( resultsSet.next() ) {
-			retrievedScores.add(resultsSet.getFloat("bp_score"));
-		}
-		DebugMessages.println(
-				TimeStamp.getCurrentTime(), 
-				this.getClass().getSimpleName(),
-				"BPMN scores retrieved");
+			preparedStmt = conn.prepareStatement(query);
+			resultsSet = preparedStmt.executeQuery(); 
+			if (resultsSet.getFetchSize() != 0) {  
+				while ( resultsSet.next() ) {
+					retrievedScores.add(resultsSet.getFloat("bp_score"));
+				}
+			} else {
+				retrievedScores.add(0f);
+			}
+			DebugMessages.println(TimeStamp.getCurrentTime(), 
+					this.getClass().getSimpleName(),"BPMN scores retrieved");
 		} catch (SQLException e) {
-		System.err.println("Exception during getLearnerBPMNScores");
-		System.err.println(e.getMessage());
+			System.err.println("Exception during getLearnerBPMNScores");
+			System.err.println(e.getMessage());
 		}
 		return retrievedScores;
 	}
@@ -603,9 +638,29 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public Vector<Float> getMaxSessionScores(int parseInt, String idBPMN) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Float> getMaxSessionScores(int learnerID, String idBPMN) {
+		
+		String query = "SELECT max(session_score)"
+				+ " FROM path_learner"
+				+ " where id_learner = "+ learnerID
+				+ " and EXISTS (select distinct id_path from path_learner where id_bpmn = '" + idBPMN + "') group by id_path";
+
+		Vector<Float> retrievedScores = new Vector<Float>();
+
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			resultsSet = preparedStmt.executeQuery();
+
+			while (resultsSet.next()) {
+				retrievedScores.add(resultsSet.getFloat("MAX(session_score)"));
+			}
+			DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),
+					"Selected session_score");
+		} catch (SQLException e) {
+			System.err.println("Exception during getMaxSessionScores");
+			System.err.println(e.getMessage());
+		}
+		return retrievedScores;
 	}
 
 	@Override
@@ -619,9 +674,12 @@ public class MySqlController implements DBController {
 		try {
 			preparedStmt = conn.prepareStatement(query);
 			resultsSet = preparedStmt.executeQuery();
-
-			while (resultsSet.next()) {
-				retrievedScores.add(resultsSet.getFloat("absolute_bp_score"));
+			if (resultsSet.getFetchSize() != 0) {  
+				while (resultsSet.next()) {
+					retrievedScores.add(resultsSet.getFloat("absolute_bp_score"));
+				}
+			} else {
+				retrievedScores.add(0f);
 			}
 			DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(),
 					"Selected absolute_bp_scores");

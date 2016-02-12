@@ -125,7 +125,7 @@ public class ResponseDispatcher {
 	}
 	
 	public static void TestSaving(String args[]) {
-		ResponseDispatcher.saveAndNotifyLearnersScore("1-2-3-4-5-6", "a1446728873453458831", 1, 600.0f);
+		ResponseDispatcher.saveAndNotifyLearnersScore("1-2-3-4-5-6", "a1446728873453458831", 2, 300.0f);
 	}
 	
 	public static void sendResponse(Object object, String enablerName, String answerTopic)
