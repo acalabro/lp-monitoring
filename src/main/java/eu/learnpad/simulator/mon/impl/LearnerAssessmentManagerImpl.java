@@ -79,9 +79,11 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 			if (!databaseController.checkIfBPHasBeenAlreadyExtracted(theBPMNidentifier)) {
 				
 				Date now = new Date();
-				Bpmn newBpmn = new Bpmn(theBPMNidentifier,now,0);
-
+				
 				Vector<Activity[]> theUnfoldedBPMN = bpmnExplorer.getUnfoldedBPMN(theBPMN);
+				
+				Bpmn newBpmn = new Bpmn(theBPMNidentifier,now,0, 0, theUnfoldedBPMN.size());
+				
 				Vector<Path> theGeneratedPath = crossRulesGenerator.generatePathsRules(
 																	crossRulesGenerator.generateAllPaths(theUnfoldedBPMN, newBpmn.getId()));
 				theGeneratedPath = setAllAbsoluteSessionScores(theGeneratedPath);
@@ -126,6 +128,8 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 	public void computeAndSaveScores(String learnersID, int idPath, String idBPMN, float sessionScore) {
 		
 		String[] learnersIDs = learnersID.split("-");
+		int pathsCardinality = databaseController.getBPMNPathsCardinality(idBPMN);
+		
 		for(int i = 0; i<learnersIDs.length; i++) {
 		
 			databaseController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
@@ -133,11 +137,12 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 			float learnerBPScore = ComputeScore.learnerBP(
 					databaseController.getMaxSessionScores(Integer.parseInt(learnersIDs[i]), idBPMN)); 
 			
-			float learnerRelativeBPScore = ComputeScore.learnerRelativeBP(
-					databaseController.getPathsExecutedByLearner(Integer.parseInt(learnersIDs[i]), idBPMN)); 
+			Vector<Path> pathsExecutedByLearner = databaseController.getPathsExecutedByLearner(Integer.parseInt(learnersIDs[i]), idBPMN); 
+			
+			float learnerRelativeBPScore = ComputeScore.learnerRelativeBP(pathsExecutedByLearner);
 
-			//TODO:Coverage calculation
-			float learnerCoverage = ComputeScore.BPCoverage();
+			float learnerCoverage = ComputeScore.BPCoverage(
+					pathsExecutedByLearner,pathsCardinality);
 
 			databaseController.updateBpmnLearnerScores(Integer.parseInt(learnersIDs[i]), idBPMN, learnerBPScore, learnerRelativeBPScore, learnerCoverage);
 			

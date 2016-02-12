@@ -70,8 +70,7 @@ public class ComputeScore {
 		return relativeGlobal;
 	}
 
-	public static float BPCoverage() {
-		// TODO Auto-generated method stub
-		return 0;
+	public static float BPCoverage(Vector<Path> pathsExecutedByLearner, int pathsCardinality) {
+		return pathsExecutedByLearner.size() / pathsCardinality; 
 	}	
 }

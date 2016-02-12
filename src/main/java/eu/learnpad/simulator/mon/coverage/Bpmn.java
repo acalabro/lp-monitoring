@@ -8,6 +8,7 @@ public class Bpmn {
 	private Date extractionDate;
 	private int idCategory;
 	private float absoluteBpScore;
+	private int pathsCardinality;
 	
 	public Bpmn(String id, Date extractionDate) {
 	
@@ -15,6 +16,7 @@ public class Bpmn {
 		this.extractionDate = extractionDate;
 		this.idCategory = 0;
 		this.absoluteBpScore = 0;
+		this.pathsCardinality = 0;
 	}
 
 	public Bpmn(String id, Date extractionDate, int idCategory) {
@@ -22,6 +24,7 @@ public class Bpmn {
 		this.extractionDate = extractionDate;
 		this.idCategory = idCategory;
 		this.absoluteBpScore = 0;
+		this.pathsCardinality = 0;
 	}
 	
 	public Bpmn(String id, Date extractionDate, float absoluteBpScore) {
@@ -29,6 +32,7 @@ public class Bpmn {
 		this.extractionDate = extractionDate;
 		this.absoluteBpScore = absoluteBpScore;
 		this.absoluteBpScore = 0;
+		this.pathsCardinality = 0;
 	}
 	
 	public Bpmn(String id, Date extractionDate, int idCategory, float absoluteBpScore) {
@@ -36,6 +40,15 @@ public class Bpmn {
 		this.extractionDate = extractionDate;
 		this.idCategory = idCategory;
 		this.absoluteBpScore = absoluteBpScore;
+		this.pathsCardinality = 0;
+	}
+	
+	public Bpmn(String id, Date extractionDate, int idCategory, float absoluteBpScore, int pathsCardinality) {
+		this.id = id;
+		this.extractionDate = extractionDate;
+		this.idCategory = idCategory;
+		this.absoluteBpScore = absoluteBpScore;
+		this.pathsCardinality = pathsCardinality;
 	}
 	
 	public String getId() {
@@ -68,5 +81,13 @@ public class Bpmn {
 	
 	public void setAbsoluteBpScore(float absoluteBpScore) {
 		this.absoluteBpScore = absoluteBpScore;
+	}
+	
+	public int getPathsCardinality() {
+		return pathsCardinality;
+	}
+	
+	public void setPathsCartinality(int pathsCardinality) {
+		this.pathsCardinality = pathsCardinality;
 	}
 }

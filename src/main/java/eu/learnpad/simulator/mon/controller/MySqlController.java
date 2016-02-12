@@ -145,8 +145,8 @@ public class MySqlController implements DBController {
 	@Override
 	public int saveBPMN(Bpmn theBPMN) {
 
-	      String query = " insert into bpmn (id_bpmn, extraction_date, id_category, absolute_bp_score)"
-	    	        + " values (?, ?, ?, ?) ";
+	      String query = " insert into bpmn (id_bpmn, extraction_date, id_category, absolute_bp_score, paths_cardinality)"
+	    	        + " values (?, ?, ?, ?, ?) ";
 	    	 
 		try {
 			preparedStmt = conn.prepareStatement(query);
@@ -154,6 +154,7 @@ public class MySqlController implements DBController {
 		    preparedStmt.setDate(2, new java.sql.Date(theBPMN.getExtractionDate().getTime()));
 		    preparedStmt.setInt(3,theBPMN.getIdCategory());
 		    preparedStmt.setFloat(4, theBPMN.getAbsoluteBpScore());
+		    preparedStmt.setInt(5, theBPMN.getPathsCardinality());
 
 		    // execute the prepared statement
 		    preparedStmt.execute();
@@ -457,11 +458,9 @@ public class MySqlController implements DBController {
 
 	@Override
 	public Vector<Path> getPathsExecutedByLearner(int learnerID, String idBPMN) {
-		String query = "SELECT path.id, path.id_bpmn, path.absolute_session_score, path.path_rule"
-							+ " FROM glimpse.path, glimpse.path_learner" 
-							+ " where path_learner.id_learner = '" + learnerID +
-							"' and  path.id = path_learner.id_path and path_learner.id_bpmn = '"
-							+ idBPMN + "'";
+		String query = "SELECT * FROM path where id IN( "
+				+ "SELECT distinct id_path FROM glimpse.path_learner where id_learner = '" +
+				learnerID +	"')";
 		Vector<Path> retrievedPath = new Vector<Path>();
 		
 		try {
@@ -754,5 +753,28 @@ public class MySqlController implements DBController {
 			System.err.println(e.getMessage());
 		}
 		
+	}
+
+	@Override
+	public int getBPMNPathsCardinality(String idBPMN) {
+		String query = "SELECT COUNT(*) FROM path where id_bpmn = \'"+idBPMN+"';";
+		int result = 0;
+
+		try {
+			preparedStmt = conn.prepareStatement(query);
+			resultsSet = preparedStmt.executeQuery(); 
+			
+			while ( resultsSet.next() ) {
+				result = resultsSet.getInt("COUNT(*)");
+            }
+            DebugMessages.println(
+					TimeStamp.getCurrentTime(), 
+					this.getClass().getSimpleName(),
+					"Paths counted ");
+		} catch (SQLException e) {
+			System.err.println("Exception during getBPMNPathsCardinality ");
+			System.err.println(e.getMessage());
+		}
+		return result;
 	}
 }

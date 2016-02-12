@@ -147,6 +147,7 @@ public class GlimpseManager extends Thread implements MessageListener {
 				
 				String[] learnersIDs = msg.getObjectProperty("USERSINVOLVEDID").toString().split("-");	
 				String sessionID = msg.getObjectProperty("SESSIONID").toString();	
+				
 				Vector<Learner> objectProperty = learnerAssessmentManager.getDBController().getLearners(learnersIDs); 
 				ruleDoc = learnerAssessmentManager.elaborateModel(xmlMessagePayload, objectProperty, sessionID);
 

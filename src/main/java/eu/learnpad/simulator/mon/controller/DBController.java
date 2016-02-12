@@ -92,5 +92,6 @@ public interface DBController {
 			float learnerRelativeGlobalScore, float learnerAbsoluteGLobalScore);
 	public void updateBpmnLearnerScores(int learnerID, String idBPMN,
 			float learnerBPScore, float learnerRelativeBPScore, float learnerCoverage);
+	public int getBPMNPathsCardinality(String idBPMN);
 	
 }
