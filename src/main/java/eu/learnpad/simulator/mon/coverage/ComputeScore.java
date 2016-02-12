@@ -68,5 +68,10 @@ public class ComputeScore {
 			relativeGlobal += learnerRelativeBPScores.get(i);
 		}
 		return relativeGlobal;
+	}
+
+	public static float BPCoverage() {
+		// TODO Auto-generated method stub
+		return 0;
 	}	
 }

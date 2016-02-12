@@ -396,7 +396,7 @@ public class MySqlController implements DBController {
 		DebugMessages.println(
 				TimeStamp.getCurrentTime(), 
 				this.getClass().getSimpleName(),
-				"RelativeScore Updated");
+				"learnerBPScore Updated");
 		return 0;
 	}
 
@@ -540,26 +540,19 @@ public class MySqlController implements DBController {
 
 	@Override
 	public Vector<Float> getLearnerBPMNScores(int learnerID) {
-		String query = "SELECT bpmn_learner.bp_score "
-				+ " FROM glimpse.bpmn_learner" 
-				+ " where bpmn_learner.id_learner = '" + learnerID +
-				"'";
+		String query = "SELECT bp_score " + " FROM bpmn_learner"
+				+ " where id_learner = " + learnerID + "";
 		Vector<Float> retrievedScores = new Vector<Float>();
-		
 		try {
-		preparedStmt = conn.prepareStatement(query);
-		resultsSet = preparedStmt.executeQuery(); 
-		        
-		while ( resultsSet.next() ) {
-			retrievedScores.add(resultsSet.getFloat("bp_score"));
-		}
-		DebugMessages.println(
-				TimeStamp.getCurrentTime(), 
-				this.getClass().getSimpleName(),
-				"BPMN scores retrieved");
+			preparedStmt = conn.prepareStatement(query);
+			resultsSet = preparedStmt.executeQuery();
+			while (resultsSet.next()) {
+				retrievedScores.add(resultsSet.getFloat("bp_score"));
+				}
+			DebugMessages.println(TimeStamp.getCurrentTime(), this.getClass().getSimpleName(), "BPMN scores retrieved");
 		} catch (SQLException e) {
-		System.err.println("Exception during getLearnerBPMNScores");
-		System.err.println(e.getMessage());
+			System.err.println("Exception during getLearnerBPMNScores");
+			System.err.println(e.getMessage());
 		}
 		return retrievedScores;
 	}
@@ -590,20 +583,16 @@ public class MySqlController implements DBController {
 
 	@Override
 	public Vector<Float> getLearnerRelativeBPScores(int learnerID) {
-		String query = "SELECT bpmn_learner.bp_score "
-				+ " FROM glimpse.bpmn_learner" 
-				+ " where bpmn_learner.id_learner = '" + learnerID +
+		String query = "SELECT relative_bp_score "
+				+ " FROM bpmn_learner" 
+				+ " where id_learner = '" + learnerID +
 				"'";
 		Vector<Float> retrievedScores = new Vector<Float>();
 		try {
 			preparedStmt = conn.prepareStatement(query);
 			resultsSet = preparedStmt.executeQuery(); 
-			if (resultsSet.getFetchSize() != 0) {  
-				while ( resultsSet.next() ) {
-					retrievedScores.add(resultsSet.getFloat("bp_score"));
-				}
-			} else {
-				retrievedScores.add(0f);
+			while ( resultsSet.next() ) {
+					retrievedScores.add(resultsSet.getFloat("relative_bp_score"));
 			}
 			DebugMessages.println(TimeStamp.getCurrentTime(), 
 					this.getClass().getSimpleName(),"BPMN scores retrieved");
@@ -688,5 +677,82 @@ public class MySqlController implements DBController {
 			System.err.println(e.getMessage());
 		}
 		return retrievedScores;
+	}
+
+	@Override
+	public void updateLearnerScores(int learnerID, float learnerGlobalScore, 
+			float learnerRelativeGlobalScore, float learnerAbsoluteGLobalScore) {
+		String query;
+		Learner aLearner;
+		try {
+			query = "select * from learner where id_learner = \'"+learnerID+"';";
+					preparedStmt = conn.prepareStatement(query);
+					resultsSet = preparedStmt.executeQuery(); 
+						
+						if (resultsSet.first()) {
+							
+							query = "update learner set global_score = "+
+							learnerGlobalScore + ",  relative_global_score = "+
+									learnerRelativeGlobalScore + ", absolute_global_score = "+
+									 learnerAbsoluteGLobalScore + " where id_learner = "+
+									learnerID + ";";
+						 
+							preparedStmt = conn.prepareStatement(query);
+
+								// execute the prepared statement
+							preparedStmt.execute();
+						}
+						else {
+							aLearner = new Learner(learnerID,0,learnerGlobalScore,learnerRelativeGlobalScore,learnerAbsoluteGLobalScore);
+							saveLearnerProfile(aLearner);
+							}	 
+		} catch (SQLException e) {
+			System.err.println("Exception during updateLearnerScores");
+			System.err.println(e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public void updateBpmnLearnerScores(int learnerID, String idBPMN, float learnerBPScore,
+			float learnerRelativeBPScore, float learnerCoverage) {
+		String query;
+		try {
+			query = "select * from bpmn_learner where id_learner = \'"+learnerID+"';";
+					preparedStmt = conn.prepareStatement(query);
+					resultsSet = preparedStmt.executeQuery(); 
+						
+						if (resultsSet.first()) {
+							
+							query = "update bpmn_learner set bp_score = "+
+							learnerBPScore + ",  relative_bp_score = "+
+									learnerRelativeBPScore + ", bp_coverage = "+
+									 learnerCoverage + " where id_learner = "+
+									learnerID + ";";
+						 
+							preparedStmt = conn.prepareStatement(query);
+
+								// execute the prepared statement
+							preparedStmt.execute();
+						}
+						else {
+							 query = " insert into bpmn_learner (id_learner, id_bpmn, bp_score, relative_bp_score, bp_coverage)"
+						    	        + " values (?, ?, ?, ?, ?)";
+								preparedStmt = conn.prepareStatement(query);
+
+							    preparedStmt.setInt(1, learnerID);
+							    preparedStmt.setString(2,idBPMN);
+							    preparedStmt.setFloat(3, learnerBPScore);
+							    preparedStmt.setFloat(4, learnerRelativeBPScore);
+							    preparedStmt.setFloat(5, learnerCoverage);
+
+							    // execute the prepared statement
+							    preparedStmt.execute();
+							}	 
+		} catch (SQLException e) {
+			System.err.println("Exception during updateBpmnLearnerScores");
+			System.err.println(e.getMessage());
+		}
+		
 	}
 }

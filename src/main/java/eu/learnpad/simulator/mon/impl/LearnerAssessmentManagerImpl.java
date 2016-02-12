@@ -130,28 +130,29 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		
 			databaseController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
 			
-			databaseController.setLearnerBPScore(Integer.parseInt(learnersIDs[i]), idBPMN,
-					ComputeScore.learnerBP(
-							databaseController.getMaxSessionScores(Integer.parseInt(learnersIDs[i]), idBPMN)));
+			float learnerBPScore = ComputeScore.learnerBP(
+					databaseController.getMaxSessionScores(Integer.parseInt(learnersIDs[i]), idBPMN)); 
 			
-			databaseController.setLearnerGlobalScore(Integer.parseInt(learnersIDs[i]),
-					ComputeScore.learnerGlobal(databaseController.getLearnerBPMNScores(Integer.parseInt(learnersIDs[i]))));
-			
-			databaseController.setLearnerRelativeGlobalScore(Integer.parseInt(learnersIDs[i]), 
-					ComputeScore.learnerRelativeGlobal(
-							databaseController.getLearnerRelativeBPScores(Integer.parseInt(learnersIDs[i]))));
+			float learnerRelativeBPScore = ComputeScore.learnerRelativeBP(
+					databaseController.getPathsExecutedByLearner(Integer.parseInt(learnersIDs[i]), idBPMN)); 
 
-			databaseController.setLearnerAbsoluteGlobalScore(Integer.parseInt(learnersIDs[i]), 
-					ComputeScore.learnerAbsoluteGlobal(
-							databaseController.getBPMNAbsoluteScoresExecutedByLearner(Integer.parseInt(learnersIDs[i]))));
+			//TODO:Coverage calculation
+			float learnerCoverage = ComputeScore.BPCoverage();
+
+			databaseController.updateBpmnLearnerScores(Integer.parseInt(learnersIDs[i]), idBPMN, learnerBPScore, learnerRelativeBPScore, learnerCoverage);
 			
+			float learnerGlobalScore = ComputeScore.learnerGlobal(
+					databaseController.getLearnerBPMNScores(Integer.parseInt(learnersIDs[i])));
+		
+			float learnerRelativeGlobalScore = ComputeScore.learnerRelativeGlobal(
+					databaseController.getLearnerRelativeBPScores(Integer.parseInt(learnersIDs[i])));
 			
-//			databaseController.setLearnerRelativeBPScore(Integer.parseInt(learnersIDs[i]), idBPMN, 
-//					ComputeScore.learnerRelativeBP(databaseController.getPathsExecutedByLearner(Integer.parseInt(learnersIDs[i]), idBPMN)));			
-//			databaseController.setLearnerBPCoverage(Integer.parseInt(learnersIDs[i]), idBPMN, 
-//					ComputeScore.BPCoverage());
+			//float learnerAbsoluteGlobalScore = ComputeScore.learnerAbsoluteGlobal(
+//					databaseController.getBPMNAbsoluteScoresExecutedByLearner(Integer.parseInt(learnersIDs[i]))));
+			float learnerAbsoluteGLobalScore = 0;
 			
-															
+			databaseController.updateLearnerScores(Integer.parseInt(learnersIDs[i]), learnerGlobalScore, learnerRelativeGlobalScore, learnerAbsoluteGLobalScore);
+					
 		}
 	}
 		

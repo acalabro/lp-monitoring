@@ -88,5 +88,9 @@ public interface DBController {
 	public Vector<Float> getBPMNScoresExecutedByLearner(int learnerID);
 	public Vector<Float> getMaxSessionScores(int parseInt, String idBPMN);
 	public Vector<Float> getBPMNAbsoluteScoresExecutedByLearner(int learnerID);
+	public void updateLearnerScores(int learnerID, float learnerGlobalScore,
+			float learnerRelativeGlobalScore, float learnerAbsoluteGLobalScore);
+	public void updateBpmnLearnerScores(int learnerID, String idBPMN,
+			float learnerBPScore, float learnerRelativeBPScore, float learnerCoverage);
 	
 }
