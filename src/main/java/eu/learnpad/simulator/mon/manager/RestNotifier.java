@@ -16,7 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import eu.learnpad.simulator.mon.utils.DebugMessages;
 
-public class RestNotifier {
+public class RestNotifier extends Thread {
 	
 	private static HttpClient client;
 	private static HttpPost post;
@@ -27,6 +27,10 @@ public class RestNotifier {
 		post = new HttpPost(restEventNotificationURL); 
 	}
 
+	public void run() {
+		
+	}
+	
 	public static void notifySimulationStart(String processID, String processName, String processTimeStamp, String learnerID, String sessionID) {
 		RestNotifier.executePostAction(processID, processName, processTimeStamp, learnerID, sessionID);
 	}

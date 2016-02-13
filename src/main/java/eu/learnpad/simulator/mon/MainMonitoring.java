@@ -184,7 +184,8 @@ public class MainMonitoring {
 				engineOne.start();
 				
 				RestNotifier notifierEngine = new RestNotifier(Manager.Read(RESTNOTIFIERURLSTRING).getProperty("post.rest.url"));
-
+				notifierEngine.start();
+				
 				//starting the LAM and connecting to DB
 				DBController databaseController = new MySqlController(Manager.Read(DATABASECONNECTIONSTRING));
 				LearnerAssessmentManager lam = new LearnerAssessmentManagerImpl(databaseController);
