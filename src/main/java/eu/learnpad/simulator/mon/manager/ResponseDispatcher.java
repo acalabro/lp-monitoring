@@ -123,11 +123,7 @@ public class ResponseDispatcher {
 			RestNotifier.notifySessionScoreUpdates(learnersID, idPath, idBPMN, sessionScore);
 
 	}
-	
-	public static void TestSaving(String args[]) {
-		ResponseDispatcher.saveAndNotifyLearnersScore("4-3", "a1446728873453458831", 5, 200.0f);
-	}
-	
+
 	public static void sendResponse(Object object, String enablerName, String answerTopic)
 	{
 		try {

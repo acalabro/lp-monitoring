@@ -10,8 +10,6 @@ import java.util.Properties;
 import java.util.Vector;
 
 import org.apache.commons.net.ntp.TimeStamp;
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
 
 import eu.learnpad.simulator.mon.coverage.Activity;
 import eu.learnpad.simulator.mon.coverage.Bpmn;
@@ -21,9 +19,6 @@ import eu.learnpad.simulator.mon.coverage.Path;
 import eu.learnpad.simulator.mon.coverage.Role;
 import eu.learnpad.simulator.mon.coverage.Topic;
 import eu.learnpad.simulator.mon.utils.DebugMessages;
-import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionListDocument;
-import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionType;
-import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleType;
 
 public class MySqlController implements DBController {
 
@@ -323,36 +318,6 @@ public class MySqlController implements DBController {
 	}
 
 	@Override
-	public ComplexEventRuleActionListDocument getRulesListForASpecificBPMN(String bpmnIDFromXML) {
-		
-		String query = "select path_rule from path where learnpad_bpmn_id = \'"+bpmnIDFromXML+"';";
-		ComplexEventRuleActionListDocument theResult = ComplexEventRuleActionListDocument.Factory.newInstance();
-		
-		try {
-			preparedStmt = conn.prepareStatement(query);
-			resultsSet = preparedStmt.executeQuery(); 
-			ComplexEventRuleActionType anActionType = theResult.addNewComplexEventRuleActionList();
-			ComplexEventRuleType anInsert;
-			XmlObject theRuleToLoad;
-			
-            while ( resultsSet.next() ) {
-            	anInsert = anActionType.addNewInsert();
-            	theRuleToLoad = XmlObject.Factory.parse(resultsSet.getString("path_rule"));
-    			anInsert.set(theRuleToLoad);
-            }
-            DebugMessages.println(
-					TimeStamp.getCurrentTime(), 
-					this.getClass().getSimpleName(),
-					"Extracted paths loaded from DB");
-        	conn.close();
-		} catch (SQLException | XmlException e) {
-			System.err.println("Exception during getRulesListForASpecificBPMN ");
-			System.err.println(e.getMessage());
-		}
-        return theResult;
-	}
-
-	@Override
 	public Activity[] getAllDistinctActivityOFaBPMN(Bpmn theBpmn) {
 		// TODO Auto-generated method stub
 		return null;
@@ -458,15 +423,14 @@ public class MySqlController implements DBController {
 
 	@Override
 	public Vector<Path> getPathsExecutedByLearner(int learnerID, String idBPMN) {
-		String query = "SELECT * FROM path where id IN( "
-				+ "SELECT distinct id_path FROM glimpse.path_learner where id_learner = '" +
-				learnerID +	"')";
+		String query = "SELECT * FROM glimpse.path where id IN( "
+				+ "SELECT distinct id_path FROM glimpse.path_learner where id_learner = " +
+				learnerID +	")";
 		Vector<Path> retrievedPath = new Vector<Path>();
 		
 		try {
 			preparedStmt = conn.prepareStatement(query);
 			resultsSet = preparedStmt.executeQuery(); 
-		            
 			while ( resultsSet.next() ) {
 				retrievedPath.add(new Path(Integer.parseInt(resultsSet.getString("id")),
 									resultsSet.getString("id_bpmn"),
@@ -777,4 +741,34 @@ public class MySqlController implements DBController {
 		}
 		return result;
 	}
+	
+//	@Override
+//	public ComplexEventRuleActionListDocument getRulesListForASpecificBPMN(String bpmnIDFromXML) {
+//		
+//		String query = "select path_rule from path where learnpad_bpmn_id = \'"+bpmnIDFromXML+"';";
+//		ComplexEventRuleActionListDocument theResult = ComplexEventRuleActionListDocument.Factory.newInstance();
+//		
+//		try {
+//			preparedStmt = conn.prepareStatement(query);
+//			resultsSet = preparedStmt.executeQuery(); 
+//			ComplexEventRuleActionType anActionType = theResult.addNewComplexEventRuleActionList();
+//			ComplexEventRuleType anInsert;
+//			XmlObject theRuleToLoad;
+//			
+//            while ( resultsSet.next() ) {
+//            	anInsert = anActionType.addNewInsert();
+//            	theRuleToLoad = XmlObject.Factory.parse(resultsSet.getString("path_rule"));
+//    			anInsert.set(theRuleToLoad);
+//            }
+//            DebugMessages.println(
+//					TimeStamp.getCurrentTime(), 
+//					this.getClass().getSimpleName(),
+//					"Extracted paths loaded from DB");
+//        	conn.close();
+//		} catch (SQLException | XmlException e) {
+//			System.err.println("Exception during getRulesListForASpecificBPMN ");
+//			System.err.println(e.getMessage());
+//		}
+//        return theResult;
+//	}
 }

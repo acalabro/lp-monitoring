@@ -71,6 +71,6 @@ public class ComputeScore {
 	}
 
 	public static float BPCoverage(Vector<Path> pathsExecutedByLearner, int pathsCardinality) {
-		return pathsExecutedByLearner.size() / pathsCardinality; 
+		return (100 * pathsExecutedByLearner.size()) / pathsCardinality; 
 	}	
 }

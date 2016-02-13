@@ -131,7 +131,7 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		int pathsCardinality = databaseController.getBPMNPathsCardinality(idBPMN);
 		
 		for(int i = 0; i<learnersIDs.length; i++) {
-		
+
 			databaseController.setLearnerSessionScore(Integer.parseInt(learnersIDs[i]), idPath, idBPMN, sessionScore);
 			
 			float learnerBPScore = ComputeScore.learnerBP(

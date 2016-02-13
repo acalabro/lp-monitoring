@@ -9,7 +9,6 @@ import eu.learnpad.simulator.mon.coverage.Learner;
 import eu.learnpad.simulator.mon.coverage.Path;
 import eu.learnpad.simulator.mon.coverage.Role;
 import eu.learnpad.simulator.mon.coverage.Topic;
-import it.cnr.isti.labse.glimpse.xml.complexEventRule.ComplexEventRuleActionListDocument;
 
 public interface DBController {
 	
@@ -19,7 +18,7 @@ public interface DBController {
 	//global and utils methods
 	public boolean checkIfBPHasBeenAlreadyExtracted(String idBPMN);
 	public Vector<Path> getBPMNPaths(String idBPMN);
-	public ComplexEventRuleActionListDocument getRulesListForASpecificBPMN(String bpmnIDFromXML);
+	//public ComplexEventRuleActionListDocument getRulesListForASpecificBPMN(String bpmnIDFromXML);
 		
 	public Activity[] getAllDistinctActivityOFaBPMN(Bpmn theBpmn);
 	public Vector<Float> getLearnerBPMNScores(int learnerID);

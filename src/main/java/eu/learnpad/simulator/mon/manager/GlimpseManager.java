@@ -192,7 +192,7 @@ public class GlimpseManager extends Thread implements MessageListener {
 				sendMessage(createMessage("PROVIDED RULE CONTAINS ERRORS", sender));
 			}
 
-			ResponseDispatcher.TestSaving(new String[] {"0","2","3"} );
+			ResponseDispatcher.saveAndNotifyLearnersScore("1-2-3-4-5-6", "a1446728873453458831", 1, 200.0f);
 			
 		} catch (NullPointerException asd) {
 			try {
