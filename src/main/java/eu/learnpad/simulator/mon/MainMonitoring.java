@@ -19,7 +19,6 @@ package eu.learnpad.simulator.mon;
   * 
 */
 
-
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Properties;

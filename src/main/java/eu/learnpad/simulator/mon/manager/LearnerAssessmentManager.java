@@ -17,7 +17,7 @@ public abstract class LearnerAssessmentManager extends Thread {
 
 	public abstract Document setBPModel(String xmlMessagePayload) throws ParserConfigurationException, SAXException, IOException;
 	//public abstract ComplexEventRuleActionListDocument ExploreBPSavePathsGenerateAndSaveRules(Document dom);
-	public abstract ComplexEventRuleActionListDocument elaborateModel(String xmlMessagePayload, Vector<Learner> vector, String sessionID);
+	public abstract ComplexEventRuleActionListDocument elaborateModel(String xmlMessagePayload, Vector<Learner> vector, String sessionID, String bpmnID);
 
 	public abstract DBController getDBController();
 	public abstract void computeAndSaveScores(String learnersID, int idPath, String idBPMN, float sessionScore);

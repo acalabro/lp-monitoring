@@ -146,10 +146,11 @@ public class GlimpseManager extends Thread implements MessageListener {
 						"The message sent seems to contain a BPMN - Forwarding it to the LearnPAd Assessment Manager");
 				
 				String[] learnersIDs = msg.getObjectProperty("USERSINVOLVEDID").toString().split("-");	
+				String bpmnID = msg.getObjectProperty("BPMNID").toString();
 				String sessionID = msg.getObjectProperty("SESSIONID").toString();	
 				
 				Vector<Learner> objectProperty = learnerAssessmentManager.getDBController().getLearners(learnersIDs); 
-				ruleDoc = learnerAssessmentManager.elaborateModel(xmlMessagePayload, objectProperty, sessionID);
+				ruleDoc = learnerAssessmentManager.elaborateModel(xmlMessagePayload, objectProperty, sessionID, bpmnID);
 
 			} else {
 				ruleDoc = ComplexEventRuleActionListDocument.Factory.parse(xmlMessagePayload);
@@ -192,7 +193,7 @@ public class GlimpseManager extends Thread implements MessageListener {
 				sendMessage(createMessage("PROVIDED RULE CONTAINS ERRORS", sender));
 			}
 
-			ResponseDispatcher.saveAndNotifyLearnersScore("1-2-3-4-5-6", "a1446728873453458831", 1, 200.0f);
+			ResponseDispatcher.saveAndNotifyLearnersScore("1-2-6", "a1446728873453458831", 2, 300.0f);
 			
 		} catch (NullPointerException asd) {
 			try {

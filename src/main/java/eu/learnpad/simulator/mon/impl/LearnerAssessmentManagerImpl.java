@@ -70,19 +70,18 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 	}
 
 	@Override
-	public ComplexEventRuleActionListDocument elaborateModel(String xmlMessagePayload, Vector<Learner> usersInvolved, String sessionID) {
+	public ComplexEventRuleActionListDocument elaborateModel(String xmlMessagePayload, Vector<Learner> usersInvolved, String sessionID, String bpmnID) {
 		
 		try {
 			theBPMN = setBPModel(xmlMessagePayload);
-			String theBPMNidentifier = getBpmnIDFromXML(theBPMN);
 			
-			if (!databaseController.checkIfBPHasBeenAlreadyExtracted(theBPMNidentifier)) {
+			if (!databaseController.checkIfBPHasBeenAlreadyExtracted(bpmnID)) {
 				
 				Date now = new Date();
 				
 				Vector<Activity[]> theUnfoldedBPMN = bpmnExplorer.getUnfoldedBPMN(theBPMN);
 				
-				Bpmn newBpmn = new Bpmn(theBPMNidentifier,now,0, 0, theUnfoldedBPMN.size());
+				Bpmn newBpmn = new Bpmn(bpmnID,now,0, 0, theUnfoldedBPMN.size());
 				
 				Vector<Path> theGeneratedPath = crossRulesGenerator.generatePathsRules(
 																	crossRulesGenerator.generateAllPaths(theUnfoldedBPMN, newBpmn.getId()));
@@ -96,7 +95,7 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 				databaseController.saveBPMN(newBpmn);
 			} else {
 				this.rulesLists = crossRulesGenerator.instantiateRulesSetForUsersInvolved(
-						databaseController.getBPMNPaths(theBPMNidentifier),
+						databaseController.getBPMNPaths(bpmnID),
 						usersInvolved, sessionID);
 			}			
 		} catch (ParserConfigurationException | SAXException | IOException e ) {
@@ -117,11 +116,6 @@ public class LearnerAssessmentManagerImpl extends LearnerAssessmentManager {
 		}
 		return theGeneratedPath;
 		
-	}
-
-	private String getBpmnIDFromXML(Document theBPMN2) {
-		//TODO: create correct method
-		return "a1446728873453458831";
 	}
 
 	@Override
